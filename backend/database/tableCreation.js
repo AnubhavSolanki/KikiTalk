@@ -26,4 +26,4 @@ const createAllTables = async () => {
     }
 }
 
-module.exports = createAllTables;
+createAllTables();
