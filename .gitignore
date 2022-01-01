@@ -3,5 +3,4 @@ node_modules
 .gitattributes
 .vscode
 .gitignore
-
 backend/database/dbDetail.js
