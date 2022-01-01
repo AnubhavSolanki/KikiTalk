@@ -4,13 +4,14 @@ require('dotenv').config();
 const app = express()
 const port = process.env.PORT;
 const cors = require('cors');
+require('./database');
 
 // MiddleWares
 app.use(router);
 app.use(express.json());
 app.use(cors());
 
-app.listen(port,process.env.HOST, () => {
+app.listen(port, process.env.HOST, () => {
   console.log(`App listening at http://${process.env.HOST}:${port}`)
 })
 
