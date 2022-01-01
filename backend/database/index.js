@@ -1,9 +1,17 @@
-var mysql = require('mysql2');
-var connection = mysql.createConnection(require("./dbAuth"));
+const dbDetail = require("./dbDetail.js");
+const mongoose = require("mongoose");
 
-connection.connect((err)=>{
-    if(err) throw err;
-    console.log("DB Connected!");
-})
+mongoose.connect(
+  `mongodb+srv://${dbDetail.username}:${dbDetail.password}@${dbDetail.cluster}.1zkio.mongodb.net/${dbDetail.dbname}?retryWrites=true&w=majority`, 
+  {
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  }
+);
 
-module.exports = connection;
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+  console.log("Database Connected successfully");
+});

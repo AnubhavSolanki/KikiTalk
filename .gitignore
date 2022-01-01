@@ -1,6 +1,5 @@
 .env
 node_modules
-dbAuth
 .gitattributes
 .vscode
 .gitignore
