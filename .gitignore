@@ -5,3 +5,4 @@ dbAuth
 .vscode
 .gitignore
 
+backend/database/dbDetail.js
