@@ -1,3 +1,3 @@
--> SQL                                          Snake case
+-> MongoDb                                          Snake case
 -> Folder and filenames                         Camel case
 -> JavaScript varibles and methods              Camel case
