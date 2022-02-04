@@ -3,7 +3,8 @@ const { printError, printSuccess } = require("../services/coloredPrint");
 
 const verifyLoginDetails = async (email, password) => {
     try {
-        const [data] = await user.find({ user_email: email }).exec();
+        const data = await user.findOne({ user_email: email }).exec();
+        if(!data) throw Error("Email not exists");
         var originalPassword = data.password;
         if (originalPassword != password) {
             throw new Error("Wrong Password");
