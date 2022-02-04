@@ -1,0 +1,25 @@
+.post_input {
+  border: none;
+  outline: none;
+  padding-left: 4%;
+  width: 80%;
+  height: 40px;
+  font-size: 15px;
+}
+
+.post_button {
+  outline: none;
+  border: none;
+  background: transparent;
+  padding-left: 3%;
+  color: #0095f6;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.comment_input_wrapper {
+  border-radius: 15px;
+  overflow: hidden;
+  padding-bottom: 9px;
+}

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import qs from "qs";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import styles from "./login.module.css";
-import { loginFields } from "./formFields";
+import styles from "./register.module.css";
+import { registerFields } from "./formFields";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/auth/login`,
+        `${process.env.REACT_APP_BASE_URL}/auth/register`,
         qs.stringify(data)
       );
+      console.log(response);
       if (response.status === 200) {
-        console.log("Login Successfully");
+        console.log("Registered");
       }
     } catch (err) {
       console.log(err.response.data);
@@ -25,8 +26,8 @@ const Login = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <h1 className={styles.heading}>Login</h1>
-        {loginFields.map((field, index) => {
+        <h1 className={styles.heading}>Register</h1>
+        {registerFields.map((field, index) => {
           return (
             <div key={index} className={styles.inputBox}>
               {field.icon ?? null}
@@ -39,13 +40,13 @@ const Login = () => {
             </div>
           );
         })}
-        <button className={styles.submitButton}>Login</button>
+        <button className={styles.submitButton}>Register</button>
         <p>
-          Not a member ? <Link to="/register">Go to Register</Link>{" "}
+          Already a member ? <Link to="/login">Go to Login</Link>{" "}
         </p>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;

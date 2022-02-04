@@ -1,21 +1,25 @@
 const router = require("express").Router();
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const { addContent } = require("../controllers/contentController");
 const { addComment } = require("../controllers/commentController");
-const { login } = require("../controllers/authController");
-const { register } = require("../controllers/authController");
-
+const {
+  login,
+  loginWithToken,
+  register,
+} = require("../controllers/authController");
+const verifyToken = require("../middleware/auth");
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
 
-router.get('/', (req, res) => {
-    res.send("hello world!!!");
-})
+router.get("/", (req, res) => {
+  res.send("hello world!!!");
+});
 
-router.post('/addContent', addContent);
-router.post('/addComment', addComment);
-router.post('/auth/login', login);
-router.post('/auth/register', register);
+router.post("/addContent", verifyToken, addContent);
+router.post("/addComment", verifyToken, addComment);
+router.post("/auth/login", login);
+router.post("/auth/register", register);
+router.post("/auth/loginWithToken", loginWithToken);
 
 module.exports = router;

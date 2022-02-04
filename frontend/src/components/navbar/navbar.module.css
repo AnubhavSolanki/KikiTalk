@@ -1,14 +1,14 @@
-.bar{
-    display: flex;
-    background-color: blue;
-    padding: 18px 6px;
+.bar {
+  display: flex;
+  background-color: blue;
+  padding: 18px 6px;
 }
 
-.logo{
-    margin: auto;
-    margin-left: 5px;
+.logo {
+  margin: auto;
+  margin-left: 5px;
 }
 
-.links{
-    margin-left: 20px;
+.links {
+  margin-left: 20px;
 }
