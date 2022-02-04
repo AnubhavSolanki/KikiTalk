@@ -1,6 +1,14 @@
 import React from "react";
 import styles from "./post.module.css";
-import { FaComment, FaEllipsisV, FaHeart, FaShare } from "react-icons/fa";
+import {
+  FaComment,
+  FaEllipsisV,
+  FaHeart,
+  FaRegComment,
+  FaRegHeart,
+  FaShare,
+  FaShareAlt,
+} from "react-icons/fa";
 import Comment from "./comment";
 const Post = () => {
   return (
@@ -10,11 +18,9 @@ const Post = () => {
           <img src="https://sitechecker.pro/wp-content/uploads/2017/12/URL-meaning.png" />
         </div>
         <span className={styles.profile_name}>anubhav.solanki</span>
-        <div>
-          <span>
-            {" "}
-            <FaEllipsisV />{" "}
-          </span>
+        <div className={styles.ellipsis}>
+          {" "}
+          <FaEllipsisV />{" "}
         </div>
       </div>
       <div className={styles.post}>
@@ -23,13 +29,13 @@ const Post = () => {
       <div className={styles.post_footer}>
         <div className={styles.footer}>
           <div className={styles.like}>
-            <FaHeart />
+            <FaRegHeart size={25} />
           </div>
           <div className={styles.comment}>
-            <FaComment />
+            <FaRegComment size={25} />
           </div>
           <div className={styles.share}>
-            <FaShare />
+            <FaShare size={25} />
           </div>
         </div>
         <div>

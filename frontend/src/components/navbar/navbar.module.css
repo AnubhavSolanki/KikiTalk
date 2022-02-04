@@ -1,14 +1,18 @@
 .bar {
   display: flex;
-  background-color: blue;
+  background-color: white;
   padding: 18px 6px;
 }
 
 .logo {
   margin: auto;
-  margin-left: 5px;
+  margin-left: 25%;
 }
 
 .links {
   margin-left: 20px;
+  cursor: pointer;
+}
+.last_link {
+  margin-right: 5%;
 }

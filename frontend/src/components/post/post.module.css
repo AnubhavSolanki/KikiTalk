@@ -17,9 +17,10 @@
 
 .head {
   display: flex;
-  height: 30px;
+  height: 40px;
   align-items: center;
-  padding: 7px 5px;
+  padding: 7px 3%;
+  padding-bottom: 0;
 }
 
 .post,
@@ -56,4 +57,10 @@
 
 .post_time {
   font-size: 10px;
+}
+
+.like,
+.comment,
+.share {
+  cursor: pointer;
 }
