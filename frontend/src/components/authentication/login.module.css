@@ -1,6 +1,6 @@
 .container {
   background: linear-gradient(-135deg, #c850c0, #4158d0);
-  height: calc(100% - 54px);
+  height: 100%;
   width: 100%;
   display: grid;
 }

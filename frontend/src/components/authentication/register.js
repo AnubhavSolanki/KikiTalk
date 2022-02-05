@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -17,6 +18,9 @@ const Register = () => {
       console.log(response);
       if (response.status === 200) {
         console.log("Registered");
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        window.dispatchEvent(new Event("storage"));
       }
     } catch (err) {
       console.log(err.response.data);

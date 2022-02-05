@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -16,6 +17,10 @@ const Login = () => {
       );
       if (response.status === 200) {
         console.log("Login Successfully");
+        console.log(response);
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        window.dispatchEvent(new Event("storage"));
       }
     } catch (err) {
       console.log(err.response.data);
