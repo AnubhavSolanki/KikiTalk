@@ -4,3 +4,10 @@ export const addDataToLocalStorage = (data) => {
   });
   window.dispatchEvent(new Event("storage"));
 };
+
+export const removeDataFromLocalStorage = (data) => {
+  data.forEach((item) => {
+    localStorage.removeItem(item);
+  });
+  window.dispatchEvent(new Event("storage"));
+};

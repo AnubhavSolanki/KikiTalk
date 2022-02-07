@@ -7,7 +7,7 @@ import { loginFields } from "./formFields";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUserDetails } from "../../features/userSlice";
-import { addDataToLocalStorage } from "../../utils/addToLocalStorage";
+import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
