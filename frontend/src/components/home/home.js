@@ -15,7 +15,9 @@ const Home = () => {
         <Post />
         <Post />
         <div>
-          <h3 align="center">No new posts available</h3>
+          <h3 style={{ color: "white" }} align="center">
+            No new posts available
+          </h3>
         </div>
       </div>
     </div>

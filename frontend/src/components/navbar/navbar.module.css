@@ -2,11 +2,16 @@
   display: flex;
   background-color: white;
   padding: 18px 6px;
+  align-items: center;
+  display: flex;
 }
 
 .logo {
   margin: auto;
+  font-size: 24px;
   margin-left: 25%;
+  font-weight: bold;
+  font-family: fantasy;
 }
 
 .links {

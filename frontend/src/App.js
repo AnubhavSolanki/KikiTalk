@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 require("dotenv").config();
 
-const verifyToken = (token) => {
+export const verifyToken = (token) => {
   return new Promise(async (resolve, reject) => {
     const data = {
       token: token,

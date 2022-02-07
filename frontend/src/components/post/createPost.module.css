@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+}
+
+.heading {
+  display: flex;
+  height: 6vh;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: sans-serif;
+}

@@ -5,10 +5,13 @@ import { useForm } from "react-hook-form";
 import styles from "./login.module.css";
 import { loginFields } from "./formFields";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveUserDetails } from "../../features/userSlice";
+import { addDataToLocalStorage } from "../../utils/addToLocalStorage";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-
+  const dispatch = useDispatch();
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
@@ -17,13 +20,11 @@ const Login = () => {
       );
       if (response.status === 200) {
         console.log("Login Successfully");
-        console.log(response);
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        window.dispatchEvent(new Event("storage"));
+        dispatch(saveUserDetails(response?.data));
+        addDataToLocalStorage({ token: response?.data?.token });
       }
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err?.response?.data);
     }
   };
 
