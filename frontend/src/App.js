@@ -3,29 +3,29 @@ import axios from "axios";
 import qs from "qs";
 import "./App.css";
 import { Redirect } from "react-router";
+import { useDispatch } from "react-redux";
 import Home from "./components/home/home";
 import Login from "./components/authentication/login";
 import Navbar from "./components/navbar/navbar";
 import Register from "./components/authentication/register";
 import { useEffect, useState } from "react";
+import { saveUserDetails } from "./features/userSlice";
 
 require("dotenv").config();
 
-export const verifyToken = (token) => {
+export const verifyToken = (token, dispatch) => {
   return new Promise(async (resolve, reject) => {
-    const data = {
-      token: token,
-    };
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/auth/loginWithToken`,
-        qs.stringify(data)
+        qs.stringify({ token: token })
       );
       if (response.status === 200) {
+        dispatch(saveUserDetails(response?.data));
         resolve(true);
       }
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err);
       reject(false);
     }
   });
@@ -33,11 +33,12 @@ export const verifyToken = (token) => {
 
 function App() {
   const [loginState, setLoginState] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     const checkUserData = async () => {
       const token = localStorage.getItem("token");
       if (token) {
-        setLoginState(await verifyToken(token));
+        setLoginState(await verifyToken(token, dispatch));
       } else {
         setLoginState(false);
       }

@@ -1,6 +1,4 @@
 import React from "react";
-import qs from "qs";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import styles from "./register.module.css";
 import { registerFields } from "./formFields";
@@ -8,25 +6,21 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUserDetails } from "../../features/userSlice";
 import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
+import { post } from "../../utils/requests";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/auth/register`,
-        qs.stringify(data)
-      );
-      console.log(response);
-      if (response.status === 200) {
-        console.log("Registered");
-        dispatch(saveUserDetails(response?.data));
-        addDataToLocalStorage({ token: response?.data?.token });
-      }
-    } catch (err) {
-      console.log(err.response.data);
+    const response = await post(
+      `${process.env.REACT_APP_BASE_URL}/auth/register`,
+      data
+    );
+    if (response.status === 200) {
+      console.log("Registered");
+      dispatch(saveUserDetails(response?.data));
+      addDataToLocalStorage({ token: response?.data?.token });
     }
   };
 

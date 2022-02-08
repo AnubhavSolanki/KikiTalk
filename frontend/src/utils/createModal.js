@@ -3,10 +3,14 @@ import styles from "./modal.module.css";
 import ReactDOM from "react-dom";
 import { Component } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Provider } from "react-redux";
+import store from "../store";
 
 const createModal = (component) => {
   ReactDOM.render(
-    <Modal component={component} />,
+    <Provider store={store}>
+      <Modal component={component} />
+    </Provider>,
     document.querySelector("#modal")
   );
 };
