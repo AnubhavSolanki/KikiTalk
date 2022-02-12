@@ -23,10 +23,7 @@ const CreatePost = () => {
   const onSubmit = async ([Content]) => {
     if (Content) {
       try {
-        const imageDetail =
-          process.env.REACT_APP_ENVIRONMENT !== "development"
-            ? await uploadImage(Content)
-            : {};
+        const imageDetail = await uploadImage(Content);
         if (!imageDetail) throw new Error("Didn't recieved Image Detail");
         saveToDatabase(imageDetail);
       } catch (error) {

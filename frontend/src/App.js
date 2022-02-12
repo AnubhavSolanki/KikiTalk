@@ -1,6 +1,4 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import axios from "axios";
-import qs from "qs";
 import "./App.css";
 import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
@@ -10,22 +8,22 @@ import Navbar from "./components/navbar/navbar";
 import Register from "./components/authentication/register";
 import { useEffect, useState } from "react";
 import { saveUserDetails } from "./features/userSlice";
+import { post } from "./utils/requests";
 
 require("dotenv").config();
 
 export const verifyToken = (token, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await axios.post(
+      const response = await post(
         `${process.env.REACT_APP_BASE_URL}/auth/loginWithToken`,
-        qs.stringify({ token: token })
+        { token: token }
       );
       if (response.status === 200) {
         dispatch(saveUserDetails(response?.data));
         resolve(true);
       }
     } catch (err) {
-      console.log(err);
       reject(false);
     }
   });
@@ -48,7 +46,7 @@ function App() {
     return () => {
       window.removeEventListener("storage", checkUserData);
     };
-  }, []);
+  });
 
   return (
     <div className="App">

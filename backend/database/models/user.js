@@ -20,6 +20,9 @@ const schema = new mongoose.Schema({
   token: {
     type: String,
   },
+  image: {
+    type: String,
+  },
 });
 
 const user = mongoose.model("User", schema);

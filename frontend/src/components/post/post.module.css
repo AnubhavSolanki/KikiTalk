@@ -1,6 +1,7 @@
 .container {
   background-color: white;
   border-radius: 15px;
+  margin-bottom: 30px;
 }
 
 .profile {
@@ -67,4 +68,11 @@
 .comment,
 .share {
   cursor: pointer;
+}
+
+.like:active,
+.comment:active,
+.share:active {
+  position: relative;
+  top: 1px;
 }

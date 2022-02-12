@@ -15,6 +15,7 @@ export const post = async (url, data = {}, options = {}) => {
       }
     } catch (err) {
       console.log(err);
+      reject(err);
     }
   });
 };
@@ -33,6 +34,7 @@ export const get = async (url, options = {}) => {
       }
     } catch (err) {
       console.log(err);
+      reject(err);
     }
   });
 };

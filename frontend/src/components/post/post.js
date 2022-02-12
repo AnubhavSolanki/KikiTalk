@@ -7,21 +7,27 @@ import {
   FaRegPaperPlane,
 } from "react-icons/fa";
 import Comment from "./comment";
-const Post = () => {
+import TimeAgo from "timeago-react";
+
+const Post = ({ postData }) => {
+  const profileImg = postData.profileImage ?? "";
+  const postImg = postData?.data?.display_url ?? "";
   return (
     <div className={styles.container}>
       <div className={styles.head}>
         <div className={styles.profile}>
-          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fA%3D%3D&w=1000&q=80" />
+          <img alt="Profile img" src={profileImg} />
         </div>
-        <span className={styles.profile_name}>aakriti.dubey</span>
+        <span className={styles.profile_name}>
+          {postData.profileName ?? "No Name"}
+        </span>
         <div className={styles.ellipsis}>
           {" "}
           <FaEllipsisV />{" "}
         </div>
       </div>
       <div className={styles.post}>
-        <img src="https://i.pinimg.com/564x/3e/72/6f/3e726f015975ebd9791a2eae433f4d17.jpg" />
+        <img alt="Post" src={postImg} />
       </div>
       <div className={styles.post_footer}>
         <div className={styles.footer}>
@@ -36,18 +42,22 @@ const Post = () => {
           </div>
         </div>
         <div>
-          <span>0 likes</span>
+          <span>{postData.likes} likes</span>
         </div>
         <div className={styles.caption}>
-          <span className={styles.name}> aakriti.dubey</span> So I am so happy
-          to share my first post #party
+          <span className={styles.name}>
+            {" "}
+            {postData.profileName ?? "No Name"}
+          </span>{" "}
+          {postData.description ?? "No Description"}
         </div>
         <div>
           <span>View all 2 comments</span>
         </div>
-        <div className={styles.post_time}>2 HOURS AGO</div>
+        <div className={styles.post_time}>
+          <TimeAgo datetime={postData.createdAt} />
+        </div>
       </div>
-
       <Comment />
     </div>
   );
