@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { saveUserDetails } from "../../features/userSlice";
 import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
 import { post } from "../../utils/requests";
+import { successToast } from "../../utils/toaster";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
@@ -18,7 +19,7 @@ const Register = () => {
       data
     );
     if (response.status === 200) {
-      console.log("Registered");
+      successToast("Registered Successfully");
       dispatch(saveUserDetails(response?.data));
       addDataToLocalStorage({ token: response?.data?.token });
     }

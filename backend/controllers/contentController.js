@@ -78,8 +78,8 @@ const getLatestPost = async (req, res) => {
       response.map(async (record) => {
         const { userId } = record;
         const userData = await user.findOne({ _id: userId });
-        record._doc["profileImage"] = userData?.image ?? "";
-        record._doc["profileName"] = userData.full_name ?? "";
+        record._doc["profileImage"] = userData?.image;
+        record._doc["profileName"] = userData.full_name;
         return record;
       })
     );

@@ -27,7 +27,7 @@ router.post("/addContent", verifyToken, addContent);
 router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
 router.get("/latestPost", verifyToken, getLatestPost);
-router.post("/addLikes", addLikes);
-router.post("/removeLikes", removeLikes);
+router.post("/addLikes", verifyToken, addLikes);
+router.post("/removeLikes", verifyToken, removeLikes);
 
 module.exports = router;

@@ -9,6 +9,7 @@ import Register from "./components/authentication/register";
 import { useEffect, useState } from "react";
 import { saveUserDetails } from "./features/userSlice";
 import { post } from "./utils/requests";
+import { ToastContainer } from "react-toastify";
 
 require("dotenv").config();
 
@@ -50,6 +51,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer />
       <BrowserRouter>
         <Switch>
           {loginState ? (

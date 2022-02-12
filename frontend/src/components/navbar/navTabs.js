@@ -14,6 +14,9 @@ export const navTabs = [
     onClick: () => createModal(<CreatePost />),
   },
   {
+    name: "Notifications",
+  },
+  {
     name: "Logout",
     onClick: () => removeDataFromLocalStorage(["token"]),
   },

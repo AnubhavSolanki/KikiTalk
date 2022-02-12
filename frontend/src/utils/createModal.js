@@ -15,7 +15,7 @@ const createModal = (component) => {
   );
 };
 
-const removeModal = () => {
+export const removeModal = () => {
   ReactDOM.render(<></>, document.querySelector("#modal"));
 };
 

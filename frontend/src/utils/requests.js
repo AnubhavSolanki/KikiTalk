@@ -1,5 +1,6 @@
 import qs from "qs";
 import axios from "axios";
+import { errorToast } from "./toaster";
 
 export const post = async (url, data = {}, options = {}) => {
   return new Promise(async (resolve, reject) => {
@@ -14,7 +15,7 @@ export const post = async (url, data = {}, options = {}) => {
         resolve(response);
       }
     } catch (err) {
-      console.log(err);
+      errorToast(err.message);
       reject(err);
     }
   });
@@ -33,7 +34,7 @@ export const get = async (url, options = {}) => {
         resolve(response);
       }
     } catch (err) {
-      console.log(err);
+      errorToast(err.message);
       reject(err);
     }
   });

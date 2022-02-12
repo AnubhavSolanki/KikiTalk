@@ -11,6 +11,7 @@ import Comment from "./comment";
 import TimeAgo from "timeago-react";
 import { post } from "../../utils/requests";
 import { selectUser } from "../../features/userSlice";
+import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useSelector } from "react-redux";
 
 const Post = ({ postData }) => {
@@ -18,7 +19,7 @@ const Post = ({ postData }) => {
   const isLiked = (postData) => {
     return postData.likedBy.includes(user.id);
   };
-  const profileImg = postData.profileImage ?? "";
+  const profileImg = postData.profileImage ?? defaultProfileImage;
   const postImg = postData?.data?.display_url ?? "";
   const [postLike, setPostLikes] = useState(postData.likedBy.length);
   const [postLikeStatus, setPostLikeStatus] = useState(isLiked(postData)); // { 0: unliked, 1: liked }
