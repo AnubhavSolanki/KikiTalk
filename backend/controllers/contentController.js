@@ -13,6 +13,44 @@ const addContent = async (req, res) => {
   }
 };
 
+const addLikes = async (req, res) => {
+  try {
+    const { postId, userId } = req.body;
+    const response = await content.findOneAndUpdate(
+      { _id: postId },
+      { $addToSet: { likedBy: userId } },
+      {
+        new: true,
+      }
+    );
+    res
+      .status(200)
+      .json({ message: "Like Successfully Added", data: response });
+  } catch (err) {
+    printError(error);
+    res.status(400).send(error.message);
+  }
+};
+
+const removeLikes = async (req, res) => {
+  try {
+    const { postId, userId } = req.body;
+    const response = await content.findOneAndUpdate(
+      { _id: postId },
+      { $pull: { likedBy: userId } },
+      {
+        new: true,
+      }
+    );
+    res
+      .status(200)
+      .json({ message: "Like Successfully Removed", data: response });
+  } catch (err) {
+    printError(error);
+    res.status(400).send(error.message);
+  }
+};
+
 const getLatestPost = async (req, res) => {
   try {
     let hasNext = true,
@@ -55,4 +93,6 @@ const getLatestPost = async (req, res) => {
 module.exports = {
   addContent,
   getLatestPost,
+  addLikes,
+  removeLikes,
 };

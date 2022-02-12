@@ -4,6 +4,8 @@ const cors = require("cors");
 const {
   addContent,
   getLatestPost,
+  addLikes,
+  removeLikes,
 } = require("../controllers/contentController");
 const { addComment } = require("../controllers/commentController");
 const {
@@ -19,11 +21,13 @@ router.get("/", (req, res) => {
   res.send("hello world!!!");
 });
 
-router.post("/addContent", verifyToken, addContent);
-router.post("/addComment", verifyToken, addComment);
 router.post("/auth/login", login);
 router.post("/auth/register", register);
+router.post("/addContent", verifyToken, addContent);
+router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
 router.get("/latestPost", verifyToken, getLatestPost);
+router.post("/addLikes", addLikes);
+router.post("/removeLikes", removeLikes);
 
 module.exports = router;
