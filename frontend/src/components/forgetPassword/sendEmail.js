@@ -4,9 +4,11 @@ import styles from "./sendEmail.module.css";
 import { useForm } from "react-hook-form";
 import { promiseToast } from "../../utils/toaster";
 import { post } from "../../utils/requests";
+import { useHistory } from "react-router-dom";
 
 const SendEmail = ({ openOtpComponentSetter, emailSetter }) => {
   const { register, handleSubmit } = useForm();
+  const history = useHistory();
   const handleResetPassword = async (data) => {
     const { email } = data;
     emailSetter(email);
@@ -45,6 +47,14 @@ const SendEmail = ({ openOtpComponentSetter, emailSetter }) => {
           register={register}
         />
         <button className={styles.submitButton}>Reset Password</button>
+        <button
+          onClick={() => {
+            history.push("login");
+          }}
+          className={styles.backButton}
+        >
+          Back
+        </button>
       </form>
     </>
   );

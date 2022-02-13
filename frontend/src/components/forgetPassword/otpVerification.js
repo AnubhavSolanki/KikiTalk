@@ -23,7 +23,6 @@ const OtpVerification = ({
           }
         );
         if (response.status === 200) {
-          openOtpComponentSetter(false);
           isVerifiedSetter(true);
           tokenSetter(response.data.token);
           resolve();
@@ -54,6 +53,14 @@ const OtpVerification = ({
           register={register}
         />
         <button className={styles.submitButton}>Verify</button>
+        <button
+          onClick={() => {
+            openOtpComponentSetter(false);
+          }}
+          className={styles.submitButton}
+        >
+          Back
+        </button>
       </form>
     </>
   );

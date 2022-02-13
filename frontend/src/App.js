@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { saveUserDetails } from "./features/userSlice";
 import { post } from "./utils/requests";
 import { ToastContainer } from "react-toastify";
-import ForgotPassword from "./components/authentication/forgotPassword";
+import ForgotPassword from "./components/forgetPassword/forgotPassword";
 
 require("dotenv").config();
 
