@@ -8,6 +8,7 @@ import { saveUserDetails } from "../../features/userSlice";
 import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
 import { post } from "../../utils/requests";
 import { successToast } from "../../utils/toaster";
+import FormInput from "../../utils/formInput";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
@@ -29,19 +30,9 @@ const Register = () => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={styles.heading}>Register</h1>
-        {registerFields.map((field, index) => {
-          return (
-            <div key={index} className={styles.inputBox}>
-              {field.icon ?? null}
-              <input
-                type={field.type ?? null}
-                className={styles.input}
-                placeholder={field.placeholder ?? null}
-                {...register(field.name ?? null, field.validation ?? null)}
-              />
-            </div>
-          );
-        })}
+        {registerFields.map((field, index) => (
+          <FormInput key={index} field={field} register={register} />
+        ))}
         <button className={styles.submitButton}>Register</button>
         <p>
           Already a member ? <Link to="/login">Go to Login</Link>{" "}

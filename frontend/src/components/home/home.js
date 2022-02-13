@@ -28,7 +28,7 @@ const fetchPosts = ([posts, setPosts]) => {
   });
 };
 
-const Home = () => {
+const Home = (props) => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
 

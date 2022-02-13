@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { saveUserDetails } from "./features/userSlice";
 import { post } from "./utils/requests";
 import { ToastContainer } from "react-toastify";
+import ForgotPassword from "./components/authentication/forgotPassword";
 
 require("dotenv").config();
 
@@ -69,6 +70,9 @@ function App() {
               </Route>
               <Route path="/register">
                 <Register />
+              </Route>
+              <Route path="/forgotPassword">
+                <ForgotPassword />
               </Route>
               <Redirect to="/login" />
             </>

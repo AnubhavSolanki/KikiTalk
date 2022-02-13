@@ -14,6 +14,12 @@ const {
   register,
 } = require("../controllers/authController");
 const verifyToken = require("../middleware/auth");
+const {
+  forgotPasswordMethod,
+  verifyOtp,
+  saveNewPassword,
+} = require("../controllers/forgotPasswordController");
+const checkBlackListToken = require("../middleware/checkBlacklistToken");
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
 
@@ -23,6 +29,9 @@ router.get("/", (req, res) => {
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);
+router.post("/forgotPassword", forgotPasswordMethod);
+router.post("/verifyOtp", verifyOtp);
+router.post("/saveNewPassword", checkBlackListToken, saveNewPassword);
 router.post("/addContent", verifyToken, addContent);
 router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);

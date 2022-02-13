@@ -9,6 +9,10 @@ export const errorToast = (message) => {
   toast.error(message);
 };
 
+export const infoToast = (message) => {
+  toast.info(message);
+};
+
 export const promiseToast = (promise, options) => {
   toast.promise(promise, options);
 };

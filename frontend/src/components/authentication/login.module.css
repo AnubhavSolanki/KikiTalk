@@ -1,5 +1,4 @@
 .container {
-  background: linear-gradient(-135deg, #c850c0, #4158d0);
   height: 100%;
   width: 100%;
   display: grid;
@@ -65,4 +64,8 @@
   outline: 0;
   margin-left: -3px;
   box-shadow: 0 0 0 30px #e6e6e6 inset !important;
+}
+
+.forgot_password {
+  cursor: pointer;
 }

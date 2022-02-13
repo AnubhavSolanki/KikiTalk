@@ -1,0 +1,18 @@
+.submitButton {
+  padding: 10px;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  background-color: #57b846;
+  font-weight: 600;
+  font-size: 17px;
+  margin-top: 10px;
+
+  width: 100%;
+}
+.submitButton:active {
+  position: relative;
+  top: 1px;
+}

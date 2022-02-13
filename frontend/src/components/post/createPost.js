@@ -34,14 +34,14 @@ const CreatePost = () => {
       }
     });
     promiseToast(contentSubmissionPromise, {
-      pending: "Posting Image into Database",
-      success: "Image Posted Successfully",
+      pending: "Uploading",
+      success: "Post Uploaded Successfully",
       error: "Error Occured",
     });
   };
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.heading}>
         <span>Create New Post</span>
       </div>
@@ -61,7 +61,7 @@ const CreatePost = () => {
         />
         <span className={styles.instruction}>Click above to browse images</span>
       </form>
-    </>
+    </div>
   );
 };
 
