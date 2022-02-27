@@ -6,6 +6,7 @@ import CreatePost from "../post/createPost";
 export const navTabs = [
   {
     name: "Home",
+    onClick: (history) => history.push("/home"),
   },
   {
     name: "Profile",

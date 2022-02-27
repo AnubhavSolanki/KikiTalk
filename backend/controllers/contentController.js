@@ -53,17 +53,16 @@ const removeLikes = async (req, res) => {
 
 const getLatestPost = async (req, res) => {
   try {
+    let { from, to } = req.query;
     let hasNext = true,
-      from = req.query.from,
-      to = req.query.to,
       pageCount = from - to;
     const contentCount = await getCount(content);
 
     if (contentCount <= from) {
       res.status(200).json({ posts: [], hasNext: false });
     } else if (contentCount - to < 0) {
-      to = from;
-      pageCount = contentCount - from;
+      to = contentCount;
+      pageCount = from - to;
       hasNext = false;
     } else if (contentCount - to === 0) {
       hasNext = false;
@@ -83,6 +82,7 @@ const getLatestPost = async (req, res) => {
         return record;
       })
     );
+    response.reverse();
     res.status(200).json({ posts: response, hasNext: hasNext });
   } catch (error) {
     printError(error);

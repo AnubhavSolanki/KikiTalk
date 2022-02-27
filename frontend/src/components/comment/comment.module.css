@@ -3,7 +3,7 @@
   outline: none;
   padding-left: 4%;
   width: 80%;
-  height: 40px;
+  height: inherit;
   font-size: 15px;
 }
 
@@ -16,10 +16,10 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  height: inherit;
 }
 
 .comment_input_wrapper {
-  border-radius: 15px;
-  overflow: hidden;
-  padding-bottom: 9px;
+  outline: 1px solid gray;
+  height: 45px;
 }

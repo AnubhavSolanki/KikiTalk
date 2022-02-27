@@ -25,15 +25,17 @@ const CreatePost = () => {
       try {
         const imageDetail = await uploadImage(Content);
         if (!imageDetail) throw new Error("Didn't recieved Image Detail");
-        saveToDatabase(imageDetail);
-        resolve("Image Posted Successfully");
+        await saveToDatabase(imageDetail);
+        resolve();
       } catch (err) {
-        reject(err);
+        console.log(err);
+        reject();
       } finally {
         removeModal();
+        window.location.reload(false);
       }
     });
-    promiseToast(contentSubmissionPromise, {
+    await promiseToast(contentSubmissionPromise, {
       pending: "Uploading",
       success: "Post Uploaded Successfully",
       error: "Error Occured",

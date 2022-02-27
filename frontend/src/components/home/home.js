@@ -16,8 +16,7 @@ const fetchPosts = ([posts, setPosts]) => {
         }
       );
       if (response.status === 200) {
-        setPosts((result) => Array.from([...result, ...response.data.posts]));
-
+        setPosts((result) => Array.from([...response.data.posts, ...result]));
         console.log(posts);
         resolve(response.data.hasNext);
       }
@@ -43,15 +42,15 @@ const Home = (props) => {
   }, []);
 
   return (
-    <div id="scrollableDiv" className={styles.wrapper}>
+    <div id="postScrollableDiv" className={styles.wrapper}>
       <div className={styles.header}>
-        <Stories />
+        {/* <Stories /> */}
         <InfiniteScroll
           dataLength={posts.length}
           next={getNewPosts}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
-          scrollableTarget="scrollableDiv"
+          scrollableTarget="postScrollableDiv"
           endMessage={
             <h3 style={{ color: "white" }} align="center">
               No new posts available

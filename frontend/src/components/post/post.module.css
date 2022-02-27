@@ -2,6 +2,7 @@
   background-color: white;
   border-radius: 15px;
   margin-bottom: 30px;
+  overflow: hidden;
 }
 
 .profile {

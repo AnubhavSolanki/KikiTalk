@@ -7,12 +7,14 @@ import {
   FaRegHeart,
   FaRegPaperPlane,
 } from "react-icons/fa";
-import Comment from "./comment";
+import Comment from "../comment/comment";
 import TimeAgo from "timeago-react";
 import { post } from "../../utils/requests";
 import { selectUser } from "../../features/userSlice";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useSelector } from "react-redux";
+import createModal from "../../utils/createModal";
+import CommentContainer from "../comment/commentContainer";
 
 const Post = ({ postData }) => {
   const user = useSelector(selectUser);
@@ -39,6 +41,9 @@ const Post = ({ postData }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+  const openPostContainer = () => {
+    createModal(<CommentContainer postId={postData._id} />);
   };
 
   return (
@@ -85,13 +90,15 @@ const Post = ({ postData }) => {
           {postData.description ?? "No Description"}
         </div>
         <div>
-          <span>View all 2 comments</span>
+          <span onClick={openPostContainer} style={{ cursor: "pointer" }}>
+            View comments
+          </span>
         </div>
         <div className={styles.post_time}>
           <TimeAgo datetime={postData.createdAt} />
         </div>
       </div>
-      <Comment />
+      <Comment postId={postData._id} />
     </div>
   );
 };

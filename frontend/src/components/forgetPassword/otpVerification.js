@@ -57,7 +57,7 @@ const OtpVerification = ({
           onClick={() => {
             openOtpComponentSetter(false);
           }}
-          className={styles.submitButton}
+          className={styles.backButton}
         >
           Back
         </button>

@@ -1,0 +1,37 @@
+.container {
+  width: 40vw;
+  height: 80vh;
+  margin: 35px;
+}
+
+.commentContainer {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: fit-content(1px) auto;
+}
+
+.posterName {
+  margin-right: 5px;
+  font-weight: 500;
+}
+
+.profileImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.scrollableDiv {
+  overflow: auto;
+  height: calc(100% - 45px);
+  margin-top: 10px;
+}
+
+.profileImage {
+  grid-row-start: 1;
+  grid-row-end: 3;
+  margin: 10px 10px 0 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}

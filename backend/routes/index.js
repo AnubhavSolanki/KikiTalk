@@ -7,7 +7,7 @@ const {
   addLikes,
   removeLikes,
 } = require("../controllers/contentController");
-const { addComment } = require("../controllers/commentController");
+const { addComment, getComments } = require("../controllers/commentController");
 const {
   login,
   loginWithToken,
@@ -19,6 +19,7 @@ const {
   verifyOtp,
   saveNewPassword,
 } = require("../controllers/forgotPasswordController");
+
 const checkBlackListToken = require("../middleware/checkBlacklistToken");
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
@@ -26,6 +27,9 @@ router.use(express.urlencoded({ extended: false }));
 router.get("/", (req, res) => {
   res.send("hello world!!!");
 });
+
+router.get("/latestPost", verifyToken, getLatestPost);
+router.get("/latestComments", verifyToken, getComments);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);
@@ -35,7 +39,6 @@ router.post("/saveNewPassword", checkBlackListToken, saveNewPassword);
 router.post("/addContent", verifyToken, addContent);
 router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
-router.get("/latestPost", verifyToken, getLatestPost);
 router.post("/addLikes", verifyToken, addLikes);
 router.post("/removeLikes", verifyToken, removeLikes);
 
