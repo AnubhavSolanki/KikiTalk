@@ -8,8 +8,12 @@ export const commentSlice = createSlice({
   name: "comments",
   initialState: INITIAL_STATE,
   reducers: {
+    addComment: (state, action) => {
+      state.comments.unshift(action.payload.comment);
+      state.commentCount = state.comments.length;
+    },
     addComments: (state, action) => {
-      state.comments.unshift(...action.payload.comments);
+      state.comments.push(...action.payload.comments);
       state.commentCount = state.comments.length;
       state.hasNext = action.payload?.hasNext ?? state.hasNext;
     },
@@ -17,7 +21,8 @@ export const commentSlice = createSlice({
   },
 });
 
-export const { addComments, resetCommentState } = commentSlice.actions;
+export const { addComment, addComments, resetCommentState } =
+  commentSlice.actions;
 
 export const getComments = (state) => state.commentState.comments;
 

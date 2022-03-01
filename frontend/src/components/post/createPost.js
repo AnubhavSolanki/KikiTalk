@@ -1,21 +1,24 @@
 import React from "react";
 import { convertImagetoBase64 } from "../../utils/imgToBase64";
 import styles from "./createPost.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 import { post } from "../../utils/requests";
 import image from "../../assets/images/picture.png";
 import { removeModal } from "../../utils/createModal";
 import { promiseToast } from "../../utils/toaster";
+import { addPost } from "../../features/postSlice";
 
 const CreatePost = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
   const saveToDatabase = async (base64) => {
     const data = {
       userId: user.id,
       base64,
     };
-    await post(`${process.env.REACT_APP_BASE_URL}/addContent`, data);
+    return await post(`${process.env.REACT_APP_BASE_URL}/addContent`, data);
   };
 
   const onSubmit = async ([Content]) => {
@@ -23,14 +26,18 @@ const CreatePost = () => {
       if (!Content) reject("No Content");
       try {
         const base64 = await convertImagetoBase64(Content);
-        await saveToDatabase(base64);
+        const response = await saveToDatabase(base64);
+        dispatch(
+          addPost({
+            post: response.data,
+          })
+        );
         resolve();
       } catch (err) {
         console.log(err);
         reject();
       } finally {
         removeModal();
-        // window.location.reload(false);
       }
     });
     await promiseToast(contentSubmissionPromise, {

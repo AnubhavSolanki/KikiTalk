@@ -9,12 +9,14 @@ const getPaginatedData = async (
   condition,
   page,
   size,
-  reverse = false
+  reverse = false,
+  latest = true
 ) => {
   try {
     const { limit, offset } = getPagination(page, size);
     const pageData = await model
       .find(condition)
+      .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit + 1)
       .lean();
@@ -23,9 +25,7 @@ const getPaginatedData = async (
     if (pageData.length > limit) {
       pageData.splice(-1);
     }
-    if (reverse) {
-      pageData.reverse();
-    }
+
     return { pageData, hasNext };
   } catch (err) {
     throw err;

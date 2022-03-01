@@ -5,7 +5,7 @@ import { post } from "../../utils/requests";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
-import { addComments } from "../../features/commentSlice";
+import { addComment } from "../../features/commentSlice";
 
 const Comment = ({ postId, shouldDispatch = false }) => {
   const user = useSelector(selectUser);
@@ -27,8 +27,8 @@ const Comment = ({ postId, shouldDispatch = false }) => {
           );
           if (shouldDispatch) {
             dispatch(
-              addComments({
-                comments: [response.data],
+              addComment({
+                comment: response.data,
               })
             );
           }
