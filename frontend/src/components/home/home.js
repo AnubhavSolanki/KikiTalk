@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { get } from "../../utils/requests";
 import Post from "../post/post";
 import Stories from "../stories/stories";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./home.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { addPosts, getPostState } from "../../features/postSlice";
 
-const fetchPosts = ([posts, setPosts]) => {
+const fetchPosts = (posts, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const limit = 5;
+      const limit = 2;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestPost`,
         {
-          params: { from: posts.length, to: posts.length + limit },
+          params: { page: posts.length / limit, size: limit },
         }
       );
       if (response.status === 200) {
-        setPosts((result) => Array.from([...response.data.posts, ...result]));
-        console.log(posts);
-        resolve(response.data.hasNext);
+        if (response.data.posts.length)
+          dispatch(
+            addPosts({
+              posts: response.data.posts,
+              hasNext: response.data.hasNext,
+            })
+          );
       }
     } catch (err) {
       console.log(err);
@@ -28,17 +34,13 @@ const fetchPosts = ([posts, setPosts]) => {
 };
 
 const Home = (props) => {
-  const [posts, setPosts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-
-  const getNewPosts = () => {
-    fetchPosts([posts, setPosts]).then((hasMore) => {
-      setHasMore(hasMore);
-    });
-  };
+  const dispatch = useDispatch();
+  const postState = useSelector(getPostState);
 
   useEffect(() => {
-    getNewPosts();
+    if (postState.posts.length === 0) {
+      fetchPosts(postState.posts, dispatch);
+    }
   }, []);
 
   return (
@@ -46,9 +48,9 @@ const Home = (props) => {
       <div className={styles.header}>
         {/* <Stories /> */}
         <InfiniteScroll
-          dataLength={posts.length}
-          next={getNewPosts}
-          hasMore={hasMore}
+          dataLength={postState.posts.length}
+          next={() => fetchPosts(postState.posts, dispatch)}
+          hasMore={postState.hasNext}
           loader={<h4>Loading...</h4>}
           scrollableTarget="postScrollableDiv"
           endMessage={
@@ -57,8 +59,8 @@ const Home = (props) => {
             </h3>
           }
         >
-          {posts.map((post, index) => {
-            return <Post key={index} postData={post} />;
+          {postState.posts.map((post, index) => {
+            return <Post key={index} index={index} postData={post} />;
           })}
         </InfiniteScroll>
       </div>

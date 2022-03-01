@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from "react";
 import styles from "./commentContainer.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import Comment from "./comment";
 import { get } from "../../utils/requests";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import InfiniteScroll from "react-infinite-scroll-component";
+import {
+  addComments,
+  getCommentState,
+  resetCommentState,
+} from "../../features/commentSlice";
 
-const fetchComments = (comments, setComments, postId) => {
+const fetchComments = (comments, dispatch, postId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestComments`,
         {
-          params: {
-            from: comments.length,
-            to: comments.length + limit,
-            postId,
-          },
+          params: { page: comments.length / limit, size: limit, postId },
         }
       );
       if (response.status === 200) {
-        setComments((result) =>
-          Array.from([...response.data.comments, ...result])
+        dispatch(
+          addComments({
+            comments: [...response.data.comments],
+            hasNext: response.data.hasNext,
+          })
         );
-        console.log(comments);
-        resolve(response.data.hasNext);
+        // setComments((result) =>
+        //   Array.from([...response.data.comments, ...result])
+        // );
       }
     } catch (err) {
       console.log(err);
@@ -39,42 +45,41 @@ const commentTemplate = (commentData, index) => {
       <div className={styles.profileImage}>
         <img
           alt="profile"
-          src={commentData.profileUrl ?? defaultProfileImage}
+          src={commentData?.profileUrl ?? defaultProfileImage}
         />
       </div>
-      <span className={styles.posterName}>{commentData.profileName ?? ""}</span>
-      <span>{commentData.comment ?? ""}</span>
+      <span className={styles.posterName}>
+        {commentData?.profileName ?? ""}
+      </span>
+      <span>{commentData?.comment ?? ""}</span>
     </div>
   );
 };
 
 const CommentContainer = ({ postId }) => {
-  const [comments, setComments] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
-
-  const getNewComments = () => {
-    fetchComments(comments, setComments, postId).then((hasMore) => {
-      setHasMore(hasMore);
-    });
-  };
+  const dispatch = useDispatch();
+  const commentState = useSelector(getCommentState);
 
   useEffect(() => {
-    getNewComments();
+    fetchComments(commentState.comments, dispatch, postId);
+    return () => {
+      dispatch(resetCommentState());
+    };
   }, []);
 
   return (
     <div className={styles.container}>
-      <Comment setComments={setComments} postId={postId} />
+      <Comment shouldDispatch={true} postId={postId} />
       <div id="commentScrollableDiv" className={styles.scrollableDiv}>
         <InfiniteScroll
-          dataLength={comments.length}
-          next={getNewComments}
-          hasMore={hasMore}
+          dataLength={commentState.comments.length}
+          next={() => fetchComments(commentState.comments, dispatch, postId)}
+          hasMore={commentState.hasNext}
           loader={<h4>Loading...</h4>}
           scrollableTarget="commentScrollableDiv"
           endMessage={<p align="center">No more Comments</p>}
         >
-          {comments.map((commentData, index) => {
+          {commentState.comments.map((commentData, index) => {
             return commentTemplate(commentData, index);
           })}
         </InfiniteScroll>

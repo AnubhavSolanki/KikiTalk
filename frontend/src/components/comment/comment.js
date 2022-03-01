@@ -3,12 +3,14 @@ import styles from "./comment.module.css";
 import { promiseToast } from "../../utils/toaster";
 import { post } from "../../utils/requests";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
+import { addComments } from "../../features/commentSlice";
 
-const Comment = ({ postId, setComments }) => {
+const Comment = ({ postId, shouldDispatch = false }) => {
   const user = useSelector(selectUser);
   const { register, handleSubmit, reset } = useForm();
+  const dispatch = useDispatch();
 
   const postComment = async ({ comment }) => {
     await promiseToast(
@@ -23,12 +25,14 @@ const Comment = ({ postId, setComments }) => {
             `${process.env.REACT_APP_BASE_URL}/addComment`,
             data
           );
-          resolve();
-          if (setComments) {
-            setComments((previousComments) =>
-              Array.from([response.data, ...previousComments])
+          if (shouldDispatch) {
+            dispatch(
+              addComments({
+                comments: [response.data],
+              })
             );
           }
+          resolve();
         } catch (err) {
           reject(err);
         }

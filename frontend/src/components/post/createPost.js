@@ -1,5 +1,5 @@
 import React from "react";
-import { uploadImage } from "../../utils/uploadImage";
+import { convertImagetoBase64 } from "../../utils/imgToBase64";
 import styles from "./createPost.module.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
@@ -10,11 +10,10 @@ import { promiseToast } from "../../utils/toaster";
 
 const CreatePost = () => {
   const user = useSelector(selectUser);
-  const saveToDatabase = async (imageDetail) => {
+  const saveToDatabase = async (base64) => {
     const data = {
       userId: user.id,
-      data: imageDetail,
-      contentType: "Image",
+      base64,
     };
     await post(`${process.env.REACT_APP_BASE_URL}/addContent`, data);
   };
@@ -23,16 +22,15 @@ const CreatePost = () => {
     const contentSubmissionPromise = new Promise(async (resolve, reject) => {
       if (!Content) reject("No Content");
       try {
-        const imageDetail = await uploadImage(Content);
-        if (!imageDetail) throw new Error("Didn't recieved Image Detail");
-        await saveToDatabase(imageDetail);
+        const base64 = await convertImagetoBase64(Content);
+        await saveToDatabase(base64);
         resolve();
       } catch (err) {
         console.log(err);
         reject();
       } finally {
         removeModal();
-        window.location.reload(false);
+        // window.location.reload(false);
       }
     });
     await promiseToast(contentSubmissionPromise, {

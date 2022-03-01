@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/userSlice";
+import logger from "redux-logger";
+import postReducer from "./features/postSlice";
+import commentReducer from "./features/commentSlice";
 
 export default configureStore({
   reducer: {
     user: userReducer,
+    postState: postReducer,
+    commentState: commentReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

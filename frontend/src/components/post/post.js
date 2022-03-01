@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./post.module.css";
 import {
   FaEllipsisV,
@@ -12,32 +12,42 @@ import TimeAgo from "timeago-react";
 import { post } from "../../utils/requests";
 import { selectUser } from "../../features/userSlice";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import createModal from "../../utils/createModal";
 import CommentContainer from "../comment/commentContainer";
+import { addLike, removeLike } from "../../features/postSlice";
 
-const Post = ({ postData }) => {
+const Post = ({ postData, index }) => {
   const user = useSelector(selectUser);
-  const isLiked = (postData) => {
-    return postData.likedBy.includes(user.id);
-  };
+  const dispatch = useDispatch();
+
   const profileImg = postData.profileImage ?? defaultProfileImage;
   const postImg = postData?.data?.display_url ?? "";
-  const [postLike, setPostLikes] = useState(postData.likedBy.length);
-  const [postLikeStatus, setPostLikeStatus] = useState(isLiked(postData)); // { 0: unliked, 1: liked }
+
+  const isLiked = (userId) => {
+    return postData.likedBy.includes(userId);
+  };
+
+  const getLikeCount = () => {
+    return postData.likedBy.length;
+  };
 
   const onLike = async () => {
     try {
       let url = `${process.env.REACT_APP_BASE_URL}/addLikes`;
-      if (postLikeStatus) {
+      if (isLiked(user.id)) {
         url = `${process.env.REACT_APP_BASE_URL}/removeLikes`;
       }
-      const response = await post(url, {
+      await post(url, {
         postId: postData._id,
         userId: user.id,
       });
-      setPostLikes(response?.data?.data?.likedBy.length);
-      setPostLikeStatus(isLiked(response.data.data));
+
+      if (!isLiked(user.id)) {
+        dispatch(addLike({ index, userId: user.id }));
+      } else {
+        dispatch(removeLike({ index, userId: user.id }));
+      }
     } catch (err) {
       console.log(err);
     }
@@ -66,7 +76,7 @@ const Post = ({ postData }) => {
       <div className={styles.post_footer}>
         <div className={styles.footer}>
           <div onClick={onLike} className={styles.like}>
-            {postLikeStatus ? (
+            {isLiked(user.id) ? (
               <FaHeart style={{ color: "red" }} size={25} />
             ) : (
               <FaRegHeart size={25} />
@@ -80,7 +90,7 @@ const Post = ({ postData }) => {
           </div>
         </div>
         <div>
-          <span>{postLike} likes</span>
+          <span>{getLikeCount()} likes</span>
         </div>
         <div className={styles.caption}>
           <span className={styles.name}>

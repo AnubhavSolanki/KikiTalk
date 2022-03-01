@@ -11,6 +11,7 @@ import { saveUserDetails } from "./features/userSlice";
 import { post } from "./utils/requests";
 import { ToastContainer } from "react-toastify";
 import ForgotPassword from "./components/forgetPassword/forgotPassword";
+import Profile from "./components/profile/profile";
 
 require("dotenv").config();
 
@@ -60,6 +61,9 @@ function App() {
               <Navbar />
               <Route path="/home">
                 <Home />
+              </Route>
+              <Route path="/profile">
+                <Profile />
               </Route>
               <Redirect to="/home" />
             </>

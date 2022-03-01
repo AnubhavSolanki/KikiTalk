@@ -1,0 +1,36 @@
+.header {
+  background-color: white;
+  margin-top: 22px;
+  padding: 20px 70px;
+}
+
+.wrapper {
+  width: max-content;
+  margin: auto;
+}
+.profileName {
+  grid-column: 2 / 5;
+  margin: auto;
+}
+.headerWrapper {
+  display: grid;
+  grid-template-columns: 260px auto auto auto;
+  justify-content: center;
+  grid-gap: 15px;
+  gap: 15px;
+}
+
+.profileImage {
+  height: 150px;
+  width: 150px;
+  overflow: hidden;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  border-radius: 50%;
+}
+
+.profileImage img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
