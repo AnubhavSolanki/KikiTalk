@@ -21,6 +21,7 @@ const {
 } = require("../controllers/forgotPasswordController");
 
 const checkBlackListToken = require("../middleware/checkBlacklistToken");
+const { searchUserController } = require("../controllers/userController");
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
 
@@ -30,6 +31,7 @@ router.get("/", (req, res) => {
 
 router.get("/latestPost", verifyToken, getLatestPost);
 router.get("/latestComments", verifyToken, getComments);
+router.get("/searchUser", verifyToken, searchUserController);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);

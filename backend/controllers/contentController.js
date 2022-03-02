@@ -1,13 +1,13 @@
 const { getPaginatedData } = require("../database/methods/getPaginatedData");
 const content = require("../database/models/content");
-const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { uploadImage } = require("../services/imgbbService");
+const { findOneUser } = require("./userController");
 
 const addContent = async (req, res) => {
   try {
     const { base64, userId } = req.body;
-    const userData = await user.findOne({ _id: userId });
+    const userData = await findOneUser({ _id: userId });
     if (!userData) throw new Error("User not exists");
     req.body = {
       ...req.body,
@@ -75,7 +75,7 @@ const getLatestPost = async (req, res) => {
       await Promise.all(
         pageData.map(async (record) => {
           const { userId } = record;
-          const userData = await user.findOne({ _id: userId });
+          const userData = await findOneUser({ _id: userId });
           record["profileImage"] = userData?.image;
           record["profileName"] = userData.full_name;
           return record;

@@ -25,6 +25,7 @@ const fetchPosts = (posts, dispatch) => {
               hasNext: response.data.hasNext,
             })
           );
+        resolve();
       }
     } catch (err) {
       console.log(err);
@@ -41,7 +42,7 @@ const Home = (props) => {
     if (postState.posts.length === 0) {
       fetchPosts(postState.posts, dispatch);
     }
-  }, []);
+  });
 
   return (
     <div id="postScrollableDiv" className={styles.wrapper}>

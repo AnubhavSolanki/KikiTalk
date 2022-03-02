@@ -1,41 +1,31 @@
-var jwt = require("jsonwebtoken");
-const user = require("../database/models/user");
 const { printError, printSuccess } = require("../services/coloredPrint");
-
-const updateToken = async (token, email) => {
-  return await user.findOneAndUpdate(
-    { email: email },
-    { token: token },
-    { new: true }
-  );
-};
-
-const verifyLoginDetails = async (email, password) => {
-  try {
-    const userDetail = await user.findOne({ email: email }).exec();
-    if (!userDetail) throw Error("Email not exists");
-    var originalPassword = userDetail.password;
-    if (originalPassword != password) {
-      throw new Error("Wrong Password");
-    }
-    const token = jwt.sign({ email }, process.env.TOKEN_KEY, {
-      expiresIn: "2h",
-    });
-    return await updateToken(token, email);
-  } catch (error) {
-    throw error;
-  }
-};
+const { createToken } = require("../services/jwtService");
+const { addUser, findOneUser } = require("./userController");
 
 const loginWithToken = async (req, res) => {
   try {
     const { token } = req.body;
-    const userDetail = await user.findOne({ token: token }).exec();
+    const userDetail = await findOneUser({ token: token });
     if (!userDetail) throw Error("Invalid Token");
     res.status(200).json(userDetail);
   } catch (error) {
     printError(error.message);
     res.status(404).json({ message: error.message });
+  }
+};
+
+const verifyLoginDetails = async (email, password) => {
+  try {
+    const userDetail = await findOneUser({ email: email });
+    if (!userDetail) throw Error("Email not exists");
+    var originalPassword = userDetail.password;
+    if (originalPassword != password) {
+      throw new Error("Wrong Password");
+    }
+    const token = createToken({ email }, process.env.TOKEN_KEY);
+    return await findUserAndUpdate({ email }, { token });
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -53,11 +43,9 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     const { email } = req.body;
-    const token = jwt.sign({ email }, process.env.TOKEN_KEY, {
-      expiresIn: "2h",
-    });
+    const token = createToken({ email }, process.env.TOKEN_KEY);
     req.body.token = token;
-    const userDetail = await user.create(req.body);
+    const userDetail = await addUser(req.body);
     printSuccess("Successfully Registered");
     res.status(200).json(userDetail);
   } catch (error) {

@@ -1,0 +1,21 @@
+.searchContainer {
+  position: relative;
+  width: min(50vw, 500px);
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px;
+}
+
+.searchContainer input {
+  width: 90%;
+  height: 38px;
+  font-size: 15px;
+  outline: none;
+  margin: 20px auto;
+  border-radius: 12px;
+  padding: 0 15px;
+}
+.searchResultContainer {
+  overflow: auto;
+}

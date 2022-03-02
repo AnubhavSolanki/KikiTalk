@@ -5,11 +5,15 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: false,
+  },
   email: {
     type: String,
     required: true,
   },
-  profileUrl: {
+  profileImageUrl: {
     type: String,
   },
   password: {
@@ -23,11 +27,8 @@ const schema = new mongoose.Schema({
   token: {
     type: String,
   },
-  image: {
-    type: String,
-  },
 });
-
+// full_name,profileImageUrl, _id
 const user = mongoose.model("User", schema);
 
 module.exports = user;

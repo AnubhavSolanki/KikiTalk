@@ -82,7 +82,7 @@ const Post = ({ postData, index }) => {
               <FaRegHeart size={25} />
             )}
           </div>
-          <div className={styles.comment}>
+          <div onClick={openPostContainer} className={styles.comment}>
             <FaRegComment size={25} />
           </div>
           <div className={styles.share}>

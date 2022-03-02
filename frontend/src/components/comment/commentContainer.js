@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./commentContainer.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import Comment from "./comment";
@@ -28,9 +28,7 @@ const fetchComments = (comments, dispatch, postId) => {
             hasNext: response.data.hasNext,
           })
         );
-        // setComments((result) =>
-        //   Array.from([...response.data.comments, ...result])
-        // );
+        resolve();
       }
     } catch (err) {
       console.log(err);
@@ -65,7 +63,7 @@ const CommentContainer = ({ postId }) => {
     return () => {
       dispatch(resetCommentState());
     };
-  }, []);
+  });
 
   return (
     <div className={styles.container}>

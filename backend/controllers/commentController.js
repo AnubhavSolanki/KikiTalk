@@ -1,13 +1,13 @@
 const comment = require("../database/models/comment");
 const { printError } = require("../services/coloredPrint");
-const user = require("../database/models/user");
 const { getPaginatedData } = require("../database/methods/getPaginatedData");
+const { findOneUser } = require("./userController");
 
 const addComment = async (req, res) => {
   try {
     let response = await comment.create(req.body);
     const { userId } = response;
-    const userData = await user.findOne({ _id: userId });
+    const userData = await findOneUser({ _id: userId });
     response._doc["profileImage"] = userData?.image;
     response._doc["profileName"] = userData.full_name;
     res.status(200).json(response);
@@ -30,7 +30,7 @@ const getComments = async (req, res) => {
       await Promise.all(
         pageData.map(async (record) => {
           const { userId } = record;
-          const userData = await user.findOne({ _id: userId });
+          const userData = await findOneUser({ _id: userId });
           record["profileImage"] = userData?.image;
           record["profileName"] = userData.full_name;
           return record;

@@ -34,4 +34,5 @@ const getPaginatedData = async (
 
 module.exports = {
   getPaginatedData,
+  getPagination,
 };
