@@ -12,6 +12,7 @@ import { post } from "./utils/requests";
 import { ToastContainer } from "react-toastify";
 import ForgotPassword from "./components/forgetPassword/forgotPassword";
 import Profile from "./components/profile/profile";
+import Notifications from "./components/notifications/notifications";
 
 require("dotenv").config();
 
@@ -64,6 +65,9 @@ function App() {
               </Route>
               <Route path="/profile/:id?">
                 <Profile />
+              </Route>
+              <Route path="/notifications">
+                <Notifications />
               </Route>
               <Redirect to="/home" />
             </>

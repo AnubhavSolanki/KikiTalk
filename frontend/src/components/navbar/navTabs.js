@@ -24,6 +24,7 @@ export const navTabs = [
   },
   {
     name: "Notifications",
+    onClick: ({ history }) => history.push("/notifications"),
   },
   {
     name: "Message",
