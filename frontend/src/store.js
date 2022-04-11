@@ -4,6 +4,8 @@ import logger from "redux-logger";
 import postReducer from "./features/postSlice";
 import commentReducer from "./features/commentSlice";
 import searchUserReducer from "./features/searchUserSlice";
+import allPostsReducer from "./features/allPosts";
+import notificationsReducer from "./features/notifications";
 
 export default configureStore({
   reducer: {
@@ -11,6 +13,8 @@ export default configureStore({
     postState: postReducer,
     commentState: commentReducer,
     searchUserState: searchUserReducer,
+    allPostsState: allPostsReducer,
+    notificationsState: notificationsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

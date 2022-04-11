@@ -24,6 +24,23 @@ const addContent = async (req, res) => {
   }
 };
 
+const getPostWithId = async (req, res) => {
+  try {
+    const { id, page, size } = req.query;
+    const { pageData, hasNext } = await getPaginatedData(
+      content,
+      { userId: id },
+      page,
+      size,
+      true
+    );
+    await res.status(200).json({ posts: pageData, hasNext });
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error);
+  }
+};
+
 const addLikes = async (req, res) => {
   try {
     const { postId, userId } = req.body;
@@ -92,6 +109,7 @@ const getLatestPost = async (req, res) => {
 
 module.exports = {
   addContent,
+  getPostWithId,
   getLatestPost,
   addLikes,
   removeLikes,

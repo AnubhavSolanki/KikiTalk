@@ -6,6 +6,7 @@ const {
   getLatestPost,
   addLikes,
   removeLikes,
+  getPostWithId,
 } = require("../controllers/contentController");
 const { addComment, getComments } = require("../controllers/commentController");
 const {
@@ -22,6 +23,7 @@ const {
 
 const checkBlackListToken = require("../middleware/checkBlacklistToken");
 const { searchUserController } = require("../controllers/userController");
+const { addFollower } = require("../controllers/followerController");
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
 
@@ -32,6 +34,7 @@ router.get("/", (req, res) => {
 router.get("/latestPost", verifyToken, getLatestPost);
 router.get("/latestComments", verifyToken, getComments);
 router.get("/searchUser", verifyToken, searchUserController);
+router.get("/allPostsWithId", verifyToken, getPostWithId);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);
@@ -43,5 +46,6 @@ router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
 router.post("/addLikes", verifyToken, addLikes);
 router.post("/removeLikes", verifyToken, removeLikes);
+router.post("/follower", verifyToken, addFollower);
 
 module.exports = router;

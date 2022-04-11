@@ -2,6 +2,7 @@ const { getPagination } = require("../database/methods/getPaginatedData");
 const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { createFuzzySearcher } = require("../services/fuzzySearchService");
+
 const addUser = async (userData) => {
   return await user.create(userData);
 };

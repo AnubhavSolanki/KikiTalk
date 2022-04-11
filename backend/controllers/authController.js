@@ -1,6 +1,6 @@
 const { printError, printSuccess } = require("../services/coloredPrint");
 const { createToken } = require("../services/jwtService");
-const { addUser, findOneUser } = require("./userController");
+const { addUser, findOneUser, findUserAndUpdate } = require("./userController");
 
 const loginWithToken = async (req, res) => {
   try {

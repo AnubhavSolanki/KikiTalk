@@ -28,7 +28,7 @@ const schema = new mongoose.Schema({
     type: String,
   },
 });
-// full_name,profileImageUrl, _id
+
 const user = mongoose.model("User", schema);
 
 module.exports = user;

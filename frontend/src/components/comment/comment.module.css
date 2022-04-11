@@ -22,4 +22,5 @@
 .comment_input_wrapper {
   outline: 1px solid gray;
   height: 45px;
+  margin-bottom: 1px;
 }

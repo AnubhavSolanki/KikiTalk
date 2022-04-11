@@ -4,7 +4,7 @@
   margin: 0 auto;
   margin-top: 20px;
   gap: 20px;
-  width: 50%;
+  width: 600px;
 }
 
 .wrapper {
@@ -13,4 +13,10 @@
   height: calc(100% - 73px);
   background: linear-gradient(-135deg, #c850c0, #4158d0);
   overflow: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    width: 100%;
+  }
 }

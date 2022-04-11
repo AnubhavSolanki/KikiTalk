@@ -13,7 +13,6 @@ import { get } from "../../utils/requests";
 const fetchSearchResults = (searchText, searchResult, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(searchText);
       const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/searchUser`,
@@ -26,7 +25,6 @@ const fetchSearchResults = (searchText, searchResult, dispatch) => {
         }
       );
       if (response.status === 200 && response.data.searchResult.length) {
-        console.log(response.data);
         dispatch(
           setSearchResult({
             searchText,
@@ -45,13 +43,17 @@ const fetchSearchResults = (searchText, searchResult, dispatch) => {
 
 const SearchFriends = ({ history }) => {
   const dispatch = useDispatch();
+  let timeout;
   const [searchText, setSearchText] = useState("");
   const searchUserState = useSelector(getSearchUserState);
   const handleChange = (event) => {
-    const searchText = event.target.value;
-    dispatch(unsetSearchResult());
-    setSearchText(searchText);
-    if (searchText) fetchSearchResults(searchText, [], dispatch);
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      const searchText = event.target.value;
+      dispatch(unsetSearchResult());
+      setSearchText(searchText);
+      if (searchText) fetchSearchResults(searchText, [], dispatch);
+    }, 1000);
   };
   return (
     <div className={styles.searchContainer}>
@@ -77,6 +79,13 @@ const SearchFriends = ({ history }) => {
           loader={
             searchUserState.searchResult.length > 0 ? (
               <h4>Loading...</h4>
+            ) : (
+              <></>
+            )
+          }
+          endMessage={
+            searchUserState.searchResult.length === 0 ? (
+              <p align="center">Couldn't found anything</p>
             ) : (
               <></>
             )

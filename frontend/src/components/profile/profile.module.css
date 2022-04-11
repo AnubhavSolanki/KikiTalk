@@ -12,6 +12,9 @@
   grid-column: 2 / 5;
   margin: auto;
 }
+.follow_btn {
+  grid-column: 2/5;
+}
 .headerWrapper {
   display: grid;
   grid-template-columns: 260px auto auto auto;
@@ -25,7 +28,7 @@
   width: 150px;
   overflow: hidden;
   grid-row-start: 1;
-  grid-row-end: 3;
+  grid-row-end: 4;
   border-radius: 50%;
 }
 
@@ -33,4 +36,8 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+.footer {
+  margin-top: 20px;
 }

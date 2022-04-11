@@ -2,7 +2,7 @@ const dbDetail = require("./dbDetail.js");
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  `mongodb+srv://${dbDetail.username}:${dbDetail.password}@${dbDetail.cluster}.1zkio.mongodb.net/${dbDetail.dbname}?retryWrites=true&w=majority`,
+  `mongodb+srv://${dbDetail.username}:${dbDetail.password}@${dbDetail.cluster}.1zkio.mongodb.net/${dbDetail.dbname}?retryWrites=true&w=majority&ssl=true`,
   {
     useNewUrlParser: true,
     useFindAndModify: false,

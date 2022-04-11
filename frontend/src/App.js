@@ -62,7 +62,7 @@ function App() {
               <Route path="/home">
                 <Home />
               </Route>
-              <Route path="/profile">
+              <Route path="/profile/:id?">
                 <Profile />
               </Route>
               <Redirect to="/home" />

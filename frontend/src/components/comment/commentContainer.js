@@ -59,11 +59,12 @@ const CommentContainer = ({ postId }) => {
   const commentState = useSelector(getCommentState);
 
   useEffect(() => {
-    fetchComments(commentState.comments, dispatch, postId);
+    if (commentState.comments.length === 0)
+      fetchComments(commentState.comments, dispatch, postId);
     return () => {
       dispatch(resetCommentState());
     };
-  });
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -73,9 +74,17 @@ const CommentContainer = ({ postId }) => {
           dataLength={commentState.comments.length}
           next={() => fetchComments(commentState.comments, dispatch, postId)}
           hasMore={commentState.hasNext}
-          loader={<h4>Loading...</h4>}
+          loader={
+            commentState.comments.length > 0 ? <h4>Loading...</h4> : <></>
+          }
           scrollableTarget="commentScrollableDiv"
-          endMessage={<p align="center">No more Comments</p>}
+          endMessage={
+            commentState.comments.length === 0 ? (
+              <p align="center">Be the first to write comment</p>
+            ) : (
+              <></>
+            )
+          }
         >
           {commentState.comments.map((commentData, index) => {
             return commentTemplate(commentData, index);

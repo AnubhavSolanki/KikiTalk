@@ -1,7 +1,7 @@
 .searchContainer {
   position: relative;
   width: min(50vw, 500px);
-  height: 50vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   padding: 0 15px;
