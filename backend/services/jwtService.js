@@ -18,7 +18,13 @@ const verifyJWTToken = (token, secretKey) => {
   }
 };
 
+// shouldn't be used if the source is not trusted
+const decodeToken = (token, secretKey) => {
+  return jwt.decode(token, secretKey);
+};
+
 module.exports = {
   createToken,
   verifyJWTToken,
+  decodeToken,
 };

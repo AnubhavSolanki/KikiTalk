@@ -22,7 +22,7 @@ const verifyLoginDetails = async (email, password) => {
     if (originalPassword != password) {
       throw new Error("Wrong Password");
     }
-    const token = createToken({ email }, process.env.TOKEN_KEY);
+    const token = createToken({ id: userDetail.id }, process.env.TOKEN_KEY);
     return await findUserAndUpdate({ email }, { token });
   } catch (error) {
     throw error;
@@ -43,9 +43,9 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   try {
     const { email } = req.body;
-    const token = createToken({ email }, process.env.TOKEN_KEY);
-    req.body.token = token;
     const userDetail = await addUser(req.body);
+    const token = createToken({ id: userDetail.id }, process.env.TOKEN_KEY);
+    req.body.token = token;
     printSuccess("Successfully Registered");
     res.status(200).json(userDetail);
   } catch (error) {

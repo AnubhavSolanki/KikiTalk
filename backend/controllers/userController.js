@@ -11,6 +11,10 @@ const findOneUser = async (condition) => {
   return await user.findOne(condition);
 };
 
+const findUsers = async (listOfUserId) => {
+  return await Promise.all(listOfUserId.map((id) => findOneUser({ _id: id })));
+};
+
 const findUserAndUpdate = async (condition, update) => {
   return await user.findOneAndUpdate(condition, update, { new: true });
 };
@@ -49,4 +53,5 @@ module.exports = {
   findUserAndUpdate,
   getAllUsers,
   searchUserController,
+  findUsers,
 };
