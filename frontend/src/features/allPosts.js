@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
   posts: [],
-  hasNext: true,
+  hasNext: false,
 };
 export const allPostSlice = createSlice({
   name: "allPosts",

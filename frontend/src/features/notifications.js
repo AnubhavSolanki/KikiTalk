@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
   notifications: [],
-  hasNext: true,
+  hasNext: false,
 };
 export const notifications = createSlice({
   name: "notifications",

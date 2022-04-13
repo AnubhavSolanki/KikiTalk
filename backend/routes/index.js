@@ -28,6 +28,7 @@ const { getNotifications } = require("../controllers/notifications.controller");
 const { getLatestMessages } = require("../controllers/messageController");
 const {
   createMessageChannel,
+  getListOfChannelId,
 } = require("../controllers/messageChannelController");
 const { addMessage } = require("../controllers/messageController");
 
@@ -44,6 +45,7 @@ router.get("/searchUser", verifyToken, searchUserController);
 router.get("/allPostsWithId", verifyToken, getPostWithId);
 router.get("/latestNotifications", verifyToken, getNotifications);
 router.get("/latestMessages", verifyToken, getLatestMessages);
+router.get("/channelIds", verifyToken, getListOfChannelId);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);

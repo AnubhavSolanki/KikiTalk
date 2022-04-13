@@ -6,6 +6,8 @@ import commentReducer from "./features/commentSlice";
 import searchUserReducer from "./features/searchUserSlice";
 import allPostsReducer from "./features/allPosts";
 import notificationsReducer from "./features/notifications";
+import channelReducer from "./features/channels";
+import chatBoxReducer from "./features/chatBox";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -14,6 +16,8 @@ const combinedReducer = combineReducers({
   searchUserState: searchUserReducer,
   allPostsState: allPostsReducer,
   notificationsState: notificationsReducer,
+  channelState: channelReducer,
+  chatBoxState: chatBoxReducer,
 });
 
 const rootReducer = (state, action) => {

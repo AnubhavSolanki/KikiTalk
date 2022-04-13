@@ -32,7 +32,7 @@
 }
 
 .chatSection {
-  height: 74vh;
+  height: calc(100% - 136px);
   overflow: auto;
 }
 

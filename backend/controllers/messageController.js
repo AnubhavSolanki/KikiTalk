@@ -8,7 +8,6 @@ const getLatestMessages = async (req, res) => {
   try {
     const { page, size, channelId } = req.query;
     const userId = getUserId(res);
-    console.log({ userId });
     if (!(await isUserHaveAccessToChannel(channelId, userId)))
       throw new Error("User don't have access to channel");
     const { pageData, hasNext } = await getPaginatedData(
@@ -17,7 +16,13 @@ const getLatestMessages = async (req, res) => {
       page,
       size,
       true
-    );
+    ).then(({ pageData, hasNext }) => {
+      pageData = pageData.map((message) => ({
+        ...message,
+        id: +(message.userId === userId),
+      }));
+      return { pageData, hasNext };
+    });
     res.status(200).json({ messages: pageData, hasNext });
   } catch (error) {
     printError(error);

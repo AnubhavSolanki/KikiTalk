@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
   searchResult: [],
-  hasNext: true,
+  hasNext: false,
 };
 export const searchUserSlice = createSlice({
   name: "searchUser",

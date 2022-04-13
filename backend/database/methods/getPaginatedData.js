@@ -10,13 +10,14 @@ const getPaginatedData = async (
   page,
   size,
   reverse = false,
-  latest = true
+  updatedAt = false
 ) => {
   try {
     const { limit, offset } = getPagination(page, size);
+    const sortCondition = updatedAt ? { updatedAt: -1 } : { createdAt: -1 };
     const pageData = await model
       .find(condition)
-      .sort({ createdAt: -1 })
+      .sort(sortCondition)
       .skip(offset)
       .limit(limit + 1)
       .lean();

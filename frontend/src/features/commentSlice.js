@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INITIAL_STATE = {
   commentCount: 0,
-  hasNext: true,
+  hasNext: false,
   comments: [],
 };
 export const commentSlice = createSlice({

@@ -38,7 +38,7 @@ const getComments = async (req, res) => {
       );
       return { pageData, hasNext };
     });
-    await res.status(200).json({ comments: pageData, hasNext });
+    res.status(200).json({ comments: pageData, hasNext });
   } catch (error) {
     printError(error);
     res.status(400).send(error.message);

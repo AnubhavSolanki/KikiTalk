@@ -1,4 +1,4 @@
 .wrapper {
   display: flex;
-  height: 91vh;
+  height: calc(100% - 73px);
 }

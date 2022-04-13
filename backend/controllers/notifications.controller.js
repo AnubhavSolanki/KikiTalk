@@ -12,7 +12,7 @@ const getNotifications = async (req, res) => {
       size,
       true
     );
-    await res.status(200).json({ posts: pageData, hasNext });
+    res.status(200).json({ posts: pageData, hasNext });
   } catch (error) {
     printError(error);
     res.status(400).send(error);

@@ -13,7 +13,6 @@ const Profile = () => {
 
   useEffect(() => {
     const id = queryString.parse(window.location.search)?.id;
-    console.log({ id });
     if (id && id !== profileId) {
       setProfileId(id);
     } else {

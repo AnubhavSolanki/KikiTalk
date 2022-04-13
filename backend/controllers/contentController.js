@@ -100,7 +100,7 @@ const getLatestPost = async (req, res) => {
       );
       return { pageData, hasNext };
     });
-    await res.status(200).json({ posts: pageData, hasNext });
+    res.status(200).json({ posts: pageData, hasNext });
   } catch (error) {
     printError(error);
     res.status(400).send(error);
