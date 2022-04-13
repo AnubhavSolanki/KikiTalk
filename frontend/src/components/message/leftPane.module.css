@@ -1,0 +1,19 @@
+.wrapper {
+  min-height: 85vh;
+  width: 25vw;
+  min-width: 250px;
+  padding-left: 20px;
+  padding-top: 30px;
+  color: white;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 13px;
+  font-size: x-large;
+  border-bottom: 1px solid;
+  font-family: serif;
+}

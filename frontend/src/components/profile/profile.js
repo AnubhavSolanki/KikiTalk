@@ -37,20 +37,25 @@ const Profile = () => {
           <div className={styles.profileImage}>
             <img alt="profile" src={defaultProfileImage} />
           </div>
-          <div className={styles.profileName}>Anubhav</div>
-          <div>0 Posts</div>
-          <div>0 Followers</div>
-          <div>0 Following</div>
-          {profileId !== "" && user.id !== profileId ? (
-            <button className={styles.follow_btn} onClick={onFollow}>
-              Follow
-            </button>
-          ) : (
-            <></>
-          )}
+          <div className={styles.profileDetail}>
+            <div className={styles.profileName}>Anubhav</div>
+            <div className={styles.followDetail}>
+              <div>0 Posts</div>
+              <div>0 Followers</div>
+              <div>0 Following</div>
+            </div>
+            {profileId !== "" && user.id !== profileId ? (
+              <button className={styles.follow_btn} onClick={onFollow}>
+                Follow
+              </button>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
       <div className={styles.footer}>
+        <div className={styles.footer_heading}>Posts</div>
         <AllPosts profileId={profileId} />
       </div>
     </div>

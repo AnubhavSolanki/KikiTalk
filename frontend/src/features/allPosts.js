@@ -11,11 +11,11 @@ export const allPostSlice = createSlice({
       state.posts.push(...action.payload.posts);
       state.hasNext = action.payload.hasNext ?? state.hasNext;
     },
-    reset: () => INITIAL_STATE,
+    resetAllPosts: () => INITIAL_STATE,
   },
 });
 
-export const { addPosts, reset } = allPostSlice.actions;
+export const { addPosts, resetAllPosts } = allPostSlice.actions;
 
 export const getAllPostsState = (state) => state.allPostsState;
 

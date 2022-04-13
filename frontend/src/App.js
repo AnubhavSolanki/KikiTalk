@@ -13,6 +13,8 @@ import { ToastContainer } from "react-toastify";
 import ForgotPassword from "./components/forgetPassword/forgotPassword";
 import Profile from "./components/profile/profile";
 import Notifications from "./components/notifications/notifications";
+import GuardedRoute from "./utils/guardedRoute";
+import Message from "./components/message/message";
 
 require("dotenv").config();
 
@@ -69,6 +71,9 @@ function App() {
               <Route path="/notifications">
                 <Notifications />
               </Route>
+              <Route path="/message">
+                <Message />
+              </Route>
               <Redirect to="/home" />
             </>
           ) : (
@@ -86,6 +91,15 @@ function App() {
             </>
           )}
         </Switch>
+        {/* <Switch>
+          <GuardedRoute
+            path="/home"
+            component={Home}
+            exact={true}
+            auth={loginState}
+          />
+          <Route path="/login" component={Login} exact={true} />
+        </Switch> */}
       </BrowserRouter>
     </div>
   );

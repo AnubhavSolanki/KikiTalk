@@ -1,0 +1,53 @@
+.wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  flex-grow: 1;
+  margin-left: 25px;
+  padding: 8px 20px 0 20px;
+  color: white;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 13px;
+  font-size: x-large;
+  border-bottom: 1px solid;
+  font-family: serif;
+  gap: 10px;
+}
+
+.profileImg {
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+}
+
+.profileImg > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chatSection {
+  height: 74vh;
+  overflow: auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+}
+.footer svg {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.input {
+  margin-bottom: 6px;
+  height: 37px;
+  flex-grow: 1;
+  margin-top: 1vh;
+  outline: none;
+}

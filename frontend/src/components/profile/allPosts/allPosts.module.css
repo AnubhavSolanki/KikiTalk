@@ -1,4 +1,11 @@
 .wrapper {
-  height: 60vh;
+  height: 55vh;
   overflow: auto;
+}
+
+.wrapper > div > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
 }

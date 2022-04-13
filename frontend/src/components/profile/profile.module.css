@@ -1,35 +1,57 @@
 .header {
-  background-color: white;
   margin-top: 22px;
-  padding: 20px 70px;
+  padding: 20px 0px;
 }
 
 .wrapper {
-  width: max-content;
+  width: 75vw;
+  min-width: 580px;
   margin: auto;
 }
 .profileName {
-  grid-column: 2 / 5;
   margin: auto;
 }
 .follow_btn {
-  grid-column: 2/5;
 }
 .headerWrapper {
-  display: grid;
-  grid-template-columns: 260px auto auto auto;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  grid-gap: 15px;
-  gap: 15px;
+  font-size: 17px;
+  color: white;
+  font-family: monospace;
+}
+.footer_heading {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: larger;
+  font-weight: 500;
+  font-family: serif;
+  border-bottom: 1px solid;
+  padding-bottom: 8px;
+  margin-bottom: 17px;
+  font-size: 24px;
 }
 
 .profileImage {
   height: 150px;
   width: 150px;
   overflow: hidden;
-  grid-row-start: 1;
-  grid-row-end: 4;
+
   border-radius: 50%;
+}
+
+.profileDetail {
+  margin-left: 5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.followDetail {
+  display: flex;
+  gap: 15px;
 }
 
 .profileImage img {

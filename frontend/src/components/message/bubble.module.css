@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  width: fit-content;
+  padding: 10px 20px;
+  max-width: 33vw;
+  overflow-wrap: break-word;
+  border-radius: 9px;
+  margin: 10px 4px;
+  background: #4e4351;
+}
+
+.myBubble {
+  background: #008ff0;
+  margin-left: auto;
+}

@@ -12,7 +12,10 @@ export const userSlice = createSlice({
         (field) => (state[field] = action.payload[field])
       );
     },
-    unsetUser: () => INITIAL_STATE,
+    logout: (state, action) => {
+      console.log(action.type);
+      return state;
+    },
   },
 });
 
@@ -22,7 +25,7 @@ export const saveUserDetails =
     dispatch(setUser({ id, name }));
   };
 
-export const { setUser, unsetUser } = userSlice.actions;
+export const { setUser, logout } = userSlice.actions;
 
 export const selectUser = (state) => state.user;
 

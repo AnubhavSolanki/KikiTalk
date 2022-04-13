@@ -1,4 +1,4 @@
-import { unsetUser } from "../../features/userSlice";
+import { logout } from "../../features/userSlice";
 import createModal from "../../utils/createModal";
 import { removeDataFromLocalStorage } from "../../utils/manageLocalStorage";
 import { successToast } from "../../utils/toaster";
@@ -28,12 +28,13 @@ export const navTabs = [
   },
   {
     name: "Message",
+    onClick: ({ history }) => history.push("/message"),
   },
   {
     name: "Logout",
     onClick: ({ dispatch }) => {
       removeDataFromLocalStorage(["token"]);
-      dispatch(unsetUser());
+      dispatch(logout());
       successToast("Successfully logged out");
     },
   },
