@@ -20,7 +20,7 @@ const Channel = ({ channelData, index, active }) => {
         <img src={defaultProfileImage} alt={"follower"} />
       </div>
       <div className={styles.rightSection}>
-        <span>{channelData?.channelName ?? "Name"}</span>
+        <span>{channelData?.full_name ?? "Name"}</span>
       </div>
     </div>
   );

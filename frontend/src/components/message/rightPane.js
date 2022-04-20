@@ -16,10 +16,10 @@ import {
   getSelectedChannel,
 } from "../../features/channels";
 
-const fetchMessages = (messages, selectedChannelId, dispatch) => {
+const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!selectedChannelId) throw new Error("Provide channel Id");
+      if (!senderId) throw new Error("Provide senderId");
       const limit = 12;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestMessages`,
@@ -27,7 +27,7 @@ const fetchMessages = (messages, selectedChannelId, dispatch) => {
           params: {
             page: messages.length / limit,
             size: limit,
-            channelId: selectedChannelId,
+            senderId: senderId,
           },
         }
       );
@@ -48,12 +48,12 @@ const fetchMessages = (messages, selectedChannelId, dispatch) => {
   });
 };
 
-const addMessageInChatBox = (message, channelId, dispatch) => {
+const addMessageInChatBox = (message, recieverId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       await post(`${process.env.REACT_APP_BASE_URL}/addMessage`, {
         message,
-        channelId,
+        recieverId,
       });
       dispatch(addMessageInChannel({ message: "" }));
     } catch (err) {
@@ -70,12 +70,8 @@ const RightPane = () => {
 
   useEffect(() => {
     if (chatBoxState.messages.length === 0)
-      fetchMessages(
-        chatBoxState.messages,
-        selectedChannel?.channelId,
-        dispatch
-      );
-  }, [chatBoxState.messages, dispatch, selectedChannel?.channelId]);
+      fetchMessages(chatBoxState.messages, selectedChannel?._id, dispatch);
+  }, [chatBoxState.messages, dispatch, selectedChannel?._id]);
 
   useEffect(() => {
     dispatch(resetChatBox());
@@ -95,7 +91,7 @@ const RightPane = () => {
           next={() =>
             fetchMessages(
               chatBoxState?.messages,
-              selectedChannel?.channelId,
+              selectedChannel?._id,
               dispatch
             )
           }
@@ -124,7 +120,7 @@ const RightPane = () => {
           onClick={() =>
             addMessageInChatBox(
               selectedChannel?.message,
-              selectedChannel?.channelId,
+              selectedChannel?._id,
               dispatch
             )
           }

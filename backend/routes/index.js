@@ -25,12 +25,13 @@ const checkBlackListToken = require("../middleware/checkBlacklistToken");
 const { searchUserController } = require("../controllers/userController");
 const { addFollower } = require("../controllers/followerController");
 const { getNotifications } = require("../controllers/notifications.controller");
-const { getLatestMessages } = require("../controllers/messageController");
+
 const {
-  createMessageChannel,
-  getListOfChannelId,
-} = require("../controllers/messageChannelController");
-const { addMessage } = require("../controllers/messageController");
+  addMessage,
+  getLatestMessages,
+  getListOfFriendsWhoSentMessages,
+} = require("../controllers/messageController");
+const { addSocket, getSocketId } = require("../controllers/socketController");
 
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
@@ -45,7 +46,8 @@ router.get("/searchUser", verifyToken, searchUserController);
 router.get("/allPostsWithId", verifyToken, getPostWithId);
 router.get("/latestNotifications", verifyToken, getNotifications);
 router.get("/latestMessages", verifyToken, getLatestMessages);
-router.get("/channelIds", verifyToken, getListOfChannelId);
+router.get("/socketId", verifyToken, getSocketId);
+router.get("/channelIds", verifyToken, getListOfFriendsWhoSentMessages);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);
@@ -58,7 +60,7 @@ router.post("/auth/loginWithToken", verifyToken, loginWithToken);
 router.post("/addLikes", verifyToken, addLikes);
 router.post("/removeLikes", verifyToken, removeLikes);
 router.post("/follower", verifyToken, addFollower);
-router.post("/messageChannel", verifyToken, createMessageChannel);
 router.post("/addMessage", verifyToken, addMessage);
+router.post("/addSocket", verifyToken, addSocket);
 
 module.exports = router;
