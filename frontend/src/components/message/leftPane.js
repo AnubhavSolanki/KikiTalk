@@ -47,6 +47,7 @@ const LeftPane = () => {
       fetchChannels(channelState.channelIdList, dispatch);
     }
   });
+
   return (
     <div className={styles.wrapper}>
       <div id="channelScrollableDiv" className={styles.heading}>

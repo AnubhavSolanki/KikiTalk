@@ -4,20 +4,23 @@ import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { FaWolfPackBattalion } from "react-icons/fa";
 import Bubble from "./bubble";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { get } from "../../utils/requests";
+import { get, post } from "../../utils/requests";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addMessage,
   getChatBoxState,
   resetChatBox,
 } from "../../features/chatBox";
-import { getSelectedChannel } from "../../features/channels";
+import {
+  addMessageInChannel,
+  getSelectedChannel,
+} from "../../features/channels";
 
 const fetchMessages = (messages, selectedChannelId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!selectedChannelId) throw new Error("Provide channel Id");
-      const limit = 10;
+      const limit = 12;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestMessages`,
         {
@@ -45,24 +48,46 @@ const fetchMessages = (messages, selectedChannelId, dispatch) => {
   });
 };
 
+const addMessageInChatBox = (message, channelId, dispatch) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await post(`${process.env.REACT_APP_BASE_URL}/addMessage`, {
+        message,
+        channelId,
+      });
+      dispatch(addMessageInChannel({ message: "" }));
+    } catch (err) {
+      console.log(err);
+      reject(false);
+    }
+  });
+};
+
 const RightPane = () => {
   const dispatch = useDispatch();
   const chatBoxState = useSelector(getChatBoxState);
   const selectedChannel = useSelector(getSelectedChannel);
 
   useEffect(() => {
-    fetchMessages(chatBoxState.messages, selectedChannel?.channelId, dispatch);
-    return () => {
-      if (chatBoxState?.messages?.length) dispatch(resetChatBox());
-    };
+    if (chatBoxState.messages.length === 0)
+      fetchMessages(
+        chatBoxState.messages,
+        selectedChannel?.channelId,
+        dispatch
+      );
   }, [chatBoxState.messages, dispatch, selectedChannel?.channelId]);
+
+  useEffect(() => {
+    dispatch(resetChatBox());
+  }, [selectedChannel?._id, dispatch]);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.heading}>
         <div className={styles.profileImg}>
           <img src={defaultProfileImage} alt={"follower"} />
         </div>
-        <span>Name</span>
+        <span>{selectedChannel?.channelName ?? "No Channel Selected"}</span>
       </div>
       <div id="messageScrollableDiv" className={styles.chatSection}>
         <InfiniteScroll
@@ -74,6 +99,7 @@ const RightPane = () => {
               dispatch
             )
           }
+          style={{ display: "flex", flexDirection: "column-reverse" }}
           inverse={true}
           hasMore={chatBoxState?.hasNext}
           loader={<h4>Loading...</h4>}
@@ -89,8 +115,21 @@ const RightPane = () => {
           placeholder={`Enter your Message`}
           className={styles.input}
           type="text"
+          value={selectedChannel?.message ?? ""}
+          onChange={(e) => {
+            dispatch(addMessageInChannel({ message: e.target.value }));
+          }}
         />
-        <FaWolfPackBattalion size={40} />
+        <FaWolfPackBattalion
+          onClick={() =>
+            addMessageInChatBox(
+              selectedChannel?.message,
+              selectedChannel?.channelId,
+              dispatch
+            )
+          }
+          size={40}
+        />
       </div>
     </div>
   );

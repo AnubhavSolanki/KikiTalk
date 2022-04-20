@@ -34,6 +34,8 @@
 .chatSection {
   height: calc(100% - 136px);
   overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .footer {

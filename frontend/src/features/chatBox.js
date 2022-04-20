@@ -8,15 +8,20 @@ export const chatBoxSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     addMessage: (state, action) => {
-      state.messages = [...action.payload.messages, ...state.messages];
+      state.messages.push(...action.payload.messages);
       state.hasNext = action.payload.hasNext ?? state.hasNext;
       return state;
     },
-    resetChatBox: (state) => INITIAL_STATE,
+    addNewMessages: (state, action) => {
+      state.messages = [...action.payload.messages, ...state.messages];
+      return state;
+    },
+    resetChatBox: () => INITIAL_STATE,
   },
 });
 
-export const { addMessage, resetChatBox } = chatBoxSlice.actions;
+export const { addMessage, resetChatBox, addNewMessages } =
+  chatBoxSlice.actions;
 
 export const getChatBoxState = (state) => state.chatBoxState;
 
