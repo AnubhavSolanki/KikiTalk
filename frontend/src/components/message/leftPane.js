@@ -46,7 +46,7 @@ const LeftPane = () => {
     if (channelState.channelIdList.length === 0) {
       fetchChannels(channelState.channelIdList, dispatch);
     }
-  });
+  }, []);
 
   return (
     <div className={styles.wrapper}>

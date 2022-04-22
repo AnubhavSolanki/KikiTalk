@@ -11,7 +11,7 @@ import styles from "./allPosts.module.css";
 const fetchPostsWithId = async (posts, dispatch, id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const limit = 10;
+      const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/allPostsWithId`,
         {

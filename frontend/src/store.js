@@ -8,6 +8,7 @@ import allPostsReducer from "./features/allPosts";
 import notificationsReducer from "./features/notifications";
 import channelReducer from "./features/channels";
 import chatBoxReducer from "./features/chatBox";
+import socketReducer from "./features/socketSlice";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -18,6 +19,7 @@ const combinedReducer = combineReducers({
   notificationsState: notificationsReducer,
   channelState: channelReducer,
   chatBoxState: chatBoxReducer,
+  socketState: socketReducer,
 });
 
 const rootReducer = (state, action) => {
@@ -29,5 +31,8 @@ const rootReducer = (state, action) => {
 
 export default configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(logger),
 });

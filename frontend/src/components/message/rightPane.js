@@ -4,10 +4,11 @@ import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { FaWolfPackBattalion } from "react-icons/fa";
 import Bubble from "./bubble";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { get, post } from "../../utils/requests";
+import { get } from "../../utils/requests";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addMessage,
+  addNewMessages,
   getChatBoxState,
   resetChatBox,
 } from "../../features/chatBox";
@@ -15,6 +16,8 @@ import {
   addMessageInChannel,
   getSelectedChannel,
 } from "../../features/channels";
+import { selectUser } from "../../features/userSlice";
+import { getSocket } from "../../features/socketSlice";
 
 const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -48,18 +51,10 @@ const fetchMessages = (messages, senderId, dispatch) => {
   });
 };
 
-const addMessageInChatBox = (message, recieverId, dispatch) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      await post(`${process.env.REACT_APP_BASE_URL}/addMessage`, {
-        message,
-        recieverId,
-      });
-      dispatch(addMessageInChannel({ message: "" }));
-    } catch (err) {
-      console.log(err);
-      reject(false);
-    }
+const addMessageInChatBox = (message, recieverId, socket) => {
+  socket.emit("Send Message", {
+    recieverId,
+    message,
   });
 };
 
@@ -67,6 +62,8 @@ const RightPane = () => {
   const dispatch = useDispatch();
   const chatBoxState = useSelector(getChatBoxState);
   const selectedChannel = useSelector(getSelectedChannel);
+  const socket = useSelector(getSocket);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (chatBoxState.messages.length === 0)
@@ -77,13 +74,49 @@ const RightPane = () => {
     dispatch(resetChatBox());
   }, [selectedChannel?._id, dispatch]);
 
+  useEffect(() => {
+    if (socket && user?.id) {
+      socket.on(user?.id, (data) => {
+        if (selectedChannel?._id === data.recieverId) {
+          dispatch(addNewMessages({ messages: [data] }));
+        }
+      });
+    }
+  }, [dispatch, selectedChannel?._id, socket, user?.id]);
+
+  const generateFooter = () => {
+    return (
+      <div className={styles.footer}>
+        <input
+          placeholder={`Enter your Message`}
+          className={styles.input}
+          type="text"
+          value={selectedChannel?.message ?? ""}
+          onChange={(e) => {
+            dispatch(addMessageInChannel({ message: e.target.value }));
+          }}
+        />
+        <FaWolfPackBattalion
+          onClick={() =>
+            addMessageInChatBox(
+              selectedChannel?.message,
+              selectedChannel?._id,
+              socket
+            )
+          }
+          size={40}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.heading}>
         <div className={styles.profileImg}>
           <img src={defaultProfileImage} alt={"follower"} />
         </div>
-        <span>{selectedChannel?.channelName ?? "No Channel Selected"}</span>
+        <span>{selectedChannel?.full_name ?? "No Channel Selected"}</span>
       </div>
       <div id="messageScrollableDiv" className={styles.chatSection}>
         <InfiniteScroll
@@ -106,27 +139,7 @@ const RightPane = () => {
           })}
         </InfiniteScroll>
       </div>
-      <div className={styles.footer}>
-        <input
-          placeholder={`Enter your Message`}
-          className={styles.input}
-          type="text"
-          value={selectedChannel?.message ?? ""}
-          onChange={(e) => {
-            dispatch(addMessageInChannel({ message: e.target.value }));
-          }}
-        />
-        <FaWolfPackBattalion
-          onClick={() =>
-            addMessageInChatBox(
-              selectedChannel?.message,
-              selectedChannel?._id,
-              dispatch
-            )
-          }
-          size={40}
-        />
-      </div>
+      {selectedChannel && generateFooter()}
     </div>
   );
 };

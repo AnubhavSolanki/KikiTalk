@@ -1,4 +1,3 @@
-var qs = require("qs");
 const { verifyJWTToken, decodeToken } = require("../services/jwtService");
 const { getEnvironment } = require("../util/getEnvironment");
 
@@ -22,4 +21,24 @@ const verifyToken = (req, res, next) => {
   return next();
 };
 
-module.exports = verifyToken;
+const verifySocketRequest = (socket, next) => {
+  try {
+    const token = socket.handshake.auth.token;
+    if (getEnvironment() === "dev") {
+      socket.user = decodeToken(token, process.env.TOKEN_KEY);
+      console.log("scoket user", socket.user);
+      return next();
+    }
+    if (!token) {
+      next(new Error("Token not found"));
+    }
+    const decoded = verifyJWTToken(token, process.env.TOKEN_KEY);
+    socket.user = decoded;
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+  next();
+};
+
+module.exports = { verifyToken, verifySocketRequest };

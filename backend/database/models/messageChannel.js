@@ -6,15 +6,9 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    channelId: {
-      type: String,
-    },
-    channelName: {
+    friendId: {
       type: String,
       required: true,
-    },
-    channelImage: {
-      type: String,
     },
   },
   { timestamps: true }
