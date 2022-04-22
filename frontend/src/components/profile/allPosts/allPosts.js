@@ -7,6 +7,7 @@ import { get } from "../../../utils/requests";
 import { addPosts, getAllPostsState } from "../../../features/allPosts";
 import { selectUser } from "../../../features/userSlice";
 import styles from "./allPosts.module.css";
+import { getProfileState } from "../../../features/profileSlice";
 
 const fetchPostsWithId = async (posts, dispatch, id) => {
   return new Promise(async (resolve, reject) => {
@@ -35,29 +36,23 @@ const fetchPostsWithId = async (posts, dispatch, id) => {
   });
 };
 
-const AllPosts = ({ profileId }) => {
+const AllPosts = () => {
   const dispatch = useDispatch();
   const postState = useSelector(getAllPostsState);
+  const profileState = useSelector(getProfileState);
+
   const user = useSelector(selectUser);
   useEffect(() => {
     if (postState.posts.length === 0 && user) {
-      fetchPostsWithId(
-        postState.posts,
-        dispatch,
-        profileId === "" ? user.id : profileId
-      );
+      fetchPostsWithId(postState.posts, dispatch, profileState?.id);
     }
-  }, [dispatch, postState.posts, profileId, user, user.id]);
+  }, [dispatch, postState.posts, profileState?.id, user, user.id]);
   return (
     <div id="allPostScrollableDiv" className={styles.wrapper}>
       <InfiniteScroll
         dataLength={postState.posts.length}
         next={() =>
-          fetchPostsWithId(
-            postState.posts,
-            dispatch,
-            profileId === "" ? user.id : profileId
-          )
+          fetchPostsWithId(postState.posts, dispatch, profileState?.id)
         }
         hasMore={postState.hasNext}
         loader={<h4>Loading...</h4>}

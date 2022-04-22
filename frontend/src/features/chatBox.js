@@ -13,7 +13,12 @@ export const chatBoxSlice = createSlice({
       return state;
     },
     addNewMessages: (state, action) => {
-      state.messages = [...action.payload.messages, ...state.messages];
+      if (
+        !state.messages.find(
+          (message) => message._id === action.payload.messages[0]?._id
+        )
+      )
+        state.messages = [...action.payload.messages, ...state.messages];
       return state;
     },
     resetChatBox: () => INITIAL_STATE,

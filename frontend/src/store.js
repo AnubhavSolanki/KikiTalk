@@ -9,6 +9,7 @@ import notificationsReducer from "./features/notifications";
 import channelReducer from "./features/channels";
 import chatBoxReducer from "./features/chatBox";
 import socketReducer from "./features/socketSlice";
+import profileReducer from "./features/profileSlice";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -20,6 +21,7 @@ const combinedReducer = combineReducers({
   channelState: channelReducer,
   chatBoxState: chatBoxReducer,
   socketState: socketReducer,
+  profileState: profileReducer,
 });
 
 const rootReducer = (state, action) => {

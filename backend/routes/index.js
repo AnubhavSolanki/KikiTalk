@@ -22,8 +22,11 @@ const {
 } = require("../controllers/forgotPasswordController");
 
 const checkBlackListToken = require("../middleware/checkBlacklistToken");
-const { searchUserController } = require("../controllers/userController");
-const { addFollower } = require("../controllers/followerController");
+const {
+  searchUserController,
+  getProfileDetail,
+} = require("../controllers/userController");
+const { toggleFollower } = require("../controllers/followerController");
 const { getNotifications } = require("../controllers/notifications.controller");
 
 const {
@@ -48,6 +51,7 @@ router.get("/allPostsWithId", verifyToken, getPostWithId);
 router.get("/latestNotifications", verifyToken, getNotifications);
 router.get("/latestMessages", verifyToken, getLatestMessages);
 router.get("/channelIds", verifyToken, getMessageChannels);
+router.get("/profileDetail", verifyToken, getProfileDetail);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);
@@ -59,7 +63,7 @@ router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
 router.post("/addLikes", verifyToken, addLikes);
 router.post("/removeLikes", verifyToken, removeLikes);
-router.post("/follower", verifyToken, addFollower);
+router.post("/follower", verifyToken, toggleFollower);
 router.post("/addMessage", verifyToken, addMessage);
 
 module.exports = router;

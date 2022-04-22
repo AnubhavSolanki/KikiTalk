@@ -2,16 +2,17 @@ const { getPaginatedData } = require("../database/methods/getPaginatedData");
 const messageChannel = require("../database/models/messageChannel");
 const { printError } = require("../services/coloredPrint");
 const { getUserId } = require("../util/getUserId");
+const { findUsers } = require("./userController");
 
-const findDeleteAndCreateNew = (condition) => {
-  messageChannel.findOneAndDelete(condition);
-  messageChannel.create(condition);
+const findDeleteAndCreateNew = async (condition) => {
+  await messageChannel.findOneAndDelete(condition);
+  await messageChannel.create(condition);
 };
 
-const addMessageChannelInDatabase = (friendId, myId) => {
+const addMessageChannelInDatabase = async (friendId, myId) => {
   try {
-    findDeleteAndCreateNew({ userId: myId, friendId });
-    findDeleteAndCreateNew({ userId: friendId, friendId: myId });
+    await findDeleteAndCreateNew({ userId: myId, friendId });
+    await findDeleteAndCreateNew({ userId: friendId, friendId: myId });
   } catch (err) {
     printError(err);
   }
@@ -27,7 +28,10 @@ const getMessageChannels = async (req, res) => {
       page,
       size,
       true
-    );
+    ).then(async ({ pageData, hasNext }) => {
+      pageData = await findUsers(pageData.map((data) => data.friendId));
+      return { pageData, hasNext };
+    });
     res.status(200).json({ channelIdList: pageData, hasNext });
   } catch (err) {}
 };

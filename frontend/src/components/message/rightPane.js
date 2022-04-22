@@ -51,13 +51,6 @@ const fetchMessages = (messages, senderId, dispatch) => {
   });
 };
 
-const addMessageInChatBox = (message, recieverId, socket) => {
-  socket.emit("Send Message", {
-    recieverId,
-    message,
-  });
-};
-
 const RightPane = () => {
   const dispatch = useDispatch();
   const chatBoxState = useSelector(getChatBoxState);
@@ -76,13 +69,31 @@ const RightPane = () => {
 
   useEffect(() => {
     if (socket && user?.id) {
-      socket.on(user?.id, (data) => {
-        if (selectedChannel?._id === data.recieverId) {
-          dispatch(addNewMessages({ messages: [data] }));
-        }
+      socket.on(`${user.id}`, (data) => {
+        dispatch(
+          addNewMessages({
+            messages: [
+              { ...data, id: selectedChannel?._id === data.recieverId },
+            ],
+          })
+        );
       });
     }
   }, [dispatch, selectedChannel?._id, socket, user?.id]);
+
+  const addMessageInChatBox = (message, recieverId) => {
+    socket.emit("Send Message", {
+      recieverId,
+      message,
+    });
+
+    dispatch(
+      addNewMessages({
+        messages: [{ message, senderId: user.id, recieverId, id: 1 }],
+      })
+    );
+    dispatch(addMessageInChannel({ message: "" }));
+  };
 
   const generateFooter = () => {
     return (
@@ -98,11 +109,7 @@ const RightPane = () => {
         />
         <FaWolfPackBattalion
           onClick={() =>
-            addMessageInChatBox(
-              selectedChannel?.message,
-              selectedChannel?._id,
-              socket
-            )
+            addMessageInChatBox(selectedChannel?.message, selectedChannel?._id)
           }
           size={40}
         />

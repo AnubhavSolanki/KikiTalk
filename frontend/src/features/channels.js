@@ -19,11 +19,26 @@ export const channelSlice = createSlice({
       state.channelIdList[state.selected]["message"] = action.payload.message;
       return state;
     },
+    addInChannel: (state, action) => {
+      const channelId = action.payload.channel._id;
+      let index = state.channelIdList.findIndex(
+        (channel) => channel._id === channelId
+      );
+      if (index === -1) {
+        state.channelIdList.unshift(action.payload.channel);
+        index = 0;
+      }
+      state.selected = index;
+    },
   },
 });
 
-export const { addChannel, selectChannelId, addMessageInChannel } =
-  channelSlice.actions;
+export const {
+  addChannel,
+  selectChannelId,
+  addInChannel,
+  addMessageInChannel,
+} = channelSlice.actions;
 
 export const getChannelState = (state) => state.channelState;
 
