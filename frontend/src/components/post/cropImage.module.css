@@ -1,7 +1,11 @@
 .wrapper {
   max-width: 70vw;
-  height: 90vh;
+  max-height: 90vh;
   overflow: auto;
+}
+
+.round_border {
+  border-radius: 50%;
 }
 
 .addPost {

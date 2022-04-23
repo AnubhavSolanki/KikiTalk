@@ -10,6 +10,9 @@
 }
 .profileName {
   margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .follow_btn,
 .message_btn {

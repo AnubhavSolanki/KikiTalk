@@ -17,7 +17,10 @@ const Channel = ({ channelData, index, active }) => {
       className={`${styles.wrapper} ${active ? styles.selectedChannel : ""}`}
     >
       <div className={styles.profileImg}>
-        <img src={defaultProfileImage} alt={"follower"} />
+        <img
+          src={channelData.profileImageUrl ?? defaultProfileImage}
+          alt={"follower"}
+        />
       </div>
       <div className={styles.rightSection}>
         <span>{channelData?.full_name ?? "Name"}</span>

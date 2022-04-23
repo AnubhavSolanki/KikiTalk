@@ -22,11 +22,11 @@ const CreatePost = () => {
       </div>
       <form
         onClick={() => {
-          document.querySelector('input[type="file"]').click();
+          document.querySelector("#postInput").click();
         }}
         className={styles.container}
       >
-        <input hidden type="file" onChange={onSubmit} />
+        <input id="postInput" hidden type="file" onChange={onSubmit} />
         <FaImage size={70} />
         <span className={styles.instruction}>Click above to browse images</span>
       </form>

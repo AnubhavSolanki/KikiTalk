@@ -18,10 +18,12 @@ const ProfileContainer = ({ userData, history }) => {
       }}
     >
       <div className={styles.profileImage}>
-        <img alt="profile" src={defaultProfileImage} />
+        <img
+          alt="profile"
+          src={userData.profileImageUrl ?? defaultProfileImage}
+        />
       </div>
       <div className={styles.profileInfo}>
-        <span>{userData.username ?? "No Username"}</span>
         <span>{userData.full_name}</span>
       </div>
     </div>

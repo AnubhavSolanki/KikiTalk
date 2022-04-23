@@ -26,12 +26,26 @@ export const profileSlice = createSlice({
       state.id = action.payload.id;
       return state;
     },
+    updateProfileNameInStore: (state, action) => {
+      state.name = action.payload.name;
+      return state;
+    },
+    addProfileImage: (state, action) => {
+      state.imgUrl = action.payload.imgUrl;
+      return state;
+    },
     resetProfile: () => INITIAL_STATE,
   },
 });
 
-export const { addProfile, toggleFollow, resetProfile, addProfileId } =
-  profileSlice.actions;
+export const {
+  addProfile,
+  toggleFollow,
+  updateProfileNameInStore,
+  resetProfile,
+  addProfileId,
+  addProfileImage,
+} = profileSlice.actions;
 
 export const getProfileState = (state) => state.profileState;
 

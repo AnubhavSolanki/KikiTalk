@@ -5,10 +5,7 @@ import styles from "./singlePostCard.module.css";
 export const SinglePostCard = ({ postData }) => {
   return (
     <div className={styles.wrapper}>
-      <img
-        alt="card"
-        src={postData?.data?.medium?.url ?? defaultProfileImage}
-      />
+      <img alt="card" src={postData?.data?.url ?? defaultProfileImage} />
     </div>
   );
 };

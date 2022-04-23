@@ -3,13 +3,11 @@ import styles from "./cropImage.module.css";
 import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import { canvasPreview } from "./canvasPreview";
 import "react-image-crop/dist/ReactCrop.css";
-import { convertImagetoBase64 } from "../../utils/imgToBase64";
 import { post } from "../../utils/requests";
 import { useDispatch } from "react-redux";
 import { addPost } from "../../features/postSlice";
 import { removeModal } from "../../utils/createModal";
 import { promiseToast } from "../../utils/toaster";
-
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
     makeAspectCrop(
@@ -26,14 +24,23 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   );
 }
 
-const CropImage = ({ imgSrc }) => {
+const CropImage = ({ imgSrc, options }) => {
+  options = options ?? {
+    api: `${process.env.REACT_APP_BASE_URL}/addContent`,
+    want_caption: true,
+    aspect: 1,
+    dispatchFunc: (response) =>
+      addPost({
+        post: response.data,
+      }),
+  };
   const [crop, setCrop] = useState();
   const previewCanvasRef = useRef(null);
   const [output, setOutput] = useState(null);
   const [caption, setCaption] = useState("");
   const dispatch = useDispatch();
   const imgRef = useRef(null);
-  const aspect = 3 / 5;
+  const aspect = options.aspect;
   function onImageLoad(e) {
     if (aspect) {
       const { width, height } = e.currentTarget;
@@ -72,7 +79,7 @@ const CropImage = ({ imgSrc }) => {
       base64,
       description: caption,
     };
-    return await post(`${process.env.REACT_APP_BASE_URL}/addContent`, data);
+    return await post(options.api, data);
   };
 
   const handlePost = async () => {
@@ -83,11 +90,7 @@ const CropImage = ({ imgSrc }) => {
           .toDataURL("image/jpeg")
           .split(";base64,")[1];
         const response = await saveToDatabase(base64);
-        dispatch(
-          addPost({
-            post: response.data,
-          })
-        );
+        dispatch(options.dispatchFunc(response));
         resolve();
       } catch (err) {
         console.log(err);
@@ -105,14 +108,18 @@ const CropImage = ({ imgSrc }) => {
   function generateAddPost() {
     return (
       <div className={styles.addPost}>
-        <p>Add Caption</p>
-        <textarea
-          onChange={(e) => setCaption(e.target.value)}
-          id="w3review"
-          name="w3review"
-          rows="4"
-          cols="50"
-        ></textarea>
+        {options.want_caption && (
+          <>
+            <p>Add Caption</p>
+            <textarea
+              onChange={(e) => setCaption(e.target.value)}
+              id="w3review"
+              name="w3review"
+              rows="4"
+              cols="50"
+            ></textarea>{" "}
+          </>
+        )}
         <button onClick={handlePost}>Post</button>
       </div>
     );

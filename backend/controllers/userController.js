@@ -3,6 +3,7 @@ const content = require("../database/models/content");
 const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { createFuzzySearcher } = require("../services/fuzzySearchService");
+const { uploadImage } = require("../services/imgbbService");
 const { getUserId } = require("../util/getUserId");
 const {
   getMyFollowersCount,
@@ -82,6 +83,34 @@ const getProfileDetail = async (req, res) => {
   }
 };
 
+const updateProfileName = async (req, res) => {
+  try {
+    const { full_name } = req.body;
+    const myID = getUserId(res);
+    const response = await findUserAndUpdate({ _id: myID }, { full_name });
+    res.status(200).json({ name: response.full_name });
+  } catch (error) {
+    printError(error.message);
+    res.status(404).json(error.message);
+  }
+};
+
+const updateProfileImage = async (req, res) => {
+  try {
+    const { base64 } = req.body;
+    const userId = getUserId(res);
+    const profileImageUrl = (await uploadImage(base64)).url;
+    const response = await findUserAndUpdate(
+      { _id: userId },
+      { profileImageUrl }
+    );
+    res.status(200).json({ imgUrl: response.profileImageUrl });
+  } catch (error) {
+    printError(error.message);
+    res.status(404).json(error.message);
+  }
+};
+
 module.exports = {
   addUser,
   findOneUser,
@@ -90,4 +119,6 @@ module.exports = {
   searchUserController,
   findUsers,
   getProfileDetail,
+  updateProfileName,
+  updateProfileImage,
 };

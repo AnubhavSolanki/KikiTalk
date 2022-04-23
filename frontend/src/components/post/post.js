@@ -1,12 +1,6 @@
 import React from "react";
 import styles from "./post.module.css";
-import {
-  FaEllipsisV,
-  FaHeart,
-  FaRegComment,
-  FaRegHeart,
-  FaRegPaperPlane,
-} from "react-icons/fa";
+import { FaEllipsisV, FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
 import Comment from "../comment/comment";
 import TimeAgo from "timeago-react";
 import { post } from "../../utils/requests";

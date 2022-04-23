@@ -128,7 +128,10 @@ const RightPane = () => {
     <div className={styles.wrapper}>
       <div className={styles.heading}>
         <div className={styles.profileImg}>
-          <img src={defaultProfileImage} alt={"follower"} />
+          <img
+            src={selectedChannel?.profileImageUrl ?? defaultProfileImage}
+            alt={"follower"}
+          />
         </div>
         <span>{selectedChannel?.full_name ?? "No Channel Selected"}</span>
       </div>

@@ -25,6 +25,8 @@ const checkBlackListToken = require("../middleware/checkBlacklistToken");
 const {
   searchUserController,
   getProfileDetail,
+  updateProfileName,
+  updateProfileImage,
 } = require("../controllers/userController");
 const { toggleFollower } = require("../controllers/followerController");
 const { getNotifications } = require("../controllers/notifications.controller");
@@ -66,5 +68,6 @@ router.post("/addLikes", verifyToken, addLikes);
 router.post("/removeLikes", verifyToken, removeLikes);
 router.post("/follower", verifyToken, toggleFollower);
 router.post("/addMessage", verifyToken, addMessage);
-
+router.post("/updateProfileName", verifyToken, updateProfileName);
+router.post("/updateProfileImage", verifyToken, updateProfileImage);
 module.exports = router;
