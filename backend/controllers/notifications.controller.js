@@ -12,13 +12,18 @@ const getNotifications = async (req, res) => {
       size,
       true
     );
-    res.status(200).json({ posts: pageData, hasNext });
+    res.status(200).json({ notifications: pageData, hasNext });
   } catch (error) {
     printError(error);
     res.status(400).send(error);
   }
 };
 
+const addNotifications = async (notificationText, userId) => {
+  return await notification.create({ notificationText, userId });
+};
+
 module.exports = {
   getNotifications,
+  addNotifications,
 };

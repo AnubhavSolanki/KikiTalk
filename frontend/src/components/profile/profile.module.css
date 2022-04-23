@@ -11,7 +11,15 @@
 .profileName {
   margin: auto;
 }
-.follow_btn {
+.follow_btn,
+.message_btn {
+  background: white;
+  outline: none;
+  border: none;
+  padding: 7px;
+  font-size: 14px;
+  font-family: monospace;
+  font-weight: 600;
 }
 .headerWrapper {
   display: flex;

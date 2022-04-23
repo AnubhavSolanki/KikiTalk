@@ -85,9 +85,6 @@ const Post = ({ postData, index }) => {
           <div onClick={openPostContainer} className={styles.comment}>
             <FaRegComment size={25} />
           </div>
-          <div className={styles.share}>
-            <FaRegPaperPlane size={25} />
-          </div>
         </div>
         <div>
           <span>{getLikeCount()} likes</span>

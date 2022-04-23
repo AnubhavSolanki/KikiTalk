@@ -1,5 +1,8 @@
 const follower = require("../database/models/follower");
+const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
+const { addNotifications } = require("./notifications.controller");
+const { findOneUser } = require("./userController");
 
 const findMyFollower = async (condition) => {
   try {
@@ -26,6 +29,11 @@ const toggleFollower = async (req, res) => {
       isFollower = true;
       await follower.create(req.body);
     }
+    const followerDetail = await user.findOne({ _id: req.body.followerId });
+    const notificationText = `${followerDetail.full_name} has ${
+      isFollower ? "followed" : "unfollowed"
+    } you`;
+    await addNotifications(notificationText, req.body.userId);
     res.json({ message: "Follower toggled successfully", isFollower });
   } catch (error) {
     printError(error);

@@ -1,4 +1,19 @@
 .wrapper {
-  height: 60vh;
+  height: calc(100% - 74px);
   overflow: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-size: larger;
+  font-weight: 500;
+  font-family: serif;
+  border-bottom: 1px solid;
+  padding: 8px 0px;
+  margin-bottom: 17px;
+  font-size: 24px;
 }

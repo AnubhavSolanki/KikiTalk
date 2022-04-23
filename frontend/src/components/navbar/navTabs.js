@@ -22,10 +22,10 @@ export const navTabs = [
     name: "Add Post",
     onClick: () => createModal(<CreatePost />),
   },
-  {
-    name: "Notifications",
-    onClick: ({ history }) => history.push("/notifications"),
-  },
+  // {
+  //   name: "Notifications",
+  //   onClick: ({ history }) => history.push("/notifications"),
+  // },
   {
     name: "Message",
     onClick: ({ history }) => history.push("/message"),

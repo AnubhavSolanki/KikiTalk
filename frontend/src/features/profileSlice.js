@@ -19,6 +19,7 @@ export const profileSlice = createSlice({
     },
     toggleFollow: (state, action) => {
       state.isFollowed = action.payload.isFollower;
+      state.follower = state.follower + (action.payload.isFollower ? 1 : -1);
       return state;
     },
     resetProfile: () => INITIAL_STATE,

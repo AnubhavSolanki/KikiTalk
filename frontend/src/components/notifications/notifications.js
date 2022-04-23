@@ -13,7 +13,7 @@ import { selectUser } from "../../features/userSlice";
 const fetchNotifications = (notifications, dispatch, id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const limit = 2;
+      const limit = 20;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestNotifications`,
         {
@@ -47,21 +47,32 @@ const Notifications = () => {
     }
   });
   return (
-    <div id="notificationsScrollableDiv" className={styles.wrapper}>
-      <InfiniteScroll
-        dataLength={notificationState.notifications.length}
-        next={() =>
-          fetchNotifications(notificationState.notifications, dispatch, user.id)
-        }
-        hasMore={notificationState.hasNext}
-        loader={<h4>Loading...</h4>}
-        scrollableTarget="notificationsScrollableDiv"
-      >
-        {notificationState.notifications.map((post, index) => {
-          return <div key={index} index={index} />;
-        })}
-      </InfiniteScroll>
-    </div>
+    <>
+      <div className={styles.heading}>Notifications</div>
+      <div id="notificationsScrollableDiv" className={styles.wrapper}>
+        <InfiniteScroll
+          dataLength={notificationState.notifications.length}
+          next={() =>
+            fetchNotifications(
+              notificationState.notifications,
+              dispatch,
+              user.id
+            )
+          }
+          hasMore={notificationState.hasNext}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="notificationsScrollableDiv"
+        >
+          {notificationState.notifications.map((notification, index) => {
+            return (
+              <div key={index} index={index}>
+                {notification.notificationText}
+              </div>
+            );
+          })}
+        </InfiniteScroll>
+      </div>
+    </>
   );
 };
 

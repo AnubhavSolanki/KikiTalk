@@ -102,7 +102,12 @@ const Profile = () => {
                   {profileState.isFollowed ? "Unfollow" : "Follow"}
                 </button>
                 {profileState.isFollowed && (
-                  <button onClick={messageProfile}>Message</button>
+                  <button
+                    className={styles.message_btn}
+                    onClick={messageProfile}
+                  >
+                    Message
+                  </button>
                 )}
               </>
             )}

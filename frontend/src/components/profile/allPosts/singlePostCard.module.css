@@ -1,6 +1,10 @@
+:root {
+  --times: 80;
+}
+
 .wrapper {
-  width: 250px;
-  height: 155px;
+  width: calc(3.5px * var(--times));
+  height: calc(4.5px * var(--times));
 }
 
 .wrapper img {
