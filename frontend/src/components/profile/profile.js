@@ -158,13 +158,15 @@ const Profile = () => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.headerWrapper}>
-          <div className={styles.profileImage}>
+          <div
+            className={styles.profileImage}
+            onClick={() => {
+              document.querySelector("#profileInput").click();
+            }}
+          >
             <img
               alt="profile"
               src={profileState?.imgUrl ?? defaultProfileImage}
-              onClick={() => {
-                document.querySelector("#profileInput").click();
-              }}
             />
             <input id="profileInput" hidden type="file" onChange={addImage} />
           </div>

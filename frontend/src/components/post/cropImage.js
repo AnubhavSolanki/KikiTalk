@@ -28,7 +28,7 @@ const CropImage = ({ imgSrc, options }) => {
   options = options ?? {
     api: `${process.env.REACT_APP_BASE_URL}/addContent`,
     want_caption: true,
-    aspect: 1,
+    aspect: 3.5 / 4.5,
     dispatchFunc: (response) =>
       addPost({
         post: response.data,

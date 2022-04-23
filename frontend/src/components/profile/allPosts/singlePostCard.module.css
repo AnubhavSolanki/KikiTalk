@@ -1,10 +1,10 @@
-:root {
-  --times: 80;
+body {
+  --profilePostSizeFactor: 80;
 }
 
 .wrapper {
-  width: calc(3.5px * var(--times));
-  height: calc(4.5px * var(--times));
+  width: calc(3.5px * var(--profilePostSizeFactor));
+  height: calc(4.5px * var(--profilePostSizeFactor));
 }
 
 .wrapper img {
