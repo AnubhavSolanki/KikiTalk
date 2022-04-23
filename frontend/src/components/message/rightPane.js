@@ -106,6 +106,13 @@ const RightPane = () => {
           onChange={(e) => {
             dispatch(addMessageInChannel({ message: e.target.value }));
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter")
+              addMessageInChatBox(
+                selectedChannel?.message,
+                selectedChannel?._id
+              );
+          }}
         />
         <FaWolfPackBattalion
           onClick={() =>
