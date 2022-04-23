@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import styles from "./profile.module.css";
 import { selectUser } from "../../features/userSlice";
@@ -6,11 +6,11 @@ import {
   addProfile,
   getProfileState,
   toggleFollow,
+  resetProfile,
 } from "../../features/profileSlice";
 import { addInChannel } from "../../features/channels";
 import { useDispatch, useSelector } from "react-redux";
 import { post } from "../../utils/requests";
-import * as queryString from "query-string";
 import AllPosts from "./allPosts/allPosts";
 import { get } from "../../utils/requests";
 import { useHistory } from "react-router-dom";
@@ -42,9 +42,15 @@ const Profile = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const id = queryString.parse(window.location.search)?.id;
-    fetchProfileInfo(id ?? user.id, dispatch);
-  }, [dispatch, user.id]);
+    if (profileState.id) fetchProfileInfo(profileState?.id, dispatch);
+    else if (user?.id) fetchProfileInfo(user?.id, dispatch);
+  }, [dispatch, profileState?.id]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetProfile());
+    };
+  }, []);
 
   const toggleFollowMethod = async () => {
     try {

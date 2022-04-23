@@ -4,8 +4,11 @@ import { SinglePostCard } from "./singlePostCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { get } from "../../../utils/requests";
-import { addPosts, getAllPostsState } from "../../../features/allPosts";
-import { selectUser } from "../../../features/userSlice";
+import {
+  addPosts,
+  getAllPostsState,
+  resetAllPosts,
+} from "../../../features/allPosts";
 import styles from "./allPosts.module.css";
 import { getProfileState } from "../../../features/profileSlice";
 
@@ -41,12 +44,13 @@ const AllPosts = () => {
   const postState = useSelector(getAllPostsState);
   const profileState = useSelector(getProfileState);
 
-  const user = useSelector(selectUser);
   useEffect(() => {
-    if (postState.posts.length === 0 && user) {
-      fetchPostsWithId(postState.posts, dispatch, profileState?.id);
-    }
-  }, [dispatch, postState.posts, profileState?.id, user, user.id]);
+    fetchPostsWithId(postState.posts, dispatch, profileState?.id);
+    return () => {
+      dispatch(resetAllPosts());
+    };
+  }, [profileState?.id]);
+
   return (
     <div id="allPostScrollableDiv" className={styles.wrapper}>
       <InfiniteScroll

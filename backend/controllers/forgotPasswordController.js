@@ -2,7 +2,7 @@ const forgotPassword = require("../database/models/forgotPassword");
 const { sendMessage } = require("../services/mailService");
 const { printError } = require("../services/coloredPrint");
 const blackListToken = require("../database/models/blackListToken");
-const { findUserAndUpdate } = require("./userController");
+const { findUserAndUpdate, findOneUser } = require("./userController");
 const { generateOTP } = require("../services/otpGeneratorService");
 const { createToken } = require("../services/jwtService");
 

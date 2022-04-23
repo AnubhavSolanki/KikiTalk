@@ -4,7 +4,6 @@ const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { createFuzzySearcher } = require("../services/fuzzySearchService");
 const { getUserId } = require("../util/getUserId");
-const { getMyPostCount } = require("./contentController");
 const {
   getMyFollowersCount,
   getMyFollowingsCount,
@@ -37,6 +36,7 @@ const searchUserController = async (req, res) => {
     const fuzzySearchKeys = ["full_name"];
     const hayStackfields = ["full_name", "profileImageUrl", "_id", "username"];
     const users = await getAllUsers();
+    const userId = getUserId(res);
     const userSearcher = await createFuzzySearcher(
       fuzzySearchKeys,
       hayStackfields,
@@ -47,7 +47,9 @@ const searchUserController = async (req, res) => {
     const hasNext = response.length > offset + limit;
     res.status(200).json({
       hasNext,
-      searchResult: response.slice(offset, offset + limit),
+      searchResult: response
+        .filter((data) => data._id != userId)
+        .slice(offset, offset + limit),
     });
   } catch (err) {
     printError(err.message);

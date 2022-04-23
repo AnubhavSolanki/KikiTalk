@@ -2,7 +2,6 @@ const follower = require("../database/models/follower");
 const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { addNotifications } = require("./notifications.controller");
-const { findOneUser } = require("./userController");
 
 const findMyFollower = async (condition) => {
   try {

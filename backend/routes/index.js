@@ -38,7 +38,8 @@ const {
 } = require("../controllers/messageChannelController");
 
 router.use(cors());
-router.use(express.urlencoded({ extended: false }));
+router.use(express.urlencoded({ extended: false, limit: "50mb" }));
+router.use(express.json({ limit: "50mb" }));
 
 router.get("/", (req, res) => {
   res.send("hello world!!!");

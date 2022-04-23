@@ -65,7 +65,7 @@ function App() {
               <Route path="/home">
                 <Home />
               </Route>
-              <Route path="/profile/:id?">
+              <Route path="/profile">
                 <Profile />
               </Route>
               <Route path="/notifications">

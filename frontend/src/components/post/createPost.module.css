@@ -1,6 +1,9 @@
 .wrapper {
   width: 40vw;
-  height: 80vh;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 .container {
   display: flex;
@@ -9,6 +12,7 @@
   align-items: center;
   flex-direction: column;
   gap: 1em;
+  cursor: pointer;
 }
 
 .heading {

@@ -1,0 +1,32 @@
+.wrapper {
+  max-width: 70vw;
+  height: 90vh;
+  overflow: auto;
+}
+
+.addPost {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1px;
+  gap: 10px;
+}
+
+.addPost > button {
+  width: fit-content;
+  padding: 4px 15px;
+  font-size: 13px;
+}
+.addPost > * {
+  font-family: serif;
+}
+.footer > p,
+.addPost > p {
+  font-size: 20px;
+  font-family: serif;
+}
+.addPost > p {
+  margin-bottom: 5px;
+}
+.footer {
+  padding: 10px 24px;
+}

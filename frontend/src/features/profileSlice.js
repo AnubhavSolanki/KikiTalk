@@ -22,11 +22,16 @@ export const profileSlice = createSlice({
       state.follower = state.follower + (action.payload.isFollower ? 1 : -1);
       return state;
     },
+    addProfileId: (state, action) => {
+      state.id = action.payload.id;
+      return state;
+    },
     resetProfile: () => INITIAL_STATE,
   },
 });
 
-export const { addProfile, toggleFollow, resetProfile } = profileSlice.actions;
+export const { addProfile, toggleFollow, resetProfile, addProfileId } =
+  profileSlice.actions;
 
 export const getProfileState = (state) => state.profileState;
 
