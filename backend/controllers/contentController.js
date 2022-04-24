@@ -44,38 +44,21 @@ const getPostWithId = async (req, res) => {
   }
 };
 
-const addLikes = async (req, res) => {
+const toggleLike = async (req, res) => {
   try {
-    const { postId, userId } = req.body;
-    const response = await content.findOneAndUpdate(
-      { _id: postId },
-      { $addToSet: { likedBy: userId } },
-      {
-        new: true,
+    const { postId } = req.body;
+    const userId = getUserId(res);
+    const response = await content.findOne({ _id: postId }).then((response) => {
+      console.log("bef res", response);
+      if (response.likedBy.includes(userId)) {
+        response.likedBy.splice(response.likedBy.indexOf(userId), 1);
+      } else {
+        response.likedBy.push(userId);
       }
-    );
-    res
-      .status(200)
-      .json({ message: "Like Successfully Added", data: response });
-  } catch (err) {
-    printError(error);
-    res.status(400).send(error.message);
-  }
-};
-
-const removeLikes = async (req, res) => {
-  try {
-    const { postId, userId } = req.body;
-    const response = await content.findOneAndUpdate(
-      { _id: postId },
-      { $pull: { likedBy: userId } },
-      {
-        new: true,
-      }
-    );
-    res
-      .status(200)
-      .json({ message: "Like Successfully Removed", data: response });
+      return response;
+    });
+    await content.findOneAndUpdate({ _id: postId }, response);
+    res.status(200).send(response);
   } catch (err) {
     printError(error);
     res.status(400).send(error.message);
@@ -114,6 +97,5 @@ module.exports = {
   addContent,
   getPostWithId,
   getLatestPost,
-  addLikes,
-  removeLikes,
+  toggleLike,
 };

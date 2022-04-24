@@ -5,6 +5,7 @@ body {
 .wrapper {
   width: calc(3.5px * var(--profilePostSizeFactor));
   height: calc(4.5px * var(--profilePostSizeFactor));
+  cursor: pointer;
 }
 
 .wrapper img {

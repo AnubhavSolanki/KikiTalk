@@ -6,7 +6,7 @@ import { FaTimes } from "react-icons/fa";
 import { Provider } from "react-redux";
 import store from "../store";
 
-const createModal = (component) => {
+const CreateModal = (component) => {
   ReactDOM.render(
     <Provider store={store}>
       <Modal component={component} />
@@ -32,4 +32,4 @@ class Modal extends Component {
   }
 }
 
-export default createModal;
+export default CreateModal;

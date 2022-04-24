@@ -1,5 +1,5 @@
 import { logout } from "../../features/userSlice";
-import createModal from "../../utils/createModal";
+import CreateModal from "../../utils/createModal";
 import { removeDataFromLocalStorage } from "../../utils/manageLocalStorage";
 import { successToast } from "../../utils/toaster";
 import CreatePost from "../post/createPost";
@@ -16,11 +16,11 @@ export const navTabs = [
   },
   {
     name: "Add Friends",
-    onClick: ({ history }) => createModal(<SearchFriends history={history} />),
+    onClick: ({ history }) => CreateModal(<SearchFriends history={history} />),
   },
   {
     name: "Add Post",
-    onClick: () => createModal(<CreatePost />),
+    onClick: () => CreateModal(<CreatePost />),
   },
   // {
   //   name: "Notifications",

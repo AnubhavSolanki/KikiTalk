@@ -17,7 +17,7 @@ import { post } from "../../utils/requests";
 import AllPosts from "./allPosts/allPosts";
 import { get } from "../../utils/requests";
 import { useHistory } from "react-router-dom";
-import createModal from "../../utils/createModal";
+import CreateModal from "../../utils/createModal";
 import CropImage from "../post/cropImage";
 const fetchProfileInfo = (userId, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -143,7 +143,7 @@ const Profile = () => {
         dispatchFunc: (response) => addProfileImage(response.data),
       };
       reader.addEventListener("load", () =>
-        createModal(
+        CreateModal(
           <CropImage
             imgSrc={reader.result.toString() || ""}
             options={options}

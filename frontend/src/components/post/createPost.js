@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./createPost.module.css";
-import createModal from "../../utils/createModal";
+import CreateModal from "../../utils/createModal";
 import { FaImage } from "react-icons/fa";
 import CropImage from "./cropImage";
 
@@ -9,7 +9,7 @@ const CreatePost = () => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener("load", () =>
-        createModal(<CropImage imgSrc={reader.result.toString() || ""} />)
+        CreateModal(<CropImage imgSrc={reader.result.toString() || ""} />)
       );
       if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
     }

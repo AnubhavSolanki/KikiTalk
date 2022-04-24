@@ -7,6 +7,7 @@ const {
   addLikes,
   removeLikes,
   getPostWithId,
+  toggleLike,
 } = require("../controllers/contentController");
 const { addComment, getComments } = require("../controllers/commentController");
 const {
@@ -64,8 +65,7 @@ router.post("/saveNewPassword", checkBlackListToken, saveNewPassword);
 router.post("/addContent", verifyToken, addContent);
 router.post("/addComment", verifyToken, addComment);
 router.post("/auth/loginWithToken", verifyToken, loginWithToken);
-router.post("/addLikes", verifyToken, addLikes);
-router.post("/removeLikes", verifyToken, removeLikes);
+router.post("/toggleLike", verifyToken, toggleLike);
 router.post("/follower", verifyToken, toggleFollower);
 router.post("/addMessage", verifyToken, addMessage);
 router.post("/updateProfileName", verifyToken, updateProfileName);
