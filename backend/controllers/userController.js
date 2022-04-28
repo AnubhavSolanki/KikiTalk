@@ -75,7 +75,7 @@ const getProfileDetail = async (req, res) => {
       follower,
       following,
       isMyProfile: myID === userId,
-      isFollowed: !!(await haveUserFollowed(userId, myID)),
+      isFollowed: !!(await haveUserFollowed(userId, myID)).length,
     });
   } catch (error) {
     printError(error.message);

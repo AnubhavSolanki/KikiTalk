@@ -1,15 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React from "react";
 import styles from "./navbar.module.css";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { navTabs } from "./navTabs";
+import { getActiveIndex, setActive } from "../../features/navSlice";
+import { useEffect } from "react";
 
 const Navbar = () => {
-  const [active, setActive] = useState(0);
   const history = useHistory();
+  const active = useSelector(getActiveIndex);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setActive({ index: 0 }));
+  }, []);
   return (
     <div className={styles.bar}>
       <span className={styles.logo}>KikiTalk</span>
@@ -23,7 +27,7 @@ const Navbar = () => {
                     history,
                     dispatch,
                     index,
-                    setActive,
+                    active,
                   })
                 : null
             }

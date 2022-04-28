@@ -10,6 +10,7 @@ import channelReducer from "./features/channels";
 import chatBoxReducer from "./features/chatBox";
 import socketReducer from "./features/socketSlice";
 import profileReducer from "./features/profileSlice";
+import navReducer from "./features/navSlice";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -22,6 +23,7 @@ const combinedReducer = combineReducers({
   chatBoxState: chatBoxReducer,
   socketState: socketReducer,
   profileState: profileReducer,
+  navState: navReducer,
 });
 
 const rootReducer = (state, action) => {

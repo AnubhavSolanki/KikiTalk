@@ -6,16 +6,17 @@ import { FaTimes } from "react-icons/fa";
 import { Provider } from "react-redux";
 import store from "../store";
 
-const CreateModal = (component) => {
+const CreateModal = (component, onRemoveModal = null) => {
   ReactDOM.render(
     <Provider store={store}>
-      <Modal component={component} />
+      <Modal component={component} removeModalFunction={onRemoveModal} />
     </Provider>,
     document.querySelector("#modal")
   );
 };
 
-export const removeModal = () => {
+export const removeModal = (removeModalFunction) => {
+  if (removeModalFunction) removeModalFunction();
   ReactDOM.render(<></>, document.querySelector("#modal"));
 };
 
@@ -24,7 +25,13 @@ class Modal extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.icon}>
-          <FaTimes onClick={removeModal} style={{ color: "white" }} size={30} />
+          <FaTimes
+            onClick={() => {
+              removeModal(this.props.removeModalFunction);
+            }}
+            style={{ color: "white" }}
+            size={30}
+          />
         </div>
         <div className={styles.modal_container}>{this.props.component}</div>
       </div>

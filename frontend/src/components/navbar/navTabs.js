@@ -1,3 +1,4 @@
+import { setActive } from "../../features/navSlice";
 import { logout } from "../../features/userSlice";
 import CreateModal from "../../utils/createModal";
 import { removeDataFromLocalStorage } from "../../utils/manageLocalStorage";
@@ -8,28 +9,34 @@ import SearchFriends from "../searchFriends/searchFriends";
 export const navTabs = [
   {
     name: "Home",
-    onClick: ({ history, index, setActive }) => {
-      setActive(index);
+    onClick: ({ history, index, dispatch }) => {
+      dispatch(setActive({ index }));
       history.push("/home");
     },
   },
   {
     name: "Profile",
-    onClick: ({ history, index, setActive }) => {
-      setActive(index);
+    onClick: ({ history, index, dispatch }) => {
+      dispatch(setActive({ index }));
       history.push("/profile");
     },
   },
   {
     name: "Search Friends",
-    onClick: ({ history }) => {
-      CreateModal(<SearchFriends history={history} />);
+    onClick: ({ history, index, dispatch, active }) => {
+      dispatch(setActive({ index }));
+      CreateModal(<SearchFriends history={history} />, () => {
+        dispatch(setActive({ index: active }));
+      });
     },
   },
   {
     name: "Add Post",
-    onClick: () => {
-      CreateModal(<CreatePost />);
+    onClick: ({ index, dispatch, active }) => {
+      dispatch(setActive({ index }));
+      CreateModal(<CreatePost />, () => {
+        dispatch(setActive({ index: active }));
+      });
     },
   },
   // {
@@ -38,8 +45,8 @@ export const navTabs = [
   // },
   {
     name: "Message",
-    onClick: ({ history, index, setActive }) => {
-      setActive(index);
+    onClick: ({ history, index, dispatch }) => {
+      dispatch(setActive({ index }));
       history.push("/message");
     },
   },
