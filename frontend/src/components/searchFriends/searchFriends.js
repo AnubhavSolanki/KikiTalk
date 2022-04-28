@@ -57,6 +57,7 @@ const SearchFriends = ({ history }) => {
   };
   return (
     <div className={styles.searchContainer}>
+      <h2>Search Your Friends</h2>
       <input
         onChange={handleChange}
         value={searchUserState.searchText}
@@ -85,7 +86,11 @@ const SearchFriends = ({ history }) => {
           }
           endMessage={
             searchUserState.searchResult.length === 0 ? (
-              <p align="center">Couldn't found anything</p>
+              <p align="center">
+                {searchText === ""
+                  ? `Search Your Friend Here`
+                  : `Couldn't found anything`}
+              </p>
             ) : (
               <></>
             )

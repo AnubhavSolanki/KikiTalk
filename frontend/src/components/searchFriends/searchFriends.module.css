@@ -4,7 +4,13 @@
   height: 80vh;
   display: flex;
   flex-direction: column;
-  padding: 0 15px;
+  padding: 10px 15px;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  color: white;
+}
+.searchContainer h2 {
+  margin: 0px auto;
+  margin-top: 10px;
 }
 
 .searchContainer input {
@@ -15,6 +21,8 @@
   margin: 20px auto;
   border-radius: 12px;
   padding: 0 15px;
+  outline: none;
+  border: none;
 }
 .searchResultContainer {
   overflow: auto;

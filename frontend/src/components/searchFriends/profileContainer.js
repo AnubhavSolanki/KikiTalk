@@ -10,6 +10,7 @@ const ProfileContainer = ({ userData, history }) => {
 
   return (
     <div
+      data-btn
       className={styles.profileContainer}
       onClick={() => {
         dispatch(addProfileId({ id: userData._id }));

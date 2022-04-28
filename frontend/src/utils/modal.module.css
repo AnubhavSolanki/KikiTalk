@@ -12,6 +12,7 @@
   z-index: 50;
   background-color: white;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .icon {

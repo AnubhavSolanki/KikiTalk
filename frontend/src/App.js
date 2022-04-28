@@ -52,7 +52,7 @@ function App() {
     return () => {
       window.removeEventListener("storage", checkUserData);
     };
-  });
+  }, []);
 
   return (
     <div className="App">

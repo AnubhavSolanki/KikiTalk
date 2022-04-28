@@ -21,7 +21,6 @@ const Login = () => {
     );
     if (response.status === 200) {
       successToast("Login Successfully");
-      dispatch(saveUserDetails(response?.data));
       addDataToLocalStorage({ token: response?.data?.token });
       history.push("home");
     }
