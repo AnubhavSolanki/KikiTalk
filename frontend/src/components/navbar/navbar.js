@@ -16,10 +16,22 @@ const Navbar = () => {
   }, []);
   return (
     <div className={styles.bar}>
-      <span className={styles.logo}>KikiTalk</span>
+      <span
+        data-btn
+        onClick={navTabs[0].onClick.bind(this, {
+          history,
+          dispatch,
+          index: 0,
+          active,
+        })}
+        className={styles.logo}
+      >
+        KikiTalk
+      </span>
       {navTabs.map((navTab, index) => {
         return (
           <a
+            data-btn
             key={index}
             onClick={
               navTab.onClick
