@@ -11,6 +11,10 @@ export const allPostSlice = createSlice({
       state.posts.push(...action.payload.posts);
       state.hasNext = action.payload.hasNext ?? state.hasNext;
     },
+    addPostInAllPost: (state, action) => {
+      state.posts.unshift(action.payload.post);
+      return state;
+    },
     updatePost: (state, action) => {
       const statePostData = state.posts[action.payload.index];
       state.posts[action.payload.index] = {
@@ -23,7 +27,8 @@ export const allPostSlice = createSlice({
   },
 });
 
-export const { addPosts, updatePost, resetAllPosts } = allPostSlice.actions;
+export const { addPosts, addPostInAllPost, updatePost, resetAllPosts } =
+  allPostSlice.actions;
 
 export const getAllPostsState = (state) => state.allPostsState;
 

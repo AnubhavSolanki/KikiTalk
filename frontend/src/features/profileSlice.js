@@ -26,6 +26,10 @@ export const profileSlice = createSlice({
       state.id = action.payload.id;
       return state;
     },
+    increasePostCount: (state) => {
+      state.postCount = state.postCount + 1;
+      return;
+    },
     updateProfileNameInStore: (state, action) => {
       state.name = action.payload.name;
       return state;
@@ -45,6 +49,7 @@ export const {
   resetProfile,
   addProfileId,
   addProfileImage,
+  increasePostCount,
 } = profileSlice.actions;
 
 export const getProfileState = (state) => state.profileState;

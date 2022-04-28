@@ -140,7 +140,7 @@ const Profile = () => {
         api: `${process.env.REACT_APP_BASE_URL}/updateProfileImage`,
         want_caption: false,
         aspect: 1,
-        dispatchFunc: (response) => addProfileImage(response.data),
+        dispatchFunc: [(response) => addProfileImage(response.data)],
       };
       reader.addEventListener("load", () =>
         CreateModal(
@@ -188,12 +188,14 @@ const Profile = () => {
               {edit && profileState.id === user.id && (
                 <>
                   <FaCheck
+                    data-btn
                     style={{ cursor: "pointer" }}
                     size={15}
                     onClick={updateProfileName}
                     color="#34b233"
                   />{" "}
                   <FaTimes
+                    data-btn
                     style={{ cursor: "pointer" }}
                     size={15}
                     onClick={resetProfileName}
@@ -212,11 +214,13 @@ const Profile = () => {
                 <button
                   className={styles.follow_btn}
                   onClick={toggleFollowMethod}
+                  data-btn
                 >
                   {profileState.isFollowed ? "Unfollow" : "Follow"}
                 </button>
                 {profileState.isFollowed && (
                   <button
+                    data-btn
                     className={styles.message_btn}
                     onClick={messageProfile}
                   >

@@ -22,7 +22,7 @@ import { getSocket } from "../../features/socketSlice";
 const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!senderId) throw new Error("Provide senderId");
+      if (!senderId) return;
       const limit = 12;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestMessages`,
@@ -82,6 +82,7 @@ const RightPane = () => {
   }, [dispatch, selectedChannel?._id, socket, user?.id]);
 
   const addMessageInChatBox = (message, recieverId) => {
+    if (!message || message?.length === 0) return;
     socket.emit("Send Message", {
       recieverId,
       message,
@@ -114,12 +115,15 @@ const RightPane = () => {
               );
           }}
         />
-        <FaWolfPackBattalion
+        <div
+          data-btn
           onClick={() =>
             addMessageInChatBox(selectedChannel?.message, selectedChannel?._id)
           }
-          size={40}
-        />
+          className={styles.send}
+        >
+          Send
+        </div>
       </div>
     );
   };

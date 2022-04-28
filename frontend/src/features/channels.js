@@ -10,6 +10,9 @@ export const channelSlice = createSlice({
   reducers: {
     addChannel: (state, action) => {
       state.channelIdList.push(...action.payload.channelIdList);
+      if (state.channelIdList.length && state.selected === -1) {
+        state.selected = 0;
+      }
       state.hasNext = action.payload.hasNext ?? state.hasNext;
     },
     selectChannelId: (state, action) => {

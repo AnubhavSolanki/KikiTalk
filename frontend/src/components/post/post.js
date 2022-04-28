@@ -23,10 +23,10 @@ const Post = ({ postData, index }) => {
         <span className={styles.profile_name}>
           {postData.profileName ?? "No Name"}
         </span>
-        <div className={styles.ellipsis}>
+        {/* <div className={styles.ellipsis}>
           {" "}
           <FaEllipsisV />{" "}
-        </div>
+        </div> */}
       </div>
       {PostFooter({
         user,
@@ -96,14 +96,14 @@ export function PostFooter({
       </div>
       <div className={styles.post_footer}>
         <div className={styles.footer}>
-          <div onClick={onLike} className={styles.like}>
+          <div data-btn onClick={onLike} className={styles.like}>
             {likeStatus ? (
               <FaHeart style={{ color: "red" }} size={25} />
             ) : (
               <FaRegHeart size={25} />
             )}
           </div>
-          <div onClick={openPostContainer} className={styles.comment}>
+          <div data-btn onClick={openPostContainer} className={styles.comment}>
             <FaRegComment size={25} />
           </div>
         </div>
@@ -115,7 +115,9 @@ export function PostFooter({
             {" "}
             {postData.profileName ?? "No Name"}
           </span>{" "}
-          {postData.description ?? "No Description"}
+          {postData?.description && postData?.description !== ""
+            ? postData?.description
+            : "No Description"}
         </div>
         {openComments && (
           <div>

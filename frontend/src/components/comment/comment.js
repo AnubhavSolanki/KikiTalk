@@ -56,7 +56,9 @@ const Comment = ({ postId, shouldDispatch = false }) => {
           className={styles.post_input}
           placeholder="Add a Comment"
         />
-        <button className={styles.post_button}>Post</button>
+        <button data-btn className={styles.post_button}>
+          Post
+        </button>
       </form>
     </div>
   );

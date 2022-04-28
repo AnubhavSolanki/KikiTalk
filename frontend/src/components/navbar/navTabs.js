@@ -8,19 +8,29 @@ import SearchFriends from "../searchFriends/searchFriends";
 export const navTabs = [
   {
     name: "Home",
-    onClick: ({ history }) => history.push("/home"),
+    onClick: ({ history, index, setActive }) => {
+      setActive(index);
+      history.push("/home");
+    },
   },
   {
     name: "Profile",
-    onClick: ({ history }) => history.push("/profile"),
+    onClick: ({ history, index, setActive }) => {
+      setActive(index);
+      history.push("/profile");
+    },
   },
   {
-    name: "Add Friends",
-    onClick: ({ history }) => CreateModal(<SearchFriends history={history} />),
+    name: "Search Friends",
+    onClick: ({ history }) => {
+      CreateModal(<SearchFriends history={history} />);
+    },
   },
   {
     name: "Add Post",
-    onClick: () => CreateModal(<CreatePost />),
+    onClick: () => {
+      CreateModal(<CreatePost />);
+    },
   },
   // {
   //   name: "Notifications",
@@ -28,7 +38,10 @@ export const navTabs = [
   // },
   {
     name: "Message",
-    onClick: ({ history }) => history.push("/message"),
+    onClick: ({ history, index, setActive }) => {
+      setActive(index);
+      history.push("/message");
+    },
   },
   {
     name: "Logout",

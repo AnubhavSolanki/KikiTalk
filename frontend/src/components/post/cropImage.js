@@ -8,6 +8,8 @@ import { useDispatch } from "react-redux";
 import { addPost } from "../../features/postSlice";
 import { removeModal } from "../../utils/createModal";
 import { promiseToast } from "../../utils/toaster";
+import { addPostInAllPost } from "../../features/allPosts";
+import { increasePostCount } from "../../features/profileSlice";
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
     makeAspectCrop(
@@ -29,10 +31,17 @@ const CropImage = ({ imgSrc, options }) => {
     api: `${process.env.REACT_APP_BASE_URL}/addContent`,
     want_caption: true,
     aspect: 3.5 / 4.5,
-    dispatchFunc: (response) =>
-      addPost({
-        post: response.data,
-      }),
+    dispatchFunc: [
+      (response) =>
+        addPost({
+          post: response.data,
+        }),
+      (response) =>
+        addPostInAllPost({
+          post: response.data,
+        }),
+      (response) => increasePostCount(),
+    ],
   };
   const [crop, setCrop] = useState();
   const previewCanvasRef = useRef(null);
@@ -90,7 +99,9 @@ const CropImage = ({ imgSrc, options }) => {
           .toDataURL("image/jpeg")
           .split(";base64,")[1];
         const response = await saveToDatabase(base64);
-        dispatch(options.dispatchFunc(response));
+        options.dispatchFunc.forEach((f) => {
+          dispatch(f(response));
+        });
         resolve();
       } catch (err) {
         console.log(err);
@@ -120,7 +131,9 @@ const CropImage = ({ imgSrc, options }) => {
             ></textarea>{" "}
           </>
         )}
-        <button onClick={handlePost}>Post</button>
+        <button data-btn onClick={handlePost}>
+          Post
+        </button>
       </div>
     );
   }

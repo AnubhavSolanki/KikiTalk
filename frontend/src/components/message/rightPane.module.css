@@ -53,3 +53,18 @@
   margin-top: 1vh;
   outline: none;
 }
+
+.send {
+  padding: 4px 44px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-family: serif;
+  margin: 0px 10px;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  color: black;
+}
