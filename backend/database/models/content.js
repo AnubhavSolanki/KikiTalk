@@ -1,30 +1,29 @@
 const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
+const schema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    likedBy: {
+      type: Array,
+      default: [],
+    },
+    contentType: {
+      type: String,
+      required: true,
+    },
+    data: {
+      type: JSON,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
   },
-  likedBy: {
-    type: Array,
-    default: [],
-  },
-  contentType: {
-    type: String,
-    required: true,
-  },
-  data: {
-    type: JSON,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 const content = mongoose.model("content", schema);
 

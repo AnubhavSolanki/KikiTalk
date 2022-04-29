@@ -1,18 +1,17 @@
 const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
+const schema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    notificationText: {
+      type: String,
+    },
   },
-  notificationText: {
-    type: String,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 const notification = mongoose.model("notification", schema);
 

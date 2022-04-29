@@ -1,19 +1,18 @@
 const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
+const schema = new mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    followerId: {
+      type: String,
+      required: true,
+    },
   },
-  followerId: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 const follower = mongoose.model("Follower", schema);
 
