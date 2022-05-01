@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { navTabs } from "./navTabs";
 import { getActiveIndex, setActive } from "../../features/navSlice";
 import { useEffect } from "react";
+import { selectUser } from "../../features/userSlice";
 
 const Navbar = () => {
   const history = useHistory();
   const active = useSelector(getActiveIndex);
   const dispatch = useDispatch();
+  const userData = useSelector(selectUser);
   useEffect(() => {
     dispatch(setActive({ index: 0 }));
   }, []);
@@ -23,6 +25,7 @@ const Navbar = () => {
           dispatch,
           index: 0,
           active,
+          userData,
         })}
         className={styles.logo}
       >
@@ -40,6 +43,7 @@ const Navbar = () => {
                     dispatch,
                     index,
                     active,
+                    userData,
                   })
                 : null
             }

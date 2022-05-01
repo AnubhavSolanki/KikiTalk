@@ -9,10 +9,13 @@ import {
   getSelectedChannelId,
 } from "../../features/channels";
 import { get } from "../../utils/requests";
+import { getLoadingState, setLoading } from "../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchChannels = (channels, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading({ channelLoading: true }));
       const limit = 10;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/channelIds`,
@@ -33,6 +36,8 @@ const fetchChannels = (channels, dispatch) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ channelLoading: false }));
     }
   });
 };
@@ -41,6 +46,7 @@ const LeftPane = () => {
   const dispatch = useDispatch();
   const channelState = useSelector(getChannelState);
   const selectedId = useSelector(getSelectedChannelId);
+  const isLoading = useSelector(getLoadingState("channelLoading"));
 
   useEffect(() => {
     if (channelState.channelIdList.length === 0) {
@@ -56,8 +62,15 @@ const LeftPane = () => {
       <InfiniteScroll
         dataLength={channelState?.channelIdList?.length}
         next={() => fetchChannels(channelState?.channelIdList, dispatch)}
-        hasMore={channelState?.hasNext}
-        loader={<h4>Loading...</h4>}
+        hasMore={channelState?.hasNext || isLoading}
+        loader={
+          <Loader
+            type="bubble-top"
+            bgColor={"#FFFFFF"}
+            color={"#FFFFFF"}
+            size={30}
+          />
+        }
         scrollableTarget="channelScrollableDiv"
       >
         {channelState.channelIdList.map((channel, index) => {

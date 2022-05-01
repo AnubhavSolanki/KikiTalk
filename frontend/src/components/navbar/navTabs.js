@@ -1,4 +1,5 @@
 import { setActive } from "../../features/navSlice";
+import { addProfileId } from "../../features/profileSlice";
 import { logout } from "../../features/userSlice";
 import CreateModal from "../../utils/createModal";
 import { removeDataFromLocalStorage } from "../../utils/manageLocalStorage";
@@ -16,8 +17,9 @@ export const navTabs = [
   },
   {
     name: "Profile",
-    onClick: ({ history, index, dispatch }) => {
+    onClick: ({ history, index, dispatch, userData }) => {
       dispatch(setActive({ index }));
+      dispatch(addProfileId({ id: userData.id }));
       history.push("/profile");
     },
   },

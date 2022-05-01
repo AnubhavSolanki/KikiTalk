@@ -11,10 +11,13 @@ import {
 } from "../../../features/allPosts";
 import styles from "./allPosts.module.css";
 import { getProfileState } from "../../../features/profileSlice";
+import { getLoadingState, setLoading } from "../../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchPostsWithId = async (posts, dispatch, id) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading({ allPostLoading: true }));
       const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/allPostsWithId`,
@@ -35,6 +38,8 @@ const fetchPostsWithId = async (posts, dispatch, id) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ allPostLoading: false }));
     }
   });
 };
@@ -43,6 +48,7 @@ const AllPosts = () => {
   const dispatch = useDispatch();
   const postState = useSelector(getAllPostsState);
   const profileState = useSelector(getProfileState);
+  const isLoading = useSelector(getLoadingState("allPostLoading"));
 
   useEffect(() => {
     fetchPostsWithId(postState.posts, dispatch, profileState?.id);
@@ -58,8 +64,15 @@ const AllPosts = () => {
         next={() =>
           fetchPostsWithId(postState.posts, dispatch, profileState?.id)
         }
-        hasMore={postState.hasNext}
-        loader={<h4>Loading...</h4>}
+        hasMore={postState.hasNext || isLoading}
+        loader={
+          <Loader
+            type="bubble-top"
+            bgColor={"#FFFFFF"}
+            color={"#FFFFFF"}
+            size={30}
+          />
+        }
         scrollableTarget="allPostScrollableDiv"
       >
         {postState.posts.map((post, index) => {

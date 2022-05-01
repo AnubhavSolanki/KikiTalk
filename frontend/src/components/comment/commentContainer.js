@@ -10,10 +10,13 @@ import {
   getCommentState,
   resetCommentState,
 } from "../../features/commentSlice";
+import { getLoadingState, setLoading } from "../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchComments = (comments, dispatch, postId) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading({ commmentLoading: true }));
       const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestComments`,
@@ -33,6 +36,8 @@ const fetchComments = (comments, dispatch, postId) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ commmentLoading: false }));
     }
   });
 };
@@ -57,6 +62,7 @@ const commentTemplate = (commentData, index) => {
 const CommentContainer = ({ postId }) => {
   const dispatch = useDispatch();
   const commentState = useSelector(getCommentState);
+  const isLoading = useSelector(getLoadingState("commmentLoading"));
 
   useEffect(() => {
     if (commentState.comments.length === 0)
@@ -73,9 +79,14 @@ const CommentContainer = ({ postId }) => {
         <InfiniteScroll
           dataLength={commentState.comments.length}
           next={() => fetchComments(commentState.comments, dispatch, postId)}
-          hasMore={commentState.hasNext}
+          hasMore={commentState.hasNext || isLoading}
           loader={
-            commentState.comments.length > 0 ? <h4>Loading...</h4> : <></>
+            <Loader
+              type="spinner-default"
+              bgColor={"#000000"}
+              color={"#000000"}
+              size={50}
+            />
           }
           scrollableTarget="commentScrollableDiv"
           endMessage={

@@ -15,6 +15,8 @@ import Profile from "./components/profile/profile";
 import Notifications from "./components/notifications/notifications";
 import GuardedRoute from "./utils/guardedRoute";
 import Message from "./components/message/message";
+import Loading from "./components/loading/loading";
+import { setLoading, unsetLoading } from "./features/loadingSlice";
 
 require("dotenv").config();
 
@@ -41,7 +43,9 @@ function App() {
     const checkUserData = async () => {
       const token = localStorage.getItem("token");
       if (token) {
+        dispatch(setLoading());
         setLoginState(await verifyToken(token, dispatch));
+        dispatch(unsetLoading());
       } else {
         setLoginState(false);
       }
@@ -50,11 +54,13 @@ function App() {
     window.dispatchEvent(new Event("storage"));
     return () => {
       window.removeEventListener("storage", checkUserData);
+      dispatch(unsetLoading());
     };
   }, []);
 
   return (
     <div className="App">
+      <Loading />
       <ToastContainer />
       <BrowserRouter>
         <Switch>

@@ -9,10 +9,13 @@ import {
   unsetSearchResult,
 } from "../../features/searchUserSlice";
 import { get } from "../../utils/requests";
+import { getLoadingState, setLoading } from "../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchSearchResults = (searchText, searchResult, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading({ searchUserLoading: true }));
       const limit = 15;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/searchUser`,
@@ -37,6 +40,8 @@ const fetchSearchResults = (searchText, searchResult, dispatch) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ searchUserLoading: false }));
     }
   });
 };
@@ -46,6 +51,7 @@ const SearchFriends = ({ history }) => {
   let timeout;
   const [searchText, setSearchText] = useState("");
   const searchUserState = useSelector(getSearchUserState);
+  const isLoading = useSelector(getLoadingState("searchUserLoading"));
   const handleChange = (event) => {
     if (timeout) clearTimeout(timeout);
     timeout = setTimeout(() => {
@@ -76,13 +82,15 @@ const SearchFriends = ({ history }) => {
               dispatch
             )
           }
-          hasMore={searchUserState.hasNext}
+          hasMore={searchUserState.hasNext || isLoading}
           loader={
-            searchUserState.searchResult.length > 0 ? (
-              <h4>Loading...</h4>
-            ) : (
-              <></>
-            )
+            <Loader
+              type="bubble-top"
+              bgColor={"#FFFFFF"}
+              title={"Searching Friends"}
+              color={"#FFFFFF"}
+              size={30}
+            />
           }
           endMessage={
             searchUserState.searchResult.length === 0 ? (

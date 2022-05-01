@@ -18,11 +18,14 @@ import {
 } from "../../features/channels";
 import { selectUser } from "../../features/userSlice";
 import { getSocket } from "../../features/socketSlice";
+import { getLoadingState, setLoading } from "../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (!senderId) return;
+      dispatch(setLoading({ messageLoading: true }));
       const limit = 12;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestMessages`,
@@ -47,6 +50,8 @@ const fetchMessages = (messages, senderId, dispatch) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ messageLoading: true }));
     }
   });
 };
@@ -57,6 +62,7 @@ const RightPane = () => {
   const selectedChannel = useSelector(getSelectedChannel);
   const socket = useSelector(getSocket);
   const user = useSelector(selectUser);
+  const isLoading = useSelector(getLoadingState("messageLoading"));
 
   useEffect(() => {
     if (chatBoxState.messages.length === 0)
@@ -151,8 +157,15 @@ const RightPane = () => {
           }
           style={{ display: "flex", flexDirection: "column-reverse" }}
           inverse={true}
-          hasMore={chatBoxState?.hasNext}
-          loader={<h4>Loading...</h4>}
+          hasMore={chatBoxState?.hasNext || isLoading}
+          loader={
+            <Loader
+              type="bubble-top"
+              bgColor={"#FFFFFF"}
+              color={"#FFFFFF"}
+              size={30}
+            />
+          }
           scrollableTarget="messageScrollableDiv"
         >
           {chatBoxState.messages.map((message, index) => {

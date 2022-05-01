@@ -6,10 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./home.module.css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { addPosts, getPostState } from "../../features/postSlice";
+import { getLoadingState, setLoading } from "../../features/loadingSlice";
+import Loader from "react-js-loader";
 
 const fetchPosts = (posts, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading({ homepageLoading: true }));
       const limit = 2;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestPost`,
@@ -30,11 +33,14 @@ const fetchPosts = (posts, dispatch) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(setLoading({ homepageLoading: false }));
     }
   });
 };
 
 const Home = (props) => {
+  const isLoading = useSelector(getLoadingState("homepageLoading"));
   const dispatch = useDispatch();
   const postState = useSelector(getPostState);
 
@@ -42,7 +48,7 @@ const Home = (props) => {
     if (postState.posts.length === 0) {
       fetchPosts(postState.posts, dispatch);
     }
-  });
+  }, []);
 
   return (
     <div id="postScrollableDiv" className={styles.wrapper}>
@@ -51,8 +57,15 @@ const Home = (props) => {
         <InfiniteScroll
           dataLength={postState.posts.length}
           next={() => fetchPosts(postState.posts, dispatch)}
-          hasMore={postState.hasNext}
-          loader={<h4>Loading...</h4>}
+          hasMore={postState.hasNext || isLoading}
+          loader={
+            <Loader
+              type="bubble-top"
+              bgColor={"#FFFFFF"}
+              color={"#FFFFFF"}
+              size={30}
+            />
+          }
           scrollableTarget="postScrollableDiv"
           endMessage={
             <h3 style={{ color: "white" }} align="center">

@@ -1,20 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export const counterSlice = createSlice({
+const INITIAL_STATE = {
+  loading: false,
+  searchUserLoading: false,
+  homepageLoading: false,
+  commmentLoading: false,
+  channelLoading: false,
+  messageLoading: false,
+  allPostLoading: false,
+};
+export const loadingSlice = createSlice({
   name: "loading",
-  initialState: {
-    value: false,
-  },
+  initialState: INITIAL_STATE,
   reducers: {
-    setLoading: (state) => {
-      state.value = true;
+    setLoading: (state, action) => {
+      if (action.payload) {
+        state = { ...state, ...action.payload };
+      } else {
+        state.loading = true;
+      }
+      return state;
     },
-    unsetLoading: (state) => {
-      state.value = false;
-    },
+    unsetLoading: () => INITIAL_STATE,
   },
 });
 
-export const { setLoading, unsetLoading } = counterSlice.actions;
+export const { setLoading, unsetLoading } = loadingSlice.actions;
+export const getLoadingState =
+  (name = "loading") =>
+  (state) =>
+    state.loadingState[name];
 
-export default counterSlice.reducer;
+export default loadingSlice.reducer;

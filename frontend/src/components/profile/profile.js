@@ -19,9 +19,11 @@ import { get } from "../../utils/requests";
 import { useHistory } from "react-router-dom";
 import CreateModal from "../../utils/createModal";
 import CropImage from "../post/cropImage";
+import { setLoading, unsetLoading } from "../../features/loadingSlice";
 const fetchProfileInfo = (userId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
+      dispatch(setLoading());
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/profileDetail`,
         {
@@ -35,6 +37,8 @@ const fetchProfileInfo = (userId, dispatch) => {
     } catch (err) {
       console.log(err);
       reject(false);
+    } finally {
+      dispatch(unsetLoading());
     }
   });
 };
@@ -50,7 +54,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (profileState.id) fetchProfileInfo(profileState?.id, dispatch);
-    else if (user?.id) fetchProfileInfo(user?.id, dispatch);
+    // else if (user?.id) fetchProfileInfo(user?.id, dispatch);
   }, [dispatch, profileState?.id]);
 
   useEffect(() => {
