@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import styles from "./login.module.css";
 import { loginFields } from "./formFields";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { saveUserDetails } from "../../features/userSlice";
 import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
 import { post } from "../../utils/requests";
 import { successToast } from "../../utils/toaster";
@@ -12,7 +10,6 @@ import FormInput from "../../utils/formInput";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const dispatch = useDispatch();
   const history = useHistory();
   const onSubmit = async (data) => {
     const response = await post(

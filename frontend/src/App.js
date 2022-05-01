@@ -22,8 +22,7 @@ export const verifyToken = (token, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await post(
-        `${process.env.REACT_APP_BASE_URL}/auth/loginWithToken`,
-        { token: token }
+        `${process.env.REACT_APP_BASE_URL}/auth/loginWithToken`
       );
       if (response.status === 200) {
         dispatch(saveUserDetails(response?.data));

@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import styles from "./register.module.css";
 import { registerFields } from "./formFields";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { saveUserDetails } from "../../features/userSlice";
 import { addDataToLocalStorage } from "../../utils/manageLocalStorage";
 import { post } from "../../utils/requests";
 import { successToast } from "../../utils/toaster";
@@ -12,7 +10,6 @@ import FormInput from "../../utils/formInput";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
-  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
     const response = await post(
@@ -21,7 +18,6 @@ const Register = () => {
     );
     if (response.status === 200) {
       successToast("Registered Successfully");
-      dispatch(saveUserDetails(response?.data));
       addDataToLocalStorage({ token: response?.data?.token });
     }
   };

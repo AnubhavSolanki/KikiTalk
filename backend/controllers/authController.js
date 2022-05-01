@@ -1,11 +1,12 @@
 const { printError, printSuccess } = require("../services/coloredPrint");
 const { createToken } = require("../services/jwtService");
+const { getUserId } = require("../util/getUserId");
 const { addUser, findOneUser, findUserAndUpdate } = require("./userController");
 
 const loginWithToken = async (req, res) => {
   try {
-    const { token } = req.body;
-    const userDetail = await findOneUser({ token: token });
+    const userId = getUserId(res);
+    const userDetail = await findOneUser({ _id: userId });
     if (!userDetail) throw Error("Invalid Token");
     res.status(200).json(userDetail);
   } catch (error) {
@@ -42,12 +43,10 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { email } = req.body;
     const userDetail = await addUser(req.body);
     const token = createToken({ id: userDetail.id }, process.env.TOKEN_KEY);
-    req.body.token = token;
     printSuccess("Successfully Registered");
-    res.status(200).json(userDetail);
+    res.status(200).json({ ...userDetail._doc, token });
   } catch (error) {
     printError(error.message);
     res.status(404).json({ message: error.message });

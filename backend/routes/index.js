@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const {
   addContent,
@@ -41,12 +42,9 @@ const {
 } = require("../controllers/messageChannelController");
 
 router.use(cors());
+router.use(express.static(path.join(__dirname, "../build")));
 router.use(express.urlencoded({ extended: false, limit: "50mb" }));
 router.use(express.json({ limit: "50mb" }));
-
-router.get("/", (req, res) => {
-  res.send("hello world!!!");
-});
 
 router.get("/latestPost", verifyToken, getLatestPost);
 router.get("/latestComments", verifyToken, getComments);
@@ -70,4 +68,8 @@ router.post("/follower", verifyToken, toggleFollower);
 router.post("/addMessage", verifyToken, addMessage);
 router.post("/updateProfileName", verifyToken, updateProfileName);
 router.post("/updateProfileImage", verifyToken, updateProfileImage);
+
+router.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 module.exports = router;
