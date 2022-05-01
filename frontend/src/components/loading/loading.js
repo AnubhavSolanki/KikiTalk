@@ -11,10 +11,11 @@ const Loading = () => {
   return isLoading ? (
     <div className={styles.wrapper}>
       <Loader
-        type="bubble-top"
+        type="box-rectangular"
         bgColor={"#FFFFFF"}
+        title="Loading"
         color={"#FFFFFF"}
-        size={30}
+        size={75}
       />
     </div>
   ) : (

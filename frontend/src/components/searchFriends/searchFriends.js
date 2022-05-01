@@ -85,11 +85,10 @@ const SearchFriends = ({ history }) => {
           hasMore={searchUserState.hasNext || isLoading}
           loader={
             <Loader
-              type="bubble-top"
+              type="spinner-default"
               bgColor={"#FFFFFF"}
-              title={"Searching Friends"}
               color={"#FFFFFF"}
-              size={30}
+              size={50}
             />
           }
           endMessage={

@@ -60,10 +60,10 @@ const Home = (props) => {
           hasMore={postState.hasNext || isLoading}
           loader={
             <Loader
-              type="bubble-top"
+              type="spinner-default"
               bgColor={"#FFFFFF"}
               color={"#FFFFFF"}
-              size={30}
+              size={50}
             />
           }
           scrollableTarget="postScrollableDiv"

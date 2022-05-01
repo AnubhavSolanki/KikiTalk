@@ -38,6 +38,7 @@ const fetchChannels = (channels, dispatch) => {
       reject(false);
     } finally {
       dispatch(setLoading({ channelLoading: false }));
+      dispatch(setLoading({ loading: false }));
     }
   });
 };
@@ -51,6 +52,8 @@ const LeftPane = () => {
   useEffect(() => {
     if (channelState.channelIdList.length === 0) {
       fetchChannels(channelState.channelIdList, dispatch);
+    } else {
+      dispatch(setLoading({ loading: false }));
     }
   }, []);
 

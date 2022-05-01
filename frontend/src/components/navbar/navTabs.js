@@ -1,3 +1,4 @@
+import { setLoading } from "../../features/loadingSlice";
 import { setActive } from "../../features/navSlice";
 import { addProfileId } from "../../features/profileSlice";
 import { logout } from "../../features/userSlice";
@@ -18,6 +19,7 @@ export const navTabs = [
   {
     name: "Profile",
     onClick: ({ history, index, dispatch, userData }) => {
+      dispatch(setLoading());
       dispatch(setActive({ index }));
       dispatch(addProfileId({ id: userData.id }));
       history.push("/profile");
@@ -48,6 +50,7 @@ export const navTabs = [
   {
     name: "Message",
     onClick: ({ history, index, dispatch }) => {
+      dispatch(setLoading());
       dispatch(setActive({ index }));
       history.push("/message");
     },
