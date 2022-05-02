@@ -22,6 +22,10 @@ export const profileSlice = createSlice({
       state.follower = state.follower + (action.payload.isFollower ? 1 : -1);
       return state;
     },
+    updateFollowing: (state, action) => {
+      state.following += action.payload.isFollower ? 1 : -1;
+      return state;
+    },
     addProfileId: (state, action) => {
       state.id = action.payload.id;
       return state;
@@ -50,6 +54,7 @@ export const {
   addProfileId,
   addProfileImage,
   increasePostCount,
+  updateFollowing,
 } = profileSlice.actions;
 
 export const getProfileState = (state) => state.profileState;

@@ -4,6 +4,16 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 
+const paginateData = (data, page, size) => {
+  const { limit, offset } = getPagination(page, size);
+  const pageData = data.slice(offset, offset + limit + 1);
+  const hasNext = pageData.length > limit;
+  if (pageData.length > limit) {
+    pageData.splice(-1);
+  }
+  return { pageData, hasNext };
+};
+
 const getPaginatedData = async (
   model,
   condition,
@@ -36,4 +46,5 @@ const getPaginatedData = async (
 module.exports = {
   getPaginatedData,
   getPagination,
+  paginateData,
 };

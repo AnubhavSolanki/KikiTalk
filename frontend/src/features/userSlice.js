@@ -13,7 +13,6 @@ export const userSlice = createSlice({
       );
     },
     logout: (state, action) => {
-      console.log(action.type);
       return state;
     },
   },

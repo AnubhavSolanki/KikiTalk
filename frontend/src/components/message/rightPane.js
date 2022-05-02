@@ -51,7 +51,7 @@ const fetchMessages = (messages, senderId, dispatch) => {
       console.log(err);
       reject(false);
     } finally {
-      dispatch(setLoading({ messageLoading: true }));
+      dispatch(setLoading({ messageLoading: false }));
     }
   });
 };

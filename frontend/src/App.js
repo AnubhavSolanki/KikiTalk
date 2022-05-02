@@ -17,6 +17,7 @@ import GuardedRoute from "./utils/guardedRoute";
 import Message from "./components/message/message";
 import Loading from "./components/loading/loading";
 import { setLoading, unsetLoading } from "./features/loadingSlice";
+import { createSocket, resetSocket } from "./features/socketSlice";
 
 require("dotenv").config();
 
@@ -32,6 +33,8 @@ export const verifyToken = (token, dispatch) => {
       }
     } catch (err) {
       reject(false);
+    } finally {
+      dispatch(unsetLoading());
     }
   });
 };
@@ -44,6 +47,7 @@ function App() {
       const token = localStorage.getItem("token");
       if (token) {
         dispatch(setLoading());
+        dispatch(createSocket({ token }));
         setLoginState(await verifyToken(token, dispatch));
         dispatch(unsetLoading());
       } else {
@@ -54,6 +58,7 @@ function App() {
     window.dispatchEvent(new Event("storage"));
     return () => {
       window.removeEventListener("storage", checkUserData);
+      dispatch(resetSocket());
       dispatch(unsetLoading());
     };
   }, []);

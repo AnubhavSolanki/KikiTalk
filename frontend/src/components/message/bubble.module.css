@@ -1,3 +1,22 @@
+body {
+  --messagePostSizeFactor: 70;
+}
+
+.post {
+  width: calc(3.5px * var(--messagePostSizeFactor));
+  height: calc(4.5px * var(--messagePostSizeFactor));
+  background: black;
+  margin: 10px 4px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.post img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .wrapper {
   display: flex;
   width: fit-content;

@@ -1,6 +1,12 @@
 import React from "react";
 import styles from "./post.module.css";
-import { FaEllipsisV, FaHeart, FaRegComment, FaRegHeart } from "react-icons/fa";
+import {
+  FaEllipsisV,
+  FaHeart,
+  FaRegComment,
+  FaRegHeart,
+  FaRegPaperPlane,
+} from "react-icons/fa";
 import TimeAgo from "timeago-react";
 import { post } from "../../utils/requests";
 import { selectUser } from "../../features/userSlice";
@@ -9,9 +15,14 @@ import { useDispatch, useSelector } from "react-redux";
 import CreateModal from "../../utils/createModal";
 import { updatePost, isLiked, getLikeCount } from "../../features/postSlice";
 import CompletePost from "../completePost/completePost";
+import ProfileList from "../profileList/profileList";
+import {
+  changeButtonText,
+  toggleFollowOnList,
+} from "../../features/profileListSlice";
+import { getSocket } from "../../features/socketSlice";
 
 const Post = ({ postData, index }) => {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const profileImg = postData.profileImage ?? defaultProfileImage;
   return (
@@ -29,15 +40,19 @@ const Post = ({ postData, index }) => {
         </div> */}
       </div>
       {PostFooter({
-        user,
         postData,
         index,
         origin: "normal",
         openComments: true,
-        likeStatusSelector: (index, userId) => (state) =>
-          isLiked(state, index, userId),
-        likeCountSelector: (index) => (state) => getLikeCount(state, index),
-        dispatchActionForLike: (index, response) =>
+        likeStatusSelector:
+          ({ index, userId }) =>
+          (state) =>
+            isLiked(state, index, userId),
+        likeCountSelector:
+          ({ index }) =>
+          (state) =>
+            getLikeCount(state, index),
+        dispatchActionForLike: ({ index, response }) =>
           dispatch(updatePost({ index, postData: response.data })),
       })}
     </div>
@@ -47,7 +62,6 @@ const Post = ({ postData, index }) => {
 export default Post;
 
 export function PostFooter({
-  user,
   postData,
   index,
   openComments,
@@ -55,8 +69,13 @@ export function PostFooter({
   likeCountSelector,
   dispatchActionForLike,
 }) {
-  const likeStatus = useSelector(likeStatusSelector(index, user.id));
-  const likeCount = useSelector(likeCountSelector(index));
+  const socket = useSelector(getSocket);
+  const user = useSelector(selectUser);
+  const likeStatus = useSelector(
+    likeStatusSelector({ index, userId: user.id, postData })
+  );
+  const likeCount = useSelector(likeCountSelector({ index, postData }));
+  const dispatch = useDispatch();
 
   const openPostContainer = () => {
     if (!openComments) return;
@@ -83,10 +102,48 @@ export function PostFooter({
           postId: postData._id,
         }
       );
-      dispatchActionForLike(index, response);
+      dispatchActionForLike({ index, response, postData });
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleClickOnLikeCount = () => {
+    CreateModal(
+      <ProfileList
+        options={{
+          url: `${process.env.REACT_APP_BASE_URL}/likedBy`,
+          params: { postId: postData._id },
+          heading: "Likes",
+          button: {
+            onClick: ({ userId, index }) => {
+              dispatch(toggleFollowOnList({ index }));
+            },
+          },
+        }}
+      />
+    );
+  };
+
+  const openSendList = () => {
+    CreateModal(
+      <ProfileList
+        options={{
+          url: `${process.env.REACT_APP_BASE_URL}/followers`,
+          params: { userId: user.id, isForSend: true },
+          heading: "Send To",
+          button: {
+            onClick: ({ userId, index }) => {
+              socket.emit("Send Message", {
+                recieverId: userId,
+                message: `postId-${postData._id}`,
+              });
+              dispatch(changeButtonText({ index, text: "Sent" }));
+            },
+          },
+        }}
+      />
+    );
   };
 
   return (
@@ -106,8 +163,11 @@ export function PostFooter({
           <div data-btn onClick={openPostContainer} className={styles.comment}>
             <FaRegComment size={25} />
           </div>
+          <div data-btn className={styles.share} onClick={openSendList}>
+            <FaRegPaperPlane size={25} />
+          </div>
         </div>
-        <div>
+        <div data-btn onClick={handleClickOnLikeCount}>
           <span>{likeCount} likes</span>
         </div>
         <div className={styles.caption}>

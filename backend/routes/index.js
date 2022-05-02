@@ -9,6 +9,8 @@ const {
   removeLikes,
   getPostWithId,
   toggleLike,
+  getPostWithPostId,
+  getLikedBy,
 } = require("../controllers/contentController");
 const { addComment, getComments } = require("../controllers/commentController");
 const {
@@ -30,7 +32,11 @@ const {
   updateProfileName,
   updateProfileImage,
 } = require("../controllers/userController");
-const { toggleFollower } = require("../controllers/followerController");
+const {
+  toggleFollower,
+  getFollowers,
+  getFollowings,
+} = require("../controllers/followerController");
 const { getNotifications } = require("../controllers/notifications.controller");
 
 const {
@@ -54,6 +60,10 @@ router.get("/latestNotifications", verifyToken, getNotifications);
 router.get("/latestMessages", verifyToken, getLatestMessages);
 router.get("/channelIds", verifyToken, getMessageChannels);
 router.get("/profileDetail", verifyToken, getProfileDetail);
+router.get("/postWithPostId", verifyToken, getPostWithPostId);
+router.get("/followers", verifyToken, getFollowers);
+router.get("/followings", verifyToken, getFollowings);
+router.get("/likedBy", verifyToken, getLikedBy);
 
 router.post("/auth/login", login);
 router.post("/auth/register", register);

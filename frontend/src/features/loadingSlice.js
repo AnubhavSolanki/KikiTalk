@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   channelLoading: false,
   messageLoading: false,
   allPostLoading: false,
+  profileListLoading: false,
 };
 export const loadingSlice = createSlice({
   name: "loading",

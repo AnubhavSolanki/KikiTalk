@@ -1,6 +1,8 @@
+const { getPaginatedData } = require("../database/methods/getPaginatedData");
 const follower = require("../database/models/follower");
 const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
+const { getUserId } = require("../util/getUserId");
 const { addNotifications } = require("./notifications.controller");
 
 const findMyFollower = async (condition) => {
@@ -41,16 +43,12 @@ const toggleFollower = async (req, res) => {
 };
 
 const getMyFollowersCount = async (userId) => {
-  try {
-    return new Promise((resolve, reject) => {
-      follower.countDocuments({ userId }, (error, count) => {
-        if (error) reject(error);
-        resolve(count);
-      });
+  return new Promise((resolve, reject) => {
+    follower.countDocuments({ userId }, (error, count) => {
+      if (error) reject(error);
+      resolve(count);
     });
-  } catch (error) {
-    printError(error);
-  }
+  });
 };
 
 const getMyFollowingsCount = async (userId) => {
@@ -63,6 +61,72 @@ const getMyFollowingsCount = async (userId) => {
     });
   } catch (error) {
     printError(error);
+  }
+};
+
+const getFollowers = async (req, res) => {
+  try {
+    const myId = getUserId(res);
+    const { page, size, userId, isForSend } = req.query;
+    const { pageData, hasNext } = await getPaginatedData(
+      follower,
+      { userId },
+      page,
+      size,
+      true
+    ).then(async ({ pageData, hasNext }) => {
+      const response = [];
+      for (const data of pageData) {
+        const userData = await user.findOne({ _id: data.followerId });
+        const follow = !!(await findMyFollower({
+          _id: data.followerId,
+          followerId: myId,
+        }));
+        response.push({
+          ...data,
+          userData,
+          buttonText: !!isForSend ? "Send" : follow ? "Unfollow" : "Follow",
+        });
+      }
+      return { pageData: response, hasNext };
+    });
+    res.status(200).json({ pageData, hasNext });
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error.message);
+  }
+};
+
+const getFollowings = async (req, res) => {
+  try {
+    const myId = getUserId(res);
+    const { page, size, userId } = req.query;
+    const { pageData, hasNext } = await getPaginatedData(
+      follower,
+      { followerId: userId },
+      page,
+      size,
+      true
+    ).then(async ({ pageData, hasNext }) => {
+      const response = [];
+      for (const data of pageData) {
+        const userData = await user.findOne({ _id: data.userId });
+        const follow = !!(await findMyFollower({
+          _id: data.userId,
+          followerId: myId,
+        }));
+        response.push({
+          ...data,
+          userData,
+          buttonText: follow ? "Unfollow" : "Follow",
+        });
+      }
+      return { pageData: response, hasNext };
+    });
+    res.status(200).json({ pageData, hasNext });
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error.message);
   }
 };
 
@@ -79,4 +143,7 @@ module.exports = {
   getMyFollowersCount,
   getMyFollowingsCount,
   haveUserFollowed,
+  getFollowers,
+  getFollowings,
+  findMyFollower,
 };

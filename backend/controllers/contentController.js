@@ -1,8 +1,13 @@
-const { getPaginatedData } = require("../database/methods/getPaginatedData");
+const {
+  getPaginatedData,
+  paginateData,
+} = require("../database/methods/getPaginatedData");
 const content = require("../database/models/content");
+const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { uploadImage } = require("../services/imgbbService");
 const { getUserId } = require("../util/getUserId");
+const { findMyFollower } = require("./followerController");
 const { findOneUser } = require("./userController");
 
 const addContent = async (req, res) => {
@@ -19,7 +24,6 @@ const addContent = async (req, res) => {
     const response = await content.create({ ...req.body, userId });
     response._doc["profileImage"] = userData?.image;
     response._doc["profileName"] = userData.full_name;
-    console.log(response);
     res.status(200).json(response);
   } catch (error) {
     printError(error);
@@ -44,12 +48,48 @@ const getPostWithId = async (req, res) => {
   }
 };
 
+const getPostWithPostId = async (req, res) => {
+  try {
+    const { postId } = req.query;
+    const response = await content.findOne({ _id: postId });
+    res.status(200).json(response);
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error);
+  }
+};
+
+const getLikedBy = async (req, res) => {
+  try {
+    const { postId, page, size } = req.query;
+    const myId = getUserId(res);
+    const postData = await content.findOne({ _id: postId });
+    const { pageData, hasNext } = paginateData(postData.likedBy, page, size);
+    const response = [];
+    for (const data of pageData) {
+      const userData = await user.findOne({ _id: data });
+      const follow = !!(await findMyFollower({
+        _id: data,
+        followerId: myId,
+      }));
+      response.push({
+        ...data,
+        userData,
+        buttonText: follow ? "Unfollow" : "Follow",
+      });
+    }
+    res.status(200).json({ pageData: response, hasNext });
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error);
+  }
+};
+
 const toggleLike = async (req, res) => {
   try {
     const { postId } = req.body;
     const userId = getUserId(res);
     const response = await content.findOne({ _id: postId }).then((response) => {
-      console.log("bef res", response);
       if (response.likedBy.includes(userId)) {
         response.likedBy.splice(response.likedBy.indexOf(userId), 1);
       } else {
@@ -98,4 +138,6 @@ module.exports = {
   getPostWithId,
   getLatestPost,
   toggleLike,
+  getPostWithPostId,
+  getLikedBy,
 };

@@ -1,0 +1,16 @@
+.wrapper {
+  overflow: auto;
+  width: min(55vw, 430px);
+  padding: 16px 20px;
+  height: min(80vh, 600px);
+  border-top: 1px solid black;
+}
+
+.heading {
+  font-size: 23px;
+  margin: 17px 0;
+  display: flex;
+  justify-content: center;
+  text-transform: capitalize;
+  font-weight: 500;
+}

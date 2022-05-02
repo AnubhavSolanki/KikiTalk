@@ -12,6 +12,8 @@ import socketReducer from "./features/socketSlice";
 import profileReducer from "./features/profileSlice";
 import navReducer from "./features/navSlice";
 import loadingReducer from "./features/loadingSlice";
+import messagePostReducer from "./features/messagePostSlice";
+import profileListReducer from "./features/profileListSlice";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -26,6 +28,8 @@ const combinedReducer = combineReducers({
   profileState: profileReducer,
   navState: navReducer,
   loadingState: loadingReducer,
+  messagePostState: messagePostReducer,
+  ProfileListState: profileListReducer,
 });
 
 const rootReducer = (state, action) => {

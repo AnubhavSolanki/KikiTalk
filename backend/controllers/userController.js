@@ -1,22 +1,18 @@
 const { getPagination } = require("../database/methods/getPaginatedData");
 const content = require("../database/models/content");
+const follower = require("../database/models/follower");
 const user = require("../database/models/user");
 const { printError } = require("../services/coloredPrint");
 const { createFuzzySearcher } = require("../services/fuzzySearchService");
 const { uploadImage } = require("../services/imgbbService");
 const { getUserId } = require("../util/getUserId");
-const {
-  getMyFollowersCount,
-  getMyFollowingsCount,
-  haveUserFollowed,
-} = require("./followerController");
 
 const addUser = async (userData) => {
   return await user.create(userData);
 };
 
-const findOneUser = async (condition) => {
-  return await user.findOne(condition);
+const findOneUser = (condition) => {
+  return user.findOne(condition);
 };
 
 const findUsers = async (listOfUserId) => {
@@ -62,9 +58,18 @@ const getProfileDetail = async (req, res) => {
   try {
     const { userId } = req.query;
     const myID = getUserId(res);
-    const follower = await getMyFollowersCount(userId);
-    const following = await getMyFollowingsCount(userId);
-    console.log({ follower, following });
+    const followers = await new Promise((resolve, reject) => {
+      follower.countDocuments({ userId }, (error, count) => {
+        if (error) reject(error);
+        resolve(count);
+      });
+    });
+    const following = await new Promise((resolve, reject) => {
+      follower.countDocuments({ followerId: userId }, (error, count) => {
+        if (error) reject(error);
+        resolve(count);
+      });
+    });
     const postCount = await content.countDocuments({ userId });
     const userDetail = await findOneUser({ _id: userId });
     res.status(200).json({
@@ -72,10 +77,10 @@ const getProfileDetail = async (req, res) => {
       imgUrl: userDetail?.profileImageUrl ?? null,
       name: userDetail?.full_name,
       postCount,
-      follower,
+      follower: followers,
       following,
       isMyProfile: myID === userId,
-      isFollowed: !!(await haveUserFollowed(userId, myID)).length,
+      isFollowed: !!(await follower.find({ userId, followerId: myID })).length,
     });
   } catch (error) {
     printError(error.message);

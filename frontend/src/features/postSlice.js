@@ -62,4 +62,7 @@ export const isLiked = (state, index, userId) =>
 export const getLikeCount = (state, index) =>
   state.postState.posts[index].likedBy.length;
 
+export const getLikedBy = (state, index) =>
+  state.postState.posts[index].likedBy;
+
 export default postSlice.reducer;

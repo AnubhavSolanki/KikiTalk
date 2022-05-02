@@ -9,6 +9,7 @@ import {
   resetProfile,
   updateProfileNameInStore,
   addProfileImage,
+  updateFollowing,
 } from "../../features/profileSlice";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { addInChannel } from "../../features/channels";
@@ -20,6 +21,8 @@ import { useHistory } from "react-router-dom";
 import CreateModal from "../../utils/createModal";
 import CropImage from "../post/cropImage";
 import { setLoading, unsetLoading } from "../../features/loadingSlice";
+import ProfileList from "../profileList/profileList";
+import { toggleFollowOnList } from "../../features/profileListSlice";
 const fetchProfileInfo = (userId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -54,7 +57,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (profileState.id) fetchProfileInfo(profileState?.id, dispatch);
-    // else if (user?.id) fetchProfileInfo(user?.id, dispatch);
   }, [dispatch, profileState?.id]);
 
   useEffect(() => {
@@ -63,17 +65,22 @@ const Profile = () => {
     };
   }, []);
 
-  const toggleFollowMethod = async () => {
+  const toggleFollowMethod = async (id = null, index = -1) => {
     try {
       const response = await post(
         `${process.env.REACT_APP_BASE_URL}/follower`,
         {
-          userId: profileState.id,
+          userId: index !== -1 ? id : profileState.id,
           followerId: user.id,
         }
       );
       if (response.status === 200) {
-        dispatch(toggleFollow({ isFollower: response.data.isFollower }));
+        if (index !== -1) {
+          dispatch(toggleFollowOnList({ index }));
+          dispatch(updateFollowing({ isFollower: response.data.isFollower }));
+        } else {
+          dispatch(toggleFollow({ isFollower: response.data.isFollower }));
+        }
       }
     } catch (err) {
       console.log(err);
@@ -158,6 +165,40 @@ const Profile = () => {
     }
   };
 
+  const openFollowers = () => {
+    CreateModal(
+      <ProfileList
+        options={{
+          url: `${process.env.REACT_APP_BASE_URL}/followers`,
+          params: { userId: profileState.id },
+          heading: "Followers",
+          button: {
+            onClick: ({ userId, index }) => {
+              toggleFollowMethod(userId, index);
+            },
+          },
+        }}
+      />
+    );
+  };
+
+  const openFollowings = () => {
+    CreateModal(
+      <ProfileList
+        options={{
+          url: `${process.env.REACT_APP_BASE_URL}/followings`,
+          heading: "Followings",
+          params: { userId: profileState.id },
+          button: {
+            onClick: ({ userId, index }) => {
+              toggleFollowMethod(userId, index);
+            },
+          },
+        }}
+      />
+    );
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -210,8 +251,12 @@ const Profile = () => {
             </div>
             <div className={styles.followDetail}>
               <div>{profileState.postCount} Posts</div>
-              <div>{profileState.follower} Followers</div>
-              <div>{profileState.following} Following</div>
+              <div data-btn onClick={openFollowers}>
+                {profileState.follower} Followers
+              </div>
+              <div data-btn onClick={openFollowings}>
+                {profileState.following} Following
+              </div>
             </div>
             {!profileState?.isMyProfile && (
               <>
