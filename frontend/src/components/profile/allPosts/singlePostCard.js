@@ -5,9 +5,11 @@ import CreateModal from "../../../utils/createModal";
 import CompletePost from "../../completePost/completePost";
 import { useDispatch } from "react-redux";
 import { updatePost, isLiked, getLikeCount } from "../../../features/allPosts";
+import { useHistory } from "react-router-dom";
 
 export const SinglePostCard = ({ postData, index }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handlePostClick = () => {
     CreateModal(
@@ -15,6 +17,7 @@ export const SinglePostCard = ({ postData, index }) => {
         options={{
           postData,
           index,
+          history,
           openComments: false,
           likeStatusSelector:
             ({ index, userId }) =>

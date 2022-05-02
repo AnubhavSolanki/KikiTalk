@@ -21,17 +21,36 @@ import {
   toggleFollowOnList,
 } from "../../features/profileListSlice";
 import { getSocket } from "../../features/socketSlice";
+import { useHistory } from "react-router-dom";
+import { addProfileId } from "../../features/profileSlice";
+import { setActive } from "../../features/navSlice";
 
 const Post = ({ postData, index }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const profileImg = postData.profileImage ?? defaultProfileImage;
+
+  const handleClickOnProfileName = () => {
+    dispatch(addProfileId({ id: postData.userId }));
+    dispatch(setActive({ index: 1 }));
+    history.push(`profile`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.head}>
-        <div className={styles.profile}>
+        <div
+          data-btn
+          onClick={handleClickOnProfileName}
+          className={styles.profile}
+        >
           <img alt="Profile img" src={profileImg} />
         </div>
-        <span className={styles.profile_name}>
+        <span
+          data-btn
+          onClick={handleClickOnProfileName}
+          className={styles.profile_name}
+        >
           {postData.profileName ?? "No Name"}
         </span>
         {/* <div className={styles.ellipsis}>
@@ -69,6 +88,7 @@ export function PostFooter({
   likeCountSelector,
   dispatchActionForLike,
 }) {
+  const history = useHistory();
   const socket = useSelector(getSocket);
   const user = useSelector(selectUser);
   const likeStatus = useSelector(
@@ -83,6 +103,7 @@ export function PostFooter({
       <CompletePost
         options={{
           user,
+          history,
           postData,
           index,
           openComments: false,
@@ -148,6 +169,12 @@ export function PostFooter({
     );
   };
 
+  const handleClickOnProfileName = () => {
+    dispatch(addProfileId({ id: postData.userId }));
+    dispatch(setActive({ index: 1 }));
+    history.push(`profile`);
+  };
+
   return (
     <div>
       <div className={styles.post}>
@@ -173,7 +200,11 @@ export function PostFooter({
           <span>{likeCount} likes</span>
         </div>
         <div className={styles.caption}>
-          <span className={styles.name}>
+          <span
+            data-btn
+            onClick={handleClickOnProfileName}
+            className={styles.name}
+          >
             {" "}
             {postData.profileName ?? "No Name"}
           </span>{" "}

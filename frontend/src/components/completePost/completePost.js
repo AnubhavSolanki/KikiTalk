@@ -17,7 +17,11 @@ const CompletePost = ({ options }) => {
   return (
     <div className={styles.wrapper}>
       {PostFooter(options)}
-      <CommentContainer postId={options.postData._id} />
+      <CommentContainer
+        postDataUserId={options.postData.userId}
+        postId={options.postData._id}
+        history={options.history}
+      />
     </div>
   );
 };

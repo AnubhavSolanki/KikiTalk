@@ -12,6 +12,10 @@ import {
 } from "../../features/commentSlice";
 import { getLoadingState, setLoading } from "../../features/loadingSlice";
 import Loader from "react-js-loader";
+import { addProfileId } from "../../features/profileSlice";
+import { setActive } from "../../features/navSlice";
+import { useHistory } from "react-router-dom";
+import { removeModal } from "../../utils/createModal";
 
 const fetchComments = (comments, dispatch, postId) => {
   return new Promise(async (resolve, reject) => {
@@ -42,24 +46,7 @@ const fetchComments = (comments, dispatch, postId) => {
   });
 };
 
-const commentTemplate = (commentData, index) => {
-  return (
-    <div key={index} className={styles.commentContainer}>
-      <div className={styles.profileImage}>
-        <img
-          alt="profile"
-          src={commentData?.profileUrl ?? defaultProfileImage}
-        />
-      </div>
-      <span className={styles.posterName}>
-        {commentData?.profileName ?? ""}
-      </span>
-      <span>{commentData?.comment ?? ""}</span>
-    </div>
-  );
-};
-
-const CommentContainer = ({ postId }) => {
+const CommentContainer = ({ postId, postDataUserId, history }) => {
   const dispatch = useDispatch();
   const commentState = useSelector(getCommentState);
   const isLoading = useSelector(getLoadingState("commmentLoading"));
@@ -71,6 +58,38 @@ const CommentContainer = ({ postId }) => {
       dispatch(resetCommentState());
     };
   }, []);
+
+  const handleClickOnProfileName = () => {
+    dispatch(addProfileId({ id: postDataUserId }));
+    dispatch(setActive({ index: 1 }));
+    removeModal();
+    history.push(`profile`);
+  };
+
+  const commentTemplate = (commentData, index) => {
+    return (
+      <div key={index} className={styles.commentContainer}>
+        <div
+          data-btn
+          onClick={handleClickOnProfileName}
+          className={styles.profileImage}
+        >
+          <img
+            alt="profile"
+            src={commentData?.profileUrl ?? defaultProfileImage}
+          />
+        </div>
+        <span
+          data-btn
+          onClick={handleClickOnProfileName}
+          className={styles.posterName}
+        >
+          {commentData?.profileName ?? ""}
+        </span>
+        <span>{commentData?.comment ?? ""}</span>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.container}>

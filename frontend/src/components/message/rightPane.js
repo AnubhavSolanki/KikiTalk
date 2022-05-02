@@ -20,6 +20,9 @@ import { selectUser } from "../../features/userSlice";
 import { getSocket } from "../../features/socketSlice";
 import { getLoadingState, setLoading } from "../../features/loadingSlice";
 import Loader from "react-js-loader";
+import { addProfileId } from "../../features/profileSlice";
+import { useHistory } from "react-router-dom";
+import { setActive } from "../../features/navSlice";
 
 const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -63,6 +66,7 @@ const RightPane = () => {
   const socket = useSelector(getSocket);
   const user = useSelector(selectUser);
   const isLoading = useSelector(getLoadingState("messageLoading"));
+  const history = useHistory();
 
   useEffect(() => {
     if (chatBoxState.messages.length === 0)
@@ -134,16 +138,28 @@ const RightPane = () => {
     );
   };
 
+  const handleClickOnProfileName = () => {
+    dispatch(addProfileId({ id: selectedChannel._id }));
+    dispatch(setActive({ index: 1 }));
+    history.push(`profile`);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.heading}>
-        <div className={styles.profileImg}>
+        <div
+          data-btn
+          onClick={handleClickOnProfileName}
+          className={styles.profileImg}
+        >
           <img
             src={selectedChannel?.profileImageUrl ?? defaultProfileImage}
             alt={"follower"}
           />
         </div>
-        <span>{selectedChannel?.full_name ?? "No Channel Selected"}</span>
+        <span data-btn onClick={handleClickOnProfileName}>
+          {selectedChannel?.full_name ?? "No Channel Selected"}
+        </span>
       </div>
       <div id="messageScrollableDiv" className={styles.chatSection}>
         <InfiniteScroll

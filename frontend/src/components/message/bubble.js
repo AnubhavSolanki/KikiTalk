@@ -12,6 +12,7 @@ import { get } from "../../utils/requests";
 import CompletePost from "../completePost/completePost";
 import styles from "./bubble.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const fetchPostData = (postId, index, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -38,6 +39,7 @@ const fetchPostData = (postId, index, dispatch) => {
 const Bubble = ({ messageData, index }) => {
   const postData = useSelector((state) => getMessagePost(state, index));
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (messageData.message.startsWith("postId-")) {
@@ -52,6 +54,7 @@ const Bubble = ({ messageData, index }) => {
         options={{
           postData,
           index,
+          history,
           openComments: false,
           likeStatusSelector:
             ({ index, userId }) =>
