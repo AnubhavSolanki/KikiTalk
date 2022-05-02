@@ -40,7 +40,7 @@ const fetchProfileList = (profileList, dispatch, url, params) => {
 };
 
 const ProfileList = ({ options }) => {
-  const { url, params, button, heading } = options;
+  const { url, params, button, heading, emptyMessage } = options;
   const profileListState = useSelector(getProfileListState);
   const dispatch = useDispatch();
   const isLoading = useSelector(getLoadingState("profileListLoading"));
@@ -75,6 +75,13 @@ const ProfileList = ({ options }) => {
               color={"#000000"}
               size={50}
             />
+          }
+          endMessage={
+            profileListState.profileList.length === 0 ? (
+              <p align="center">{emptyMessage}</p>
+            ) : (
+              <></>
+            )
           }
           scrollableTarget="profileListScrollableDiv"
         >

@@ -115,6 +115,7 @@ export function PostFooter({
           url: `${process.env.REACT_APP_BASE_URL}/likedBy`,
           params: { postId: postData._id },
           heading: "Likes",
+          emptyMessage: "No Likes",
           button: {
             onClick: ({ userId, index }) => {
               dispatch(toggleFollowOnList({ index }));
@@ -132,6 +133,7 @@ export function PostFooter({
           url: `${process.env.REACT_APP_BASE_URL}/followers`,
           params: { userId: user.id, isForSend: true },
           heading: "Send To",
+          emptyMessage: "No Followers",
           button: {
             onClick: ({ userId, index }) => {
               socket.emit("Send Message", {

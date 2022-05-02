@@ -172,6 +172,7 @@ const Profile = () => {
           url: `${process.env.REACT_APP_BASE_URL}/followers`,
           params: { userId: profileState.id },
           heading: "Followers",
+          emptyMessage: "No Followers",
           button: {
             onClick: ({ userId, index }) => {
               toggleFollowMethod(userId, index);
@@ -188,6 +189,7 @@ const Profile = () => {
         options={{
           url: `${process.env.REACT_APP_BASE_URL}/followings`,
           heading: "Followings",
+          emptyMessage: "No Followings",
           params: { userId: profileState.id },
           button: {
             onClick: ({ userId, index }) => {
