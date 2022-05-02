@@ -10,8 +10,10 @@
   margin: auto;
   font-size: 24px;
   margin-left: 25%;
-  font-weight: bold;
-  font-family: fantasy;
+  font-weight: 100;
+  font-family: none;
+  display: flex;
+  align-items: center;
 }
 
 .links {
@@ -24,4 +26,8 @@
 
 .active {
   border-bottom: 2px solid orange;
+}
+
+.active svg {
+  color: rebeccapurple;
 }

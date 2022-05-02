@@ -7,6 +7,7 @@ import { navTabs } from "./navTabs";
 import { getActiveIndex, setActive } from "../../features/navSlice";
 import { useEffect } from "react";
 import { selectUser } from "../../features/userSlice";
+import Logo from "../../assets/images/logo.png";
 
 const Navbar = () => {
   const history = useHistory();
@@ -18,7 +19,7 @@ const Navbar = () => {
   }, []);
   return (
     <div className={styles.bar}>
-      <span
+      <div
         data-btn
         onClick={navTabs[0].onClick.bind(this, {
           history,
@@ -29,8 +30,10 @@ const Navbar = () => {
         })}
         className={styles.logo}
       >
-        KikiTalk
-      </span>
+        <img style={{ width: "50px" }} src={Logo} alt="logo" />
+        <span data-btn>KikiTalk</span>
+      </div>
+
       {navTabs.map((navTab, index) => {
         return (
           <a
@@ -51,7 +54,10 @@ const Navbar = () => {
               index === navTabs.length - 1 ? styles.last_link : ""
             } ${index === active ? styles.active : ""}`}
           >
-            {navTab.name}
+            <span className={`${index === active ? styles.active : ""}`}>
+              {navTab.icon}
+            </span>
+            {/* <FaHome /> */}
           </a>
         );
       })}
