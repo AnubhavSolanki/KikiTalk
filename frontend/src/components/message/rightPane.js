@@ -167,7 +167,7 @@ const RightPane = ({ showState, setShowState }) => {
           />
         </div>
         <span data-btn onClick={handleClickOnProfileName}>
-          {selectedChannel?.full_name ?? "No Channel Selected"}
+          {selectedChannel?.full_name ?? "No Friend Selected"}
         </span>
       </div>
       <div id="messageScrollableDiv" className={styles.chatSection}>

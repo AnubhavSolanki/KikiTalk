@@ -74,6 +74,13 @@ const LeftPane = ({ showState, setShowState }) => {
             size={30}
           />
         }
+        endMessage={
+          channelState?.channelIdList?.length === 0 ? (
+            <p align="center">You have no friends currently</p>
+          ) : (
+            <></>
+          )
+        }
         scrollableTarget="channelScrollableDiv"
       >
         {channelState.channelIdList.map((channel, index) => {
