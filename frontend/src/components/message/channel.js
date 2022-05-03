@@ -3,6 +3,7 @@ import styles from "./channel.module.css";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useDispatch } from "react-redux";
 import { selectChannelId } from "../../features/channels";
+import { resetChatBox } from "../../features/chatBox";
 
 const Channel = ({ channelData, index, active, setShowState, showState }) => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const Channel = ({ channelData, index, active, setShowState, showState }) => {
     if (showState.leftPanel === true && showState.rightPanel === false) {
       setShowState({ leftPanel: false, rightPanel: true });
     }
+    dispatch(resetChatBox());
     dispatch(selectChannelId({ selected: index }));
   };
 
