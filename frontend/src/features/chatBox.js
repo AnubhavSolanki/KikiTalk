@@ -8,7 +8,21 @@ export const chatBoxSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     addMessage: (state, action) => {
-      state.messages.push(...action.payload.messages);
+      action.payload.messages
+        .filter(
+          (message) =>
+            message.senderId === action.payload.channelId ||
+            message.recieverId === action.payload.channelId
+        )
+        .forEach((message) => {
+          if (
+            !state.messages.find(
+              (stateMessage) => String(stateMessage._id) === String(message._id)
+            )
+          ) {
+            state.messages = [...state.messages, message];
+          }
+        });
       state.hasNext = action.payload.hasNext ?? state.hasNext;
       return state;
     },

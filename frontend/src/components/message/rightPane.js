@@ -41,13 +41,15 @@ const fetchMessages = (messages, senderId, dispatch) => {
         }
       );
       if (response.status === 200) {
-        if (response.data.messages.length)
+        if (response.data.messages.length) {
           dispatch(
             addMessage({
               messages: response.data.messages,
+              channelId: senderId,
               hasNext: response.data.hasNext,
             })
           );
+        }
         resolve();
       }
     } catch (err) {
