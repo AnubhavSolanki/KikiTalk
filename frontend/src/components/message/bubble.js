@@ -26,7 +26,7 @@ const fetchPostData = (postId, index, dispatch) => {
         }
       );
       if (response.status === 200) {
-        dispatch(addPost({ index, post: response.data }));
+        dispatch(addPost({ index: postId, post: response.data }));
         resolve();
       }
     } catch (err) {
@@ -37,7 +37,9 @@ const fetchPostData = (postId, index, dispatch) => {
 };
 
 const Bubble = ({ messageData, index }) => {
-  const postData = useSelector((state) => getMessagePost(state, index));
+  const postData = useSelector((state) =>
+    getMessagePost(state, messageData.message.split("postId-")[1])
+  );
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -53,7 +55,7 @@ const Bubble = ({ messageData, index }) => {
       <CompletePost
         options={{
           postData,
-          index,
+          index: messageData.message.split("postId-")[1],
           history,
           openComments: false,
           likeStatusSelector:
