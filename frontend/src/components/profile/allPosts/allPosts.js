@@ -51,7 +51,8 @@ const AllPosts = () => {
   const isLoading = useSelector(getLoadingState("allPostLoading"));
 
   useEffect(() => {
-    fetchPostsWithId(postState.posts, dispatch, profileState?.id);
+    if (postState.posts.length === 0)
+      fetchPostsWithId(postState.posts, dispatch, profileState?.id);
     return () => {
       dispatch(resetAllPosts());
     };

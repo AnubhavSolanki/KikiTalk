@@ -6,12 +6,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addProfileId } from "../../features/profileSlice";
 import { setActive } from "../../features/navSlice";
 import { removeModal } from "../../utils/createModal";
+import { resetAllPosts } from "../../features/allPosts";
 
 const ProfileModel = ({ userData, index, button, history }) => {
   const userId = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const handleClickOnProfileName = () => {
+    dispatch(resetAllPosts());
     dispatch(addProfileId({ id: userData._id }));
     dispatch(setActive({ index: 1 }));
     removeModal();

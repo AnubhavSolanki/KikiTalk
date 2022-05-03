@@ -12,7 +12,7 @@ const { findOneUser } = require("./userController");
 
 const addContent = async (req, res) => {
   try {
-    const { base64, description } = req.body;
+    const { base64 } = req.body;
     const userId = getUserId(res);
     const userData = await findOneUser({ _id: userId });
     if (!userData) throw new Error("User not exists");
@@ -40,7 +40,18 @@ const getPostWithId = async (req, res) => {
       page,
       size,
       true
-    );
+    ).then(async ({ pageData, hasNext }) => {
+      await Promise.all(
+        pageData.map(async (record) => {
+          const { userId } = record;
+          const userData = await findOneUser({ _id: userId });
+          record["profileImage"] = userData?.profileImageUrl;
+          record["profileName"] = userData.full_name;
+          return record;
+        })
+      );
+      return { pageData, hasNext };
+    });
     await res.status(200).json({ posts: pageData, hasNext });
   } catch (error) {
     printError(error);
@@ -52,6 +63,9 @@ const getPostWithPostId = async (req, res) => {
   try {
     const { postId } = req.query;
     const response = await content.findOne({ _id: postId });
+    const userData = await findOneUser({ _id: response.userId });
+    response._doc["profileImage"] = userData?.image;
+    response._doc["profileName"] = userData.full_name;
     res.status(200).json(response);
   } catch (error) {
     printError(error);

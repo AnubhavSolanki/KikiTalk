@@ -12,7 +12,7 @@ import { post } from "../../utils/requests";
 import { selectUser } from "../../features/userSlice";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useDispatch, useSelector } from "react-redux";
-import CreateModal from "../../utils/createModal";
+import CreateModal, { removeModal } from "../../utils/createModal";
 import { updatePost, isLiked, getLikeCount } from "../../features/postSlice";
 import CompletePost from "../completePost/completePost";
 import ProfileList from "../profileList/profileList";
@@ -60,6 +60,7 @@ const Post = ({ postData, index }) => {
       </div>
       {PostFooter({
         postData,
+        history,
         index,
         origin: "normal",
         openComments: true,
@@ -82,13 +83,13 @@ export default Post;
 
 export function PostFooter({
   postData,
+  history,
   index,
   openComments,
   likeStatusSelector,
   likeCountSelector,
   dispatchActionForLike,
 }) {
-  const history = useHistory();
   const socket = useSelector(getSocket);
   const user = useSelector(selectUser);
   const likeStatus = useSelector(
@@ -172,6 +173,7 @@ export function PostFooter({
   };
 
   const handleClickOnProfileName = () => {
+    removeModal();
     dispatch(addProfileId({ id: postData.userId }));
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);
