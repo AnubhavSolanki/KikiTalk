@@ -52,6 +52,7 @@ function App() {
         dispatch(unsetLoading());
       } else {
         setLoginState(false);
+        dispatch(unsetLoading());
       }
     };
     window.addEventListener("storage", checkUserData);

@@ -43,7 +43,7 @@ const fetchChannels = (channels, dispatch) => {
   });
 };
 
-const LeftPane = () => {
+const LeftPane = ({ showState, setShowState }) => {
   const dispatch = useDispatch();
   const channelState = useSelector(getChannelState);
   const selectedId = useSelector(getSelectedChannelId);
@@ -79,6 +79,8 @@ const LeftPane = () => {
         {channelState.channelIdList.map((channel, index) => {
           return (
             <Channel
+              showState={showState}
+              setShowState={setShowState}
               key={index}
               index={index}
               channelData={channel}

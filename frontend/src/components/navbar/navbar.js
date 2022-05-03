@@ -33,34 +33,35 @@ const Navbar = () => {
         <img style={{ width: "50px" }} src={Logo} alt="logo" />
         <span data-btn>KikiTalk</span>
       </div>
-
-      {navTabs.map((navTab, index) => {
-        return (
-          <a
-            data-btn
-            key={index}
-            onClick={
-              navTab.onClick
-                ? navTab.onClick.bind(this, {
-                    history,
-                    dispatch,
-                    index,
-                    active,
-                    userData,
-                  })
-                : null
-            }
-            className={`${styles.links} ${
-              index === navTabs.length - 1 ? styles.last_link : ""
-            } ${index === active ? styles.active : ""}`}
-          >
-            <span className={`${index === active ? styles.active : ""}`}>
-              {navTab.icon}
-            </span>
-            {/* <FaHome /> */}
-          </a>
-        );
-      })}
+      <div className={styles.navigationIcons}>
+        {navTabs.map((navTab, index) => {
+          return (
+            <a
+              data-btn
+              key={index}
+              onClick={
+                navTab.onClick
+                  ? navTab.onClick.bind(this, {
+                      history,
+                      dispatch,
+                      index,
+                      active,
+                      userData,
+                    })
+                  : null
+              }
+              className={`${styles.links} ${
+                index === navTabs.length - 1 ? styles.last_link : ""
+              } ${index === active ? styles.active : ""}`}
+            >
+              <span className={`${index === active ? styles.active : ""}`}>
+                {navTab.icon}
+              </span>
+              {/* <FaHome /> */}
+            </a>
+          );
+        })}
+      </div>
     </div>
   );
 };

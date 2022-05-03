@@ -20,7 +20,7 @@ import { get } from "../../utils/requests";
 import { useHistory } from "react-router-dom";
 import CreateModal from "../../utils/createModal";
 import CropImage from "../post/cropImage";
-import { setLoading, unsetLoading } from "../../features/loadingSlice";
+import { setLoading } from "../../features/loadingSlice";
 import ProfileList from "../profileList/profileList";
 import { toggleFollowOnList } from "../../features/profileListSlice";
 const fetchProfileInfo = (userId, dispatch) => {
@@ -41,7 +41,7 @@ const fetchProfileInfo = (userId, dispatch) => {
       console.log(err);
       reject(false);
     } finally {
-      dispatch(unsetLoading());
+      dispatch(setLoading({ loading: false }));
     }
   });
 };
@@ -252,11 +252,11 @@ const Profile = () => {
               )}
             </div>
             <div className={styles.followDetail}>
-              <div>{profileState.postCount} Posts</div>
-              <div data-btn onClick={openFollowers}>
+              <div align="center">{profileState.postCount} Posts</div>
+              <div align="center" data-btn onClick={openFollowers}>
                 {profileState.follower} Followers
               </div>
-              <div data-btn onClick={openFollowings}>
+              <div align="center" data-btn onClick={openFollowings}>
                 {profileState.following} Following
               </div>
             </div>

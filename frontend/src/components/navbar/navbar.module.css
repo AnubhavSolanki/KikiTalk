@@ -31,3 +31,17 @@
 .active svg {
   color: rebeccapurple;
 }
+.navigationIcons {
+  display: flex;
+  overflow-x: auto;
+  margin-left: 6px;
+}
+.navigationIcons::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 850px) {
+  .logo {
+    margin-left: 1%;
+  }
+}

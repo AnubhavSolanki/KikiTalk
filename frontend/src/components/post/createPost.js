@@ -28,7 +28,9 @@ const CreatePost = () => {
       >
         <input id="postInput" hidden type="file" onChange={onSubmit} />
         <FaImage size={70} />
-        <span className={styles.instruction}>Click above to browse images</span>
+        <span className={styles.instruction} align="center">
+          Click above to browse images
+        </span>
       </form>
     </div>
   );

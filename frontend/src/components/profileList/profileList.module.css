@@ -1,8 +1,8 @@
 .wrapper {
   overflow: auto;
-  width: min(55vw, 430px);
+  width: max(min(55vh, 270px), 37vw);
   padding: 16px 20px;
-  height: min(80vh, 600px);
+  height: min(60vh, 500px);
   border-top: 1px solid black;
 }
 

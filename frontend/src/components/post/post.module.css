@@ -1,5 +1,5 @@
 body {
-  --explorePostSizeFactor: 150;
+  --explorePostSizeFactor: 120;
 }
 
 .container {
@@ -32,8 +32,8 @@ body {
 }
 
 .post {
-  width: calc(3.5px * var(--explorePostSizeFactor));
-  height: calc(4.5px * var(--explorePostSizeFactor));
+  max-width: calc(3.5px * var(--explorePostSizeFactor));
+  max-height: calc(4.5px * var(--explorePostSizeFactor));
 }
 
 .post img {
@@ -82,10 +82,11 @@ body {
   cursor: pointer;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 525px) {
   .container {
     border-radius: 0px;
     margin-bottom: 0px;
+    border-top: 1px solid #b4b2b2;
   }
   .post,
   .post img {

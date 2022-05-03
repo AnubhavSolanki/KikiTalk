@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./rightPane.module.css";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
-import { FaWolfPackBattalion } from "react-icons/fa";
+import { FaArrowLeft, FaWolfPackBattalion } from "react-icons/fa";
 import Bubble from "./bubble";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { get } from "../../utils/requests";
@@ -59,7 +59,7 @@ const fetchMessages = (messages, senderId, dispatch) => {
   });
 };
 
-const RightPane = () => {
+const RightPane = ({ showState, setShowState }) => {
   const dispatch = useDispatch();
   const chatBoxState = useSelector(getChatBoxState);
   const selectedChannel = useSelector(getSelectedChannel);
@@ -69,7 +69,7 @@ const RightPane = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (chatBoxState.messages.length === 0)
+    if (chatBoxState.messages.length === 0 && selectedChannel?._id !== null)
       fetchMessages(chatBoxState.messages, selectedChannel?._id, dispatch);
   }, [chatBoxState.messages, dispatch, selectedChannel?._id]);
 
@@ -143,9 +143,17 @@ const RightPane = () => {
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);
   };
+  const handlePullMe = () => {
+    if (showState.leftPanel === false && showState.rightPanel === true) {
+      setShowState({ leftPanel: true, rightPanel: false });
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
+      <span onClick={handlePullMe} className={styles.pullMe}>
+        <FaArrowLeft />
+      </span>
       <div className={styles.heading}>
         <div
           data-btn

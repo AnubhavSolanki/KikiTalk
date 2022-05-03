@@ -1,7 +1,7 @@
 .searchContainer {
   position: relative;
-  width: min(50vw, 500px);
-  height: 80vh;
+  width: max(min(55vh, 270px), 37vw);
+  height: min(80vh, 570px);
   display: flex;
   flex-direction: column;
   padding: 10px 15px;
@@ -15,7 +15,7 @@
 
 .searchContainer input {
   width: 90%;
-  height: 38px;
+  height: min(38px, max(7vh, 30px));
   font-size: 15px;
   outline: none;
   margin: 20px auto;

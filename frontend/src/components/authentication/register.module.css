@@ -9,7 +9,7 @@
   position: relative;
   padding: 0px 50px;
   padding-bottom: 20px;
-  width: 300px;
+  width: min(300px, 65vw);
   margin: auto;
   border-radius: 20px;
   display: flex;

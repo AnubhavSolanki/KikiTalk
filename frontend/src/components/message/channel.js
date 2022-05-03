@@ -4,10 +4,13 @@ import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useDispatch } from "react-redux";
 import { selectChannelId } from "../../features/channels";
 
-const Channel = ({ channelData, index, active }) => {
+const Channel = ({ channelData, index, active, setShowState, showState }) => {
   const dispatch = useDispatch();
 
   const selectChannel = () => {
+    if (showState.leftPanel === true && showState.rightPanel === false) {
+      setShowState({ leftPanel: false, rightPanel: true });
+    }
     dispatch(selectChannelId({ selected: index }));
   };
 

@@ -1,11 +1,13 @@
 body {
-  --profilePostSizeFactor: 80;
+  --profilePostSizeFactor: 60;
 }
 
 .wrapper {
   width: calc(3.5px * var(--profilePostSizeFactor));
   height: calc(4.5px * var(--profilePostSizeFactor));
   cursor: pointer;
+  border-radius: 7px;
+  overflow: hidden;
 }
 
 .wrapper img {

@@ -4,6 +4,8 @@
   margin-left: 25px;
   padding: 8px 20px 0 20px;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .heading {
@@ -36,35 +38,57 @@
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
+  flex-grow: 1;
+}
+.chatSection::-webkit-scrollbar {
+  display: none;
 }
 
 .footer {
   display: flex;
   align-items: center;
+  margin-bottom: 19px;
+  margin-top: 5px;
+  height: min(32px, max(7%, 25px));
 }
 .footer svg {
   margin-left: 10px;
   cursor: pointer;
 }
 .input {
-  margin-bottom: 6px;
-  height: 37px;
+  height: 100%;
   flex-grow: 1;
-  margin-top: 1vh;
   outline: none;
 }
 
 .send {
-  padding: 4px 44px;
-  height: 32px;
+  padding: 2px 44px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
   font-family: serif;
-  margin: 0px 10px;
+  margin-left: 4px;
+  margin-right: 10px;
   font-weight: 600;
   cursor: pointer;
   background: white;
   color: black;
+}
+
+.pullMe {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .pullMe {
+    display: block;
+  }
+  .wrapper {
+    margin-left: 0px;
+    padding: 8px 10px 0 10px;
+  }
 }

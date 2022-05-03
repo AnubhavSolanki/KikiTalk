@@ -7,7 +7,14 @@
   width: 75vw;
   min-width: 580px;
   margin: auto;
+  height: calc(100% - 100px);
+  overflow: auto;
 }
+
+.wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 .profileName {
   margin: auto;
   display: flex;
@@ -26,6 +33,7 @@
 }
 .headerWrapper {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   font-size: 17px;
@@ -73,4 +81,10 @@
 
 .footer {
   margin-top: 20px;
+}
+
+@media (max-width: 850px) {
+  .wrapper {
+    min-width: 0px;
+  }
 }

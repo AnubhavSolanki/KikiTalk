@@ -62,7 +62,7 @@ const SearchFriends = ({ history }) => {
     }, 1000);
   };
   return (
-    <div className={styles.searchContainer}>
+    <div align="center" className={styles.searchContainer}>
       <h2>Search Your Friends</h2>
       <input
         onChange={handleChange}
