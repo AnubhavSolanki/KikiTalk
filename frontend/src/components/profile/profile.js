@@ -170,6 +170,7 @@ const Profile = () => {
       <ProfileList
         options={{
           url: `${process.env.REACT_APP_BASE_URL}/followers`,
+          history,
           params: { userId: profileState.id },
           heading: "Followers",
           emptyMessage: "No Followers",
@@ -188,6 +189,7 @@ const Profile = () => {
       <ProfileList
         options={{
           url: `${process.env.REACT_APP_BASE_URL}/followings`,
+          history,
           heading: "Followings",
           emptyMessage: "No Followings",
           params: { userId: profileState.id },

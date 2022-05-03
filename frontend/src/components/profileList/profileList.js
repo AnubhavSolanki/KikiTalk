@@ -89,6 +89,7 @@ const ProfileList = ({ options }) => {
             (profileData, index) => (
               <div key={index}>
                 <ProfileModel
+                  history={options.history}
                   index={index}
                   userData={profileData.userData}
                   button={{ ...button, text: profileData.buttonText }}

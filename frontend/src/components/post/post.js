@@ -134,6 +134,7 @@ export function PostFooter({
       <ProfileList
         options={{
           url: `${process.env.REACT_APP_BASE_URL}/likedBy`,
+          history,
           params: { postId: postData._id },
           heading: "Likes",
           emptyMessage: "No Likes",
@@ -152,6 +153,7 @@ export function PostFooter({
       <ProfileList
         options={{
           url: `${process.env.REACT_APP_BASE_URL}/followers`,
+          history,
           params: { userId: user.id, isForSend: true },
           heading: "Send To",
           emptyMessage: "No Followers",
