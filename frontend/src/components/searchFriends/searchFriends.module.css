@@ -1,6 +1,6 @@
 .searchContainer {
   position: relative;
-  width: max(min(55vh, 270px), 37vw);
+  width: min(356px, 75vw);
   height: min(80vh, 570px);
   display: flex;
   flex-direction: column;
