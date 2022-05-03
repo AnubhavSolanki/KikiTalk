@@ -263,7 +263,7 @@ const Profile = () => {
               </div>
             </div>
             {!profileState?.isMyProfile && (
-              <>
+              <div className={styles.buttonGroup}>
                 <button
                   className={styles.follow_btn}
                   onClick={toggleFollowMethod}
@@ -280,7 +280,7 @@ const Profile = () => {
                     Message
                   </button>
                 )}
-              </>
+              </div>
             )}
           </div>
         </div>

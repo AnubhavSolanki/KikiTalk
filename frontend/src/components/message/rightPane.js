@@ -139,6 +139,7 @@ const RightPane = ({ showState, setShowState }) => {
   };
 
   const handleClickOnProfileName = () => {
+    dispatch(resetChatBox());
     dispatch(addProfileId({ id: selectedChannel._id }));
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);

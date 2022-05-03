@@ -30,7 +30,13 @@
   font-size: 14px;
   font-family: monospace;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 4px;
+  flex-grow: 1;
+}
+.buttonGroup {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
 }
 .headerWrapper {
   display: flex;
