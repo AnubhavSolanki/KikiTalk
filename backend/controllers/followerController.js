@@ -74,22 +74,55 @@ const getFollowers = async (req, res) => {
       page,
       size,
       true
-    ).then(async ({ pageData, hasNext }) => {
-      const response = [];
-      for (const data of pageData) {
-        const userData = await user.findOne({ _id: data.followerId });
-        const follow = !!(await findMyFollower({
-          _id: data.followerId,
-          followerId: myId,
-        }));
-        response.push({
-          ...data,
-          userData,
-          buttonText: !!isForSend ? "Send" : follow ? "Unfollow" : "Follow",
-        });
-      }
-      return { pageData: response, hasNext };
-    });
+    )
+      .then(async ({ pageData, hasNext }) => {
+        const response = [];
+        for (const data of pageData) {
+          const userData = await user.findOne({ _id: data.followerId });
+          const follow = !!(await findMyFollower({
+            _id: data.followerId,
+            followerId: myId,
+          }));
+          response.push({
+            ...data,
+            userData,
+            buttonText: !!isForSend ? "Send" : follow ? "Unfollow" : "Follow",
+          });
+        }
+        return { pageData: response, hasNext };
+      })
+      .then(async ({ pageData, hasNext }) => {
+        if (!isForSend) return { pageData, hasNext };
+        const pagedData = await getPaginatedData(
+          follower,
+          { followerId: myId },
+          page,
+          size,
+          true
+        );
+        let newPageData = pagedData.pageData;
+        const newHasNext = pagedData.hasNext;
+        const response = [];
+        newPageData = newPageData.filter(
+          (data) =>
+            !pageData.find(
+              (pdata) => String(pdata.userData._id) === String(data.userId)
+            )
+        );
+
+        for (const data of newPageData) {
+          const userData = await user.findOne({ _id: data.userId });
+          response.push({
+            ...data,
+            userData,
+            buttonText: "Send",
+          });
+        }
+        return {
+          pageData: [...pageData, ...response],
+          hasNext: hasNext || newHasNext,
+        };
+      });
     res.status(200).json({ pageData, hasNext });
   } catch (error) {
     printError(error);
