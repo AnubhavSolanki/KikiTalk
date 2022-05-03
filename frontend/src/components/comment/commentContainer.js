@@ -76,7 +76,7 @@ const CommentContainer = ({ postId, postDataUserId, history }) => {
         >
           <img
             alt="profile"
-            src={commentData?.profileUrl ?? defaultProfileImage}
+            src={commentData?.profileImage ?? defaultProfileImage}
           />
         </div>
         <span
