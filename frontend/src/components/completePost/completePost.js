@@ -11,7 +11,7 @@ const CompletePost = ({ options }) => {
     return () => {
       document
         .querySelector("body")
-        .style.setProperty("--explorePostSizeFactor", "150");
+        .style.setProperty("--explorePostSizeFactor", "120");
     };
   }, []);
   return (
