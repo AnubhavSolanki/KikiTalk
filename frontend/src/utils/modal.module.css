@@ -5,14 +5,16 @@
   background: rgba(0, 0, 0, 0.651);
   display: flex;
   z-index: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal_container {
-  margin: auto;
   z-index: 50;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
+  margin: 50px;
 }
 
 .icon {

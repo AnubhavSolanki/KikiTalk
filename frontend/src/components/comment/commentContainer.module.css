@@ -1,6 +1,7 @@
 .container {
-  width: 25vw;
+  width: max(25vw, 250px);
   margin: 13px 21px;
+  height: min(515px, 80vh);
 }
 
 .commentContainer {
