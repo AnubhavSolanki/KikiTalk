@@ -12,12 +12,12 @@ const SendEmail = ({ openOtpComponentSetter, emailSetter }) => {
   const handleResetPassword = async (data) => {
     const { email } = data;
     emailSetter(email);
-    openOtpComponentSetter(true);
     const requestPasswordPromise = new Promise(async (resolve, reject) => {
       try {
         await post(`${process.env.REACT_APP_BASE_URL}/forgotPassword`, {
           email: email,
         });
+        openOtpComponentSetter(true);
         resolve();
       } catch (err) {
         openOtpComponentSetter(false);
@@ -27,7 +27,6 @@ const SendEmail = ({ openOtpComponentSetter, emailSetter }) => {
     promiseToast(requestPasswordPromise, {
       pending: "Sending Email",
       success: "Email Sent Successfully",
-      error: "Error Occured",
     });
   };
   return (

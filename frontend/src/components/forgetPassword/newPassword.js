@@ -26,7 +26,6 @@ const NewPassword = ({ token, email }) => {
     promiseToast(requestPasswordPromise, {
       pending: "Saving New Password",
       success: "Password Saved Successfully",
-      error: "Error Occured",
     });
   };
   return (

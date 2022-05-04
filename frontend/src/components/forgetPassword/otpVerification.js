@@ -35,7 +35,6 @@ const OtpVerification = ({
     promiseToast(requestPasswordPromise, {
       pending: "Verifying OTP",
       success: "OTP Verified Successfully",
-      error: "Error Occured",
     });
   };
   return (

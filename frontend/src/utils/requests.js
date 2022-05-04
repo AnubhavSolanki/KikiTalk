@@ -16,7 +16,12 @@ export const post = async (url, data = {}, options = {}) => {
         resolve(response);
       }
     } catch (err) {
-      if (err?.response?.data?.message) {
+      if (
+        typeof err?.response?.data === "string" ||
+        err?.response?.data instanceof String
+      ) {
+        errorToast(err?.response?.data);
+      } else if (err?.response?.data?.message) {
         if (err?.response?.data?.message === "Invalid Token") {
           removeDataFromLocalStorage(["token"]);
         } else {
@@ -43,7 +48,12 @@ export const get = async (url, options = {}) => {
         resolve(response);
       }
     } catch (err) {
-      if (err?.response?.data?.message) {
+      if (
+        typeof err?.response?.data === "string" ||
+        err?.response?.data instanceof String
+      ) {
+        errorToast(err?.response?.data);
+      } else if (err?.response?.data?.message) {
         errorToast(err?.response?.data?.message);
       } else {
         errorToast(err.message);
