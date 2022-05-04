@@ -28,7 +28,15 @@ export const navTabs = [
   {
     name: "Profile",
     icon: <FaUser size={25} />,
-    onClick: ({ history, index, dispatch, userData }) => {
+    onClick: ({
+      history,
+      active,
+      activeProfileId,
+      index,
+      dispatch,
+      userData,
+    }) => {
+      if (index === active && activeProfileId === userData.id) return;
       dispatch(setLoading());
       dispatch(setActive({ index }));
       dispatch(addProfileId({ id: userData.id }));
@@ -62,7 +70,8 @@ export const navTabs = [
   {
     name: "Message",
     icon: <FaEnvelope size={25} />,
-    onClick: ({ history, index, dispatch }) => {
+    onClick: ({ history, active, index, dispatch }) => {
+      if (index === active) return;
       dispatch(setLoading());
       dispatch(setActive({ index }));
       history.push("/message");

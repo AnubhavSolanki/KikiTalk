@@ -13,6 +13,7 @@ const Navbar = () => {
   const history = useHistory();
   const active = useSelector(getActiveIndex);
   const dispatch = useDispatch();
+  const activeProfileId = useSelector((state) => state.profileState.id);
   const userData = useSelector(selectUser);
   useEffect(() => {
     dispatch(setActive({ index: 0 }));
@@ -27,6 +28,7 @@ const Navbar = () => {
           index: 0,
           active,
           userData,
+          activeProfileId,
         })}
         className={styles.logo}
       >
@@ -47,6 +49,7 @@ const Navbar = () => {
                       index,
                       active,
                       userData,
+                      activeProfileId,
                     })
                   : null
               }
