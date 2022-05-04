@@ -18,10 +18,12 @@ export const messagePostSlice = createSlice({
       };
       return state;
     },
+    resetMessagePostState: () => INITIAL_STATE,
   },
 });
 
-export const { addPost, updatePost } = messagePostSlice.actions;
+export const { addPost, updatePost, setLoaded, resetMessagePostState } =
+  messagePostSlice.actions;
 
 export const getMessagePost = (state, index) =>
   state.messagePostState.posts[index];

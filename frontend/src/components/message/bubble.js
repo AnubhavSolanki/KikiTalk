@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TimeAgo from "timeago-react";
 import {
   addPost,
@@ -13,6 +13,7 @@ import CompletePost from "../completePost/completePost";
 import styles from "./bubble.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Loader from "react-js-loader";
 
 const fetchPostData = (postId, index, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -37,6 +38,7 @@ const fetchPostData = (postId, index, dispatch) => {
 };
 
 const Bubble = ({ messageData, index }) => {
+  const [postLoaded, setPostLoaded] = useState(false);
   const postData = useSelector((state) =>
     getMessagePost(state, messageData.message.split("postId-")[1])
   );
@@ -81,7 +83,22 @@ const Bubble = ({ messageData, index }) => {
         messageData.id === 1 ? styles.myBubble : ""
       }`}
     >
-      <img src={postData?.data?.url} alt="messagePost" />
+      <img
+        src={postData?.data?.url}
+        alt="messagePost"
+        onLoad={() => setPostLoaded(true)}
+        style={!postLoaded ? { display: "none" } : {}}
+      />
+      {!postLoaded && (
+        <div className={styles.proxyBlock}>
+          <Loader
+            type="spinner-default"
+            bgColor={"#FFFFFF"}
+            color={"#FFFFFF"}
+            size={50}
+          />
+        </div>
+      )}
     </div>
   ) : (
     <div

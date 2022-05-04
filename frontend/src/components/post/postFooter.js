@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaHeart,
   FaRegComment,
@@ -20,6 +20,7 @@ import { post } from "../../utils/requests";
 import CompletePost from "../completePost/completePost";
 import ProfileList from "../profileList/profileList";
 import styles from "./post.module.css";
+import Loader from "react-js-loader";
 
 export function PostFooter({ options }) {
   const {
@@ -33,6 +34,8 @@ export function PostFooter({ options }) {
   } = options;
   const socket = useSelector(getSocket);
   const user = useSelector(selectUser);
+  const [postLoaded, setPostLoaded] = useState(false);
+
   const likeStatus = useSelector(
     likeStatusSelector({ index, userId: user.id, postData })
   );
@@ -123,7 +126,23 @@ export function PostFooter({ options }) {
   return (
     <div>
       <div className={styles.post}>
-        <img alt="Post" src={postData?.data?.display_url} />
+        {!postLoaded && <div className={styles.dummy}></div>}
+        <img
+          alt="Post"
+          src={postData?.data?.display_url}
+          onLoad={() => setPostLoaded(true)}
+          style={!postLoaded ? { display: "none" } : {}}
+        />
+        {!postLoaded && (
+          <div className={styles.proxyBlock}>
+            <Loader
+              type="spinner-default"
+              bgColor={"#FFFFFF"}
+              color={"#FFFFFF"}
+              size={50}
+            />
+          </div>
+        )}
       </div>
       <div className={styles.post_footer}>
         <div className={styles.footer}>

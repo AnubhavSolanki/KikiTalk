@@ -1,13 +1,15 @@
 import defaultProfileImage from "../../../assets/images/default_profile.jpeg";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./singlePostCard.module.css";
 import CreateModal from "../../../utils/createModal";
 import CompletePost from "../../completePost/completePost";
 import { useDispatch } from "react-redux";
 import { updatePost, isLiked, getLikeCount } from "../../../features/allPosts";
 import { useHistory } from "react-router-dom";
+import Loader from "react-js-loader";
 
 export const SinglePostCard = ({ postData, index }) => {
+  const [postLoaded, setPostLoaded] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -40,7 +42,19 @@ export const SinglePostCard = ({ postData, index }) => {
         onClick={handlePostClick}
         alt="card"
         src={postData?.data?.url ?? defaultProfileImage}
+        onLoad={() => setPostLoaded(true)}
+        style={!postLoaded ? { display: "none" } : {}}
       />
+      {!postLoaded && (
+        <div className={styles.proxyBlock}>
+          <Loader
+            type="spinner-default"
+            bgColor={"#FFFFFF"}
+            color={"#FFFFFF"}
+            size={50}
+          />
+        </div>
+      )}
     </div>
   );
 };

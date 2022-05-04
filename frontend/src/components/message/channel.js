@@ -4,6 +4,7 @@ import defaultProfileImage from "../../assets/images/default_profile.jpeg";
 import { useDispatch } from "react-redux";
 import { selectChannelId } from "../../features/channels";
 import { resetChatBox } from "../../features/chatBox";
+import { resetMessagePostState } from "../../features/messagePostSlice";
 
 const Channel = ({ channelData, index, active, setShowState, showState }) => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Channel = ({ channelData, index, active, setShowState, showState }) => {
       setShowState({ leftPanel: false, rightPanel: true });
     }
     dispatch(resetChatBox());
+    dispatch(resetMessagePostState());
     dispatch(selectChannelId({ selected: index }));
   };
 

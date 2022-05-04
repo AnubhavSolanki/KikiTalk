@@ -15,6 +15,17 @@ body {
   width: 30px;
   overflow: hidden;
   background-color: blue;
+  position: relative;
+}
+
+.proxyBlock {
+  display: flex;
+  min-width: 100%;
+  min-height: 100%;
+  position: absolute;
+  top: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile img {
@@ -32,6 +43,9 @@ body {
 }
 
 .post {
+  display: flex;
+  flex-direction: column;
+  position: relative;
   max-width: calc(3.5px * var(--explorePostSizeFactor));
   max-height: calc(4.5px * var(--explorePostSizeFactor));
 }
@@ -80,6 +94,12 @@ body {
 .comment,
 .share {
   cursor: pointer;
+}
+
+.dummy {
+  width: calc(3.5px * var(--explorePostSizeFactor));
+  height: calc(4.5px * var(--explorePostSizeFactor));
+  background: black;
 }
 
 @media screen and (max-width: 525px) {
