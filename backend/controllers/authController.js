@@ -24,7 +24,7 @@ const verifyLoginDetails = async (email, password) => {
       throw new Error("Wrong Password");
     }
     const token = createToken({ id: userDetail.id }, process.env.TOKEN_KEY);
-    return await findUserAndUpdate({ email }, { token });
+    return { token };
   } catch (error) {
     throw error;
   }
@@ -32,9 +32,12 @@ const verifyLoginDetails = async (email, password) => {
 
 const login = async (req, res) => {
   try {
-    const data = await verifyLoginDetails(req.body.email, req.body.password);
+    const { token } = await verifyLoginDetails(
+      req.body.email,
+      req.body.password
+    );
     printSuccess("Logged In Successfully");
-    res.status(200).json(data);
+    res.status(200).json({ token });
   } catch (error) {
     printError(error.message);
     res.status(404).json({ message: error.message });
@@ -46,7 +49,7 @@ const register = async (req, res) => {
     const userDetail = await addUser(req.body);
     const token = createToken({ id: userDetail.id }, process.env.TOKEN_KEY);
     printSuccess("Successfully Registered");
-    res.status(200).json({ ...userDetail._doc, token });
+    res.status(200).json({ token });
   } catch (error) {
     printError(error.message);
     res.status(404).json({ message: error.message });

@@ -6,6 +6,7 @@ import {
   FaSignOutAlt,
   FaUser,
 } from "react-icons/fa";
+import { resetAllPosts } from "../../features/allPosts";
 import { setLoading } from "../../features/loadingSlice";
 import { setActive } from "../../features/navSlice";
 import { addProfileId } from "../../features/profileSlice";
@@ -37,6 +38,7 @@ export const navTabs = [
       userData,
     }) => {
       if (index === active && activeProfileId === userData.id) return;
+      dispatch(resetAllPosts());
       dispatch(setLoading());
       dispatch(setActive({ index }));
       dispatch(addProfileId({ id: userData.id }));
