@@ -20,5 +20,6 @@
   position: absolute;
   right: 1vw;
   top: 1vh;
+  z-index: 1000;
   cursor: pointer;
 }

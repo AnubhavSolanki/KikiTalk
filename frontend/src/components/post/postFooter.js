@@ -124,7 +124,7 @@ export function PostFooter({ options }) {
   };
 
   return (
-    <div>
+    <div className={styles.containerWrapper}>
       <div className={styles.post}>
         {!postLoaded && <div className={styles.dummy}></div>}
         <img
@@ -145,46 +145,52 @@ export function PostFooter({ options }) {
         )}
       </div>
       <div className={styles.post_footer}>
-        <div className={styles.footer}>
-          <div data-btn onClick={onLike} className={styles.like}>
-            {likeStatus ? (
-              <FaHeart style={{ color: "red" }} size={25} />
-            ) : (
-              <FaRegHeart size={25} />
-            )}
+        <div className={styles.footerWrapper}>
+          <div className={styles.footer}>
+            <div data-btn onClick={onLike} className={styles.like}>
+              {likeStatus ? (
+                <FaHeart style={{ color: "red" }} size={25} />
+              ) : (
+                <FaRegHeart size={25} />
+              )}
+            </div>
+            <div
+              data-btn
+              onClick={openPostContainer}
+              className={styles.comment}
+            >
+              <FaRegComment size={25} />
+            </div>
+            <div data-btn className={styles.share} onClick={openSendList}>
+              <FaRegPaperPlane size={25} />
+            </div>
           </div>
-          <div data-btn onClick={openPostContainer} className={styles.comment}>
-            <FaRegComment size={25} />
+          <div data-btn onClick={handleClickOnLikeCount}>
+            <span>{likeCount} likes</span>
           </div>
-          <div data-btn className={styles.share} onClick={openSendList}>
-            <FaRegPaperPlane size={25} />
+          <div className={styles.caption}>
+            <span
+              data-btn
+              onClick={handleClickOnProfileName}
+              className={styles.name}
+            >
+              {" "}
+              {postData.profileName ?? "No Name"}
+            </span>{" "}
+            {postData?.description && postData?.description !== ""
+              ? postData?.description
+              : "No Description"}
           </div>
-        </div>
-        <div data-btn onClick={handleClickOnLikeCount}>
-          <span>{likeCount} likes</span>
-        </div>
-        <div className={styles.caption}>
-          <span
-            data-btn
-            onClick={handleClickOnProfileName}
-            className={styles.name}
-          >
-            {" "}
-            {postData.profileName ?? "No Name"}
-          </span>{" "}
-          {postData?.description && postData?.description !== ""
-            ? postData?.description
-            : "No Description"}
-        </div>
-        {openComments && (
-          <div>
-            <span onClick={openPostContainer} style={{ cursor: "pointer" }}>
-              View comments
-            </span>
+          {openComments && (
+            <div>
+              <span onClick={openPostContainer} style={{ cursor: "pointer" }}>
+                View comments
+              </span>
+            </div>
+          )}
+          <div className={styles.post_time}>
+            <TimeAgo datetime={postData.createdAt} />
           </div>
-        )}
-        <div className={styles.post_time}>
-          <TimeAgo datetime={postData.createdAt} />
         </div>
       </div>
     </div>
