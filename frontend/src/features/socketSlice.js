@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import io from "socket.io-client";
+import { getUrl } from "../utils/requests";
 
 const INITIAL_STATE = {
   socket: null,
@@ -9,7 +10,7 @@ export const socketSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     createSocket: (state, action) => {
-      const newSocket = io(process.env.REACT_APP_BASE_URL, {
+      const newSocket = io(getUrl(process.env.REACT_APP_BASE_URL), {
         auth: {
           token: action.payload.token,
         },

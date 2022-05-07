@@ -40,7 +40,8 @@ io.on("connection", (socket) => {
     messageDetail = { ...messageDetail, senderId };
     const response = await addMessageInDatabase(messageDetail);
     addMessageChannelInDatabase(messageDetail.recieverId, senderId);
-    socket.broadcast.emit(messageDetail.recieverId, response);
+    io.emit(messageDetail.recieverId, response);
+    io.emit(senderId, response);
   });
 });
 

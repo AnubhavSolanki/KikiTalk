@@ -52,6 +52,7 @@ const Comment = ({ postId, shouldDispatch = false }) => {
         onSubmit={handleSubmit(postComment)}
       >
         <input
+          autoFocus={true}
           {...register("comment", { required: true })}
           className={styles.post_input}
           placeholder="Add a Comment"

@@ -65,6 +65,7 @@ const SearchFriends = ({ history }) => {
     <div align="center" className={styles.searchContainer}>
       <h2>Search Your Friends</h2>
       <input
+        autoFocus={true}
         onChange={handleChange}
         value={searchUserState.searchText}
         placeholder={"Search"}

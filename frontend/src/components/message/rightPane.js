@@ -83,13 +83,15 @@ const RightPane = ({ showState, setShowState }) => {
   useEffect(() => {
     if (socket && user?.id) {
       socket.on(`${user.id}`, (data) => {
-        dispatch(
-          addNewMessages({
-            messages: [
-              { ...data, id: selectedChannel?._id === data.recieverId },
-            ],
-          })
-        );
+        if (
+          user?.id === data.senderId ||
+          selectedChannel?._id === data.recieverId
+        )
+          dispatch(
+            addNewMessages({
+              messages: [{ ...data, id: +(user?.id === data.senderId) }],
+            })
+          );
       });
     }
   }, [dispatch, selectedChannel?._id, socket, user?.id]);
@@ -100,12 +102,6 @@ const RightPane = ({ showState, setShowState }) => {
       recieverId,
       message,
     });
-
-    dispatch(
-      addNewMessages({
-        messages: [{ message, senderId: user.id, recieverId, id: 1 }],
-      })
-    );
     dispatch(addMessageInChannel({ message: "" }));
   };
 
@@ -113,6 +109,7 @@ const RightPane = ({ showState, setShowState }) => {
     return (
       <div className={styles.footer}>
         <input
+          autoFocus={true}
           placeholder={`Enter your Message`}
           className={styles.input}
           type="text"
