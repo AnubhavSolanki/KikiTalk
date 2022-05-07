@@ -47,6 +47,16 @@ body {
   max-width: 33vw;
 }
 
+.deletePost {
+  background: rgb(211, 138, 3);
+  padding: 10px 50px;
+  overflow-wrap: break-word;
+  border-radius: 9px;
+  width: fit-content;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .time {
   margin-left: 10px;
   font-size: 10px;

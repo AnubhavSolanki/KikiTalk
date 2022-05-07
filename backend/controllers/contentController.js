@@ -63,6 +63,10 @@ const getPostWithPostId = async (req, res) => {
   try {
     const { postId } = req.query;
     const response = await content.findOne({ _id: postId });
+    if (!response) {
+      res.status(200).json({ deleted: true });
+      return;
+    }
     const userData = await findOneUser({ _id: response.userId });
     response._doc["profileImage"] = userData?.image;
     response._doc["profileName"] = userData.full_name;
