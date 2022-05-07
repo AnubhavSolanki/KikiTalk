@@ -23,6 +23,7 @@ import CropImage from "../post/cropImage";
 import { setLoading } from "../../features/loadingSlice";
 import ProfileList from "../profileList/profileList";
 import { toggleFollowOnList } from "../../features/profileListSlice";
+
 const fetchProfileInfo = (userId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {

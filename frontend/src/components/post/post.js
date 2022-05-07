@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import { addProfileId } from "../../features/profileSlice";
 import { setActive } from "../../features/navSlice";
 import { PostFooter } from "./postFooter";
+import { resetAllPosts } from "../../features/allPosts";
 
 const Post = ({ postData, index }) => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Post = ({ postData, index }) => {
   const profileImg = postData.profileImage ?? defaultProfileImage;
 
   const handleClickOnProfileName = () => {
+    dispatch(resetAllPosts());
     dispatch(addProfileId({ id: postData.userId }));
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);

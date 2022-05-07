@@ -16,6 +16,7 @@ import { addProfileId } from "../../features/profileSlice";
 import { setActive } from "../../features/navSlice";
 import { useHistory } from "react-router-dom";
 import { removeModal } from "../../utils/createModal";
+import { resetAllPosts } from "../../features/allPosts";
 
 const fetchComments = (comments, dispatch, postId) => {
   return new Promise(async (resolve, reject) => {
@@ -60,6 +61,7 @@ const CommentContainer = ({ postId, postDataUserId, history }) => {
   }, []);
 
   const handleClickOnProfileName = ({ userId }) => {
+    dispatch(resetAllPosts());
     dispatch(addProfileId({ id: userId }));
     dispatch(setActive({ index: 1 }));
     removeModal();

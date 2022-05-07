@@ -21,6 +21,7 @@ import CompletePost from "../completePost/completePost";
 import ProfileList from "../profileList/profileList";
 import styles from "./post.module.css";
 import Loader from "react-js-loader";
+import { resetAllPosts } from "../../features/allPosts";
 
 export function PostFooter({ options }) {
   const {
@@ -118,6 +119,7 @@ export function PostFooter({ options }) {
 
   const handleClickOnProfileName = () => {
     removeModal();
+    dispatch(resetAllPosts());
     dispatch(addProfileId({ id: postData.userId }));
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);

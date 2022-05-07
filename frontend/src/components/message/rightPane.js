@@ -23,6 +23,7 @@ import Loader from "react-js-loader";
 import { addProfileId } from "../../features/profileSlice";
 import { useHistory } from "react-router-dom";
 import { setActive } from "../../features/navSlice";
+import { resetAllPosts } from "../../features/allPosts";
 
 const fetchMessages = (messages, senderId, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -141,6 +142,7 @@ const RightPane = ({ showState, setShowState }) => {
   };
 
   const handleClickOnProfileName = () => {
+    dispatch(resetAllPosts());
     dispatch(addProfileId({ id: selectedChannel._id }));
     dispatch(setActive({ index: 1 }));
     history.push(`profile`);
