@@ -59,8 +59,8 @@ const CommentContainer = ({ postId, postDataUserId, history }) => {
     };
   }, []);
 
-  const handleClickOnProfileName = () => {
-    dispatch(addProfileId({ id: postDataUserId }));
+  const handleClickOnProfileName = ({ userId }) => {
+    dispatch(addProfileId({ id: userId }));
     dispatch(setActive({ index: 1 }));
     removeModal();
     history.push(`profile`);
@@ -71,7 +71,9 @@ const CommentContainer = ({ postId, postDataUserId, history }) => {
       <div key={index} className={styles.commentContainer}>
         <div
           data-btn
-          onClick={handleClickOnProfileName}
+          onClick={handleClickOnProfileName.bind(this, {
+            userId: commentData.userId,
+          })}
           className={styles.profileImage}
         >
           <img
@@ -81,7 +83,9 @@ const CommentContainer = ({ postId, postDataUserId, history }) => {
         </div>
         <span
           data-btn
-          onClick={handleClickOnProfileName}
+          onClick={handleClickOnProfileName.bind(this, {
+            userId: commentData.userId,
+          })}
           className={styles.posterName}
         >
           {commentData?.profileName ?? ""}
