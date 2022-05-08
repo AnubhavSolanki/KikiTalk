@@ -35,6 +35,16 @@ export const postSlice = createSlice({
       }
       return state;
     },
+    removePost: (state, action) => {
+      const index = state.posts.find(
+        (post) => post._id === action.payload.postId
+      );
+      if (index !== -1) {
+        state.posts.splice(index, 1);
+      }
+      state.postCount = state.posts.length;
+      return state;
+    },
     removeLike: (state, action) => {
       const userId = action.payload.userId;
       const index = action.payload.index;
@@ -47,8 +57,14 @@ export const postSlice = createSlice({
   },
 });
 
-export const { addPost, addPosts, addLike, removeLike, updatePost } =
-  postSlice.actions;
+export const {
+  addPost,
+  addPosts,
+  addLike,
+  removeLike,
+  updatePost,
+  removePost,
+} = postSlice.actions;
 
 export const getPosts = (state) => state.postState.posts;
 

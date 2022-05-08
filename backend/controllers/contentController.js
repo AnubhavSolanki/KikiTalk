@@ -9,6 +9,7 @@ const { uploadImage } = require("../services/imgbbService");
 const { getUserId } = require("../util/getUserId");
 const { findMyFollower } = require("./followerController");
 const { findOneUser } = require("./userController");
+const { deleteComments } = require("./commentController");
 
 const addContent = async (req, res) => {
   try {
@@ -22,9 +23,22 @@ const addContent = async (req, res) => {
       contentType: "image",
     };
     const response = await content.create({ ...req.body, userId });
-    response._doc["profileImage"] = userData?.image;
+    response._doc["profileImage"] = userData?.profileImageUrl;
     response._doc["profileName"] = userData.full_name;
     res.status(200).json(response);
+  } catch (error) {
+    printError(error);
+    res.status(400).send(error.message);
+  }
+};
+
+const deleteContent = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    if (!postId) res.status(400).json({ message: "Post Already Deleted" });
+    await deleteComments({ postId });
+    await content.deleteOne({ _id: postId });
+    res.status(200).json({ message: "Post Deleted Successfully" });
   } catch (error) {
     printError(error);
     res.status(400).send(error.message);
@@ -68,7 +82,7 @@ const getPostWithPostId = async (req, res) => {
       return;
     }
     const userData = await findOneUser({ _id: response.userId });
-    response._doc["profileImage"] = userData?.image;
+    response._doc["profileImage"] = userData?.profileImageUrl;
     response._doc["profileName"] = userData.full_name;
     res.status(200).json(response);
   } catch (error) {
@@ -158,4 +172,5 @@ module.exports = {
   toggleLike,
   getPostWithPostId,
   getLikedBy,
+  deleteContent,
 };

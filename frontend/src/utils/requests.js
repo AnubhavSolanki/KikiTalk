@@ -70,3 +70,24 @@ export const get = async (url, options = {}) => {
     }
   });
 };
+
+export const deleteMethod = (url, data = {}, options = {}) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      url = getUrl(url);
+      const token = await localStorage.getItem("token");
+      options = {
+        ...options,
+        data,
+        headers: { Authentication: token },
+      };
+      const response = await axios.delete(url, options);
+      if (response.status === 200) {
+        resolve(response);
+      }
+    } catch (err) {
+      errorToast(extractError(err));
+      reject(err);
+    }
+  });
+};

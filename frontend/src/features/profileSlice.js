@@ -32,7 +32,11 @@ export const profileSlice = createSlice({
     },
     increasePostCount: (state) => {
       state.postCount = state.postCount + 1;
-      return;
+      return state;
+    },
+    decreasePostCount: (state) => {
+      state.postCount = state.postCount - 1;
+      return state;
     },
     updateProfileNameInStore: (state, action) => {
       state.name = action.payload.name;
@@ -55,6 +59,7 @@ export const {
   addProfileImage,
   increasePostCount,
   updateFollowing,
+  decreasePostCount,
 } = profileSlice.actions;
 
 export const getProfileState = (state) => state.profileState;

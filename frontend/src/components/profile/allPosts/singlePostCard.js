@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { updatePost, isLiked, getLikeCount } from "../../../features/allPosts";
 import { useHistory } from "react-router-dom";
 import Loader from "react-js-loader";
+import { FaTrash } from "react-icons/fa";
+import ConfirmDelete from "./confirmDelete";
 
 export const SinglePostCard = ({ postData, index }) => {
   const [postLoaded, setPostLoaded] = useState(false);
@@ -36,8 +38,15 @@ export const SinglePostCard = ({ postData, index }) => {
     );
   };
 
+  const handleDeletePost = () => {
+    CreateModal(<ConfirmDelete postId={postData?._id} />);
+  };
+
   return (
     <div className={styles.wrapper}>
+      <span className={styles.deleteIcon}>
+        <FaTrash onClick={handleDeletePost} />
+      </span>
       <img
         onClick={handlePostClick}
         alt="card"

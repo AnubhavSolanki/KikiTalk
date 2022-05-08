@@ -27,3 +27,15 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.deleteIcon {
+  display: none;
+  color: white;
+  position: absolute;
+  right: 7px;
+  top: 5px;
+}
+
+.wrapper:hover .deleteIcon {
+  display: block;
+}

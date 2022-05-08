@@ -23,12 +23,26 @@ export const allPostSlice = createSlice({
       };
       return state;
     },
+    removeFromAllPost: (state, action) => {
+      const index = state.posts.find(
+        (post) => post._id === action.payload.postId
+      );
+      if (index !== -1) {
+        state.posts.splice(index, 1);
+      }
+      return state;
+    },
     resetAllPosts: () => INITIAL_STATE,
   },
 });
 
-export const { addPosts, addPostInAllPost, updatePost, resetAllPosts } =
-  allPostSlice.actions;
+export const {
+  addPosts,
+  addPostInAllPost,
+  updatePost,
+  resetAllPosts,
+  removeFromAllPost,
+} = allPostSlice.actions;
 
 export const getAllPostsState = (state) => state.allPostsState;
 

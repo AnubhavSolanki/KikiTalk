@@ -8,13 +8,17 @@ const addComment = async (req, res) => {
     let response = await comment.create(req.body);
     const { userId } = response;
     const userData = await findOneUser({ _id: userId });
-    response._doc["profileImage"] = userData?.image;
+    response._doc["profileImage"] = userData?.profileImageUrl;
     response._doc["profileName"] = userData.full_name;
     res.status(200).json(response);
   } catch (error) {
     printError(error);
     res.status(400).send(error.message);
   }
+};
+
+const deleteComments = (condition) => {
+  comment.deleteMany(condition);
 };
 
 const getComments = async (req, res) => {
@@ -48,4 +52,5 @@ const getComments = async (req, res) => {
 module.exports = {
   addComment,
   getComments,
+  deleteComments,
 };

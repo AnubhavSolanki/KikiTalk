@@ -13,7 +13,7 @@ const fetchPosts = (posts, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       dispatch(setLoading({ homepageLoading: true }));
-      const limit = 2;
+      const limit = 4;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestPost`,
         {

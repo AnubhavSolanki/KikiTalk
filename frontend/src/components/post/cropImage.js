@@ -113,7 +113,6 @@ const CropImage = ({ imgSrc, options }) => {
     await promiseToast(contentSubmissionPromise, {
       pending: "Uploading",
       success: "Post Uploaded Successfully",
-      error: "Error Occured",
     });
   };
   function generateAddPost() {

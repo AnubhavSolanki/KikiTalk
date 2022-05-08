@@ -11,6 +11,7 @@ const {
   toggleLike,
   getPostWithPostId,
   getLikedBy,
+  deleteContent,
 } = require("../controllers/contentController");
 const { addComment, getComments } = require("../controllers/commentController");
 const {
@@ -78,6 +79,8 @@ router.post("/follower", verifyToken, toggleFollower);
 router.post("/addMessage", verifyToken, addMessage);
 router.post("/updateProfileName", verifyToken, updateProfileName);
 router.post("/updateProfileImage", verifyToken, updateProfileImage);
+
+router.delete("/post", verifyToken, deleteContent);
 
 router.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build/index.html"));
