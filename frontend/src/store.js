@@ -14,6 +14,7 @@ import navReducer from "./features/navSlice";
 import loadingReducer from "./features/loadingSlice";
 import messagePostReducer from "./features/messagePostSlice";
 import profileListReducer from "./features/profileListSlice";
+import { getEnvironment } from "./utils/getEnvironment";
 
 const combinedReducer = combineReducers({
   user: userReducer,
@@ -44,5 +45,5 @@ export default configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(logger),
+    }).concat(getEnvironment() === "production" ? [] : logger),
 });

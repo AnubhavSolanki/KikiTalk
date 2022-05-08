@@ -1,3 +1,3 @@
 export const getEnvironment = () => {
-  return process.env.REACT_APP_ENVIRONMENT;
+  return process.env.REACT_APP_ENVIRONMENT ?? "development";
 };
