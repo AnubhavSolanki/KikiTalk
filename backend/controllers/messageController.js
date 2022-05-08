@@ -1,4 +1,5 @@
 const { getPaginatedData } = require("../database/methods/getPaginatedData");
+const content = require("../database/models/content");
 const message = require("../database/models/messages");
 const { printError } = require("../services/coloredPrint");
 const { getUserId } = require("../util/getUserId");
@@ -18,12 +19,23 @@ const getLatestMessages = async (req, res) => {
       page,
       size,
       true
-    ).then(({ pageData, hasNext }) => {
-      pageData = pageData.map((message) => ({
-        ...message,
-        id: +(message.recieverId !== recieverId),
-      }));
-      return { pageData, hasNext };
+    ).then(async ({ pageData, hasNext }) => {
+      const res = [];
+      for (const message of pageData) {
+        let messageObj = {
+          ...message,
+          id: +(message.recieverId !== recieverId),
+        };
+        if (messageObj.message.startsWith("postId-")) {
+          const postId = messageObj.message.split("postId-")[1];
+          messageObj = {
+            ...messageObj,
+            deleted: !(await content.findOne({ _id: postId })),
+          };
+        }
+        res.push(messageObj);
+      }
+      return { pageData: res, hasNext };
     });
     res.status(200).json({ messages: pageData, hasNext });
   } catch (error) {

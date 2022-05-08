@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Loader from "react-js-loader";
 
-const fetchPostData = (postId, index, dispatch, setPostDeleted) => {
+const fetchPostData = (postId, dispatch) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await get(
@@ -27,12 +27,8 @@ const fetchPostData = (postId, index, dispatch, setPostDeleted) => {
         }
       );
       if (response.status === 200) {
-        if (response.data?.deleted === true) {
-          setPostDeleted(true);
-        } else {
-          dispatch(addPost({ index: postId, post: response.data }));
-          resolve();
-        }
+        dispatch(addPost({ index: postId, post: response.data }));
+        resolve();
       }
     } catch (err) {
       console.log(err);
@@ -43,7 +39,6 @@ const fetchPostData = (postId, index, dispatch, setPostDeleted) => {
 
 const Bubble = ({ messageData, index }) => {
   const [postLoaded, setPostLoaded] = useState(false);
-  const [postDeleted, setPostDeleted] = useState(false);
   const postData = useSelector((state) =>
     getMessagePost(state, messageData.message.split("postId-")[1])
   );
@@ -51,9 +46,9 @@ const Bubble = ({ messageData, index }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (messageData.message.startsWith("postId-")) {
+    if (messageData.message.startsWith("postId-") && !messageData.deleted) {
       const postId = messageData.message.split("postId-")[1];
-      fetchPostData(postId, index, dispatch, setPostDeleted);
+      fetchPostData(postId, dispatch);
     }
   }, []);
 
@@ -82,7 +77,7 @@ const Bubble = ({ messageData, index }) => {
 
   return messageData.message.startsWith("postId-") ? (
     <>
-      {postDeleted ? (
+      {messageData.deleted ? (
         <div
           className={`${styles.deletePost} ${
             messageData.id === 1 ? styles.myBubble : ""

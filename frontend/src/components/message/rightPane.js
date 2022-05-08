@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./rightPane.module.css";
 import defaultProfileImage from "../../assets/images/default_profile.jpeg";
-import { FaArrowLeft, FaWolfPackBattalion } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import Bubble from "./bubble";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { get } from "../../utils/requests";
@@ -81,11 +81,13 @@ const RightPane = ({ showState, setShowState }) => {
   }, [selectedChannel?._id, dispatch]);
 
   useEffect(() => {
-    if (socket && user?.id) {
+    if (socket && user?.id && selectedChannel?._id) {
       socket.on(`${user.id}`, (data) => {
         if (
-          user?.id === data.senderId ||
-          selectedChannel?._id === data.recieverId
+          (user?.id === data.senderId &&
+            selectedChannel?._id === data.recieverId) ||
+          (user?.id === data.recieverId &&
+            selectedChannel?._id === data.senderId)
         )
           dispatch(
             addNewMessages({
@@ -94,6 +96,9 @@ const RightPane = ({ showState, setShowState }) => {
           );
       });
     }
+    return () => {
+      socket.off(`${user.id}`);
+    };
   }, [dispatch, selectedChannel?._id, socket, user?.id]);
 
   const addMessageInChatBox = (message, recieverId) => {
