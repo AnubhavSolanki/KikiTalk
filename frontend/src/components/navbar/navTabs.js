@@ -38,11 +38,11 @@ export const navTabs = [
       userData,
     }) => {
       if (index === active && activeProfileId === userData.id) return;
-      dispatch(resetAllPosts());
       dispatch(setLoading());
-      dispatch(setActive({ index }));
+      dispatch(resetAllPosts());
       dispatch(addProfileId({ id: userData.id }));
-      history.push("/profile");
+      dispatch(setActive({ index }));
+      history.push("profile");
     },
   },
   {
