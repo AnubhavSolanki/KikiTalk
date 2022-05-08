@@ -30,7 +30,7 @@ const fetchMessages = (messages, senderId, dispatch) => {
     try {
       if (!senderId) return;
       dispatch(setLoading({ messageLoading: true }));
-      const limit = 12;
+      const limit = 30;
       const response = await get(
         `${process.env.REACT_APP_BASE_URL}/latestMessages`,
         {
