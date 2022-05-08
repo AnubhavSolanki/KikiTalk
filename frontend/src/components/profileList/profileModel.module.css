@@ -9,6 +9,7 @@
   height: 50px;
   overflow: hidden;
   border-radius: 50%;
+  border: 0.5px solid;
 }
 .profileImage img {
   width: 100%;

@@ -10,11 +10,11 @@ body {
 }
 
 .profile {
+  border: 0.5px solid;
   border-radius: 50%;
   height: 30px;
   width: 30px;
   overflow: hidden;
-  background-color: blue;
   position: relative;
 }
 .containerWrapper {

@@ -12,6 +12,7 @@
 }
 
 .profileImg {
+  border: 0.5px solid;
   border-radius: 50%;
   height: 50px;
   width: 50px;
