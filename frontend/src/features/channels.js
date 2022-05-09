@@ -15,6 +15,10 @@ export const channelSlice = createSlice({
       }
       state.hasNext = action.payload.hasNext ?? state.hasNext;
     },
+    updateSelected: (state, action) => {
+      state.selected = action.payload.selected;
+      return state;
+    },
     selectChannelId: (state, action) => {
       state.selected = action.payload.selected;
     },
@@ -41,6 +45,7 @@ export const {
   selectChannelId,
   addInChannel,
   addMessageInChannel,
+  updateSelected,
 } = channelSlice.actions;
 
 export const getChannelState = (state) => state.channelState;

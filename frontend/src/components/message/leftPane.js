@@ -7,10 +7,12 @@ import {
   addChannel,
   getChannelState,
   getSelectedChannelId,
+  updateSelected,
 } from "../../features/channels";
 import { get } from "../../utils/requests";
 import { getLoadingState, setLoading } from "../../features/loadingSlice";
 import Loader from "react-js-loader";
+import { useSessionStorage } from "../../utils/sessionStorage";
 
 const fetchChannels = (channels, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -48,6 +50,7 @@ const LeftPane = ({ showState, setShowState }) => {
   const channelState = useSelector(getChannelState);
   const selectedId = useSelector(getSelectedChannelId);
   const isLoading = useSelector(getLoadingState("channelLoading"));
+  const { addData, sessionData } = useSessionStorage();
 
   useEffect(() => {
     if (channelState.channelIdList.length === 0) {
@@ -55,7 +58,19 @@ const LeftPane = ({ showState, setShowState }) => {
     } else {
       dispatch(setLoading({ loading: false }));
     }
+    if (sessionData.getItem("LastMessageChannelId")) {
+      dispatch(
+        updateSelected({
+          selected: sessionData.getItem("LastMessageChannelId"),
+        })
+      );
+    }
   }, []);
+
+  useEffect(() => {
+    console.log(`id chagned to ${selectedId}`);
+    addData(["LastMessageChannelId", selectedId]);
+  }, [selectedId]);
 
   return (
     <div className={styles.wrapper}>
@@ -91,7 +106,7 @@ const LeftPane = ({ showState, setShowState }) => {
               key={index}
               index={index}
               channelData={channel}
-              active={selectedId === index}
+              active={parseInt(selectedId) === index}
             />
           );
         })}

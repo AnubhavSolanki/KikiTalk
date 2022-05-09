@@ -14,7 +14,6 @@ import { getLoadingState, setLoading } from "../../features/loadingSlice";
 import Loader from "react-js-loader";
 import { addProfileId } from "../../features/profileSlice";
 import { setActive } from "../../features/navSlice";
-import { useHistory } from "react-router-dom";
 import { removeModal } from "../../utils/createModal";
 import { resetAllPosts } from "../../features/allPosts";
 

@@ -1,13 +1,13 @@
 import { Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
 import { Redirect } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Home from "./components/home/home";
 import Login from "./components/authentication/login";
 import Navbar from "./components/navbar/navbar";
 import Register from "./components/authentication/register";
 import { useEffect, useState } from "react";
-import { saveUserDetails, selectUser } from "./features/userSlice";
+import { saveUserDetails } from "./features/userSlice";
 import { post } from "./utils/requests";
 import { ToastContainer } from "react-toastify";
 import ForgotPassword from "./components/forgetPassword/forgotPassword";
@@ -16,7 +16,7 @@ import Notifications from "./components/notifications/notifications";
 import GuardedRoute from "./utils/guardedRoute";
 import Message from "./components/message/message";
 import Loading from "./components/loading/loading";
-import { setLoading, unsetLoading } from "./features/loadingSlice";
+import { setLoading } from "./features/loadingSlice";
 import { createSocket, resetSocket } from "./features/socketSlice";
 import { useWindowUrlChange } from "./utils/useWindowUrlChange";
 import { useSessionStorage } from "./utils/sessionStorage";
@@ -40,16 +40,15 @@ export const verifyToken = (token, dispatch) => {
     }
   });
 };
-const nonAuthRoutes = ["login", "register", "forgotPassword"];
+export const nonAuthRoutes = ["login", "register", "forgotPassword"];
 
 function App() {
   const [firstTimeLoad, setFirstTimeLoad] = useState(true);
   const [loginState, setLoginState] = useState(true);
   const dispatch = useDispatch();
   const { windowUrl } = useWindowUrlChange();
-  const { addData, removeData, getLastUrl, sessionData } = useSessionStorage();
+  const { addData, getLastUrl } = useSessionStorage();
   const history = useHistory();
-  const userData = useSelector(selectUser);
 
   useEffect(() => {
     const checkUserData = async () => {
@@ -58,7 +57,6 @@ function App() {
         dispatch(setLoading());
         dispatch(createSocket({ token }));
         setLoginState(await verifyToken(token, dispatch));
-        // dispatch(setLoading({ loading: false }));
       } else {
         setLoginState(false);
         dispatch(setLoading({ loading: false }));
@@ -79,9 +77,7 @@ function App() {
       link = link.substring(link.lastIndexOf("/") + 1);
       if (link) history.push(link);
       for (const [index, tab] of navTabs.entries()) {
-        console.log(`${tab?.path} matches with ${link}`);
         if (tab?.path && tab.path.includes(link)) {
-          console.log(`${link} matched`);
           dispatch(setActive({ index }));
           break;
         }
@@ -98,7 +94,7 @@ function App() {
       )
         setFirstTimeLoad(false);
     };
-  }, [addData, windowUrl]);
+  }, [addData, dispatch, firstTimeLoad, getLastUrl, history, windowUrl]);
 
   return (
     <div className="App">
