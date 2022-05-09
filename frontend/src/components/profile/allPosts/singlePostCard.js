@@ -3,16 +3,18 @@ import React, { useState } from "react";
 import styles from "./singlePostCard.module.css";
 import CreateModal from "../../../utils/createModal";
 import CompletePost from "../../completePost/completePost";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updatePost, isLiked, getLikeCount } from "../../../features/allPosts";
 import { useHistory } from "react-router-dom";
 import Loader from "react-js-loader";
 import { FaTrash } from "react-icons/fa";
 import ConfirmDelete from "./confirmDelete";
+import { selectUserId } from "../../../features/userSlice";
 
 export const SinglePostCard = ({ postData, index }) => {
   const [postLoaded, setPostLoaded] = useState(false);
   const dispatch = useDispatch();
+  const userId = useSelector(selectUserId);
   const history = useHistory();
 
   const handlePostClick = () => {
@@ -44,9 +46,11 @@ export const SinglePostCard = ({ postData, index }) => {
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.deleteIcon}>
-        <FaTrash onClick={handleDeletePost} />
-      </span>
+      {postData.userId === userId && (
+        <span className={styles.deleteIcon}>
+          <FaTrash onClick={handleDeletePost} />
+        </span>
+      )}
       <img
         onClick={handlePostClick}
         alt="card"

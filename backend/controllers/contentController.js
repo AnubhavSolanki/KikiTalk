@@ -35,7 +35,12 @@ const addContent = async (req, res) => {
 const deleteContent = async (req, res) => {
   try {
     const { postId } = req.body;
-    if (!postId) res.status(400).json({ message: "Post Already Deleted" });
+    const userId = getUserId(res);
+    if (!postId) throw new Error("Please Provide Post Id");
+    const postData = await content.findOne({ _id: postId });
+    if (postData.userId !== userId)
+      throw new Error("User not allowed to delete this post");
+    if (!postData) throw new Error("Post Already Deleted");
     await deleteComments({ postId });
     await content.deleteOne({ _id: postId });
     res.status(200).json({ message: "Post Deleted Successfully" });
