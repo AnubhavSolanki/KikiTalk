@@ -97,7 +97,7 @@ const RightPane = ({ showState, setShowState }) => {
       });
     }
     return () => {
-      socket.off(`${user.id}`);
+      socket && socket.off(`${user.id}`);
     };
   }, [dispatch, selectedChannel?._id, socket, user?.id]);
 

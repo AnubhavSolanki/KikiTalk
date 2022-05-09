@@ -23,6 +23,7 @@ import CropImage from "../post/cropImage";
 import { setLoading } from "../../features/loadingSlice";
 import ProfileList from "../profileList/profileList";
 import { toggleFollowOnList } from "../../features/profileListSlice";
+import { useSessionStorage } from "../../utils/sessionStorage";
 
 const fetchProfileInfo = (userId, dispatch) => {
   return new Promise(async (resolve, reject) => {
@@ -55,9 +56,14 @@ const Profile = () => {
   const history = useHistory();
   const profileNameRef = useRef(null);
   const containerRef = useRef(null);
-
+  const { addData, sessionData } = useSessionStorage();
   useEffect(() => {
-    if (profileState.id) fetchProfileInfo(profileState?.id, dispatch);
+    if (profileState.id) {
+      fetchProfileInfo(profileState?.id, dispatch);
+      addData(["lastProfileId", profileState.id]);
+    } else if (sessionData.getItem("lastProfileId")) {
+      fetchProfileInfo(sessionData.getItem("lastProfileId"), dispatch);
+    }
   }, [dispatch, profileState?.id]);
 
   useEffect(() => {

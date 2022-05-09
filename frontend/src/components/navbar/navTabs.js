@@ -20,6 +20,7 @@ import SearchFriends from "../searchFriends/searchFriends";
 export const navTabs = [
   {
     name: "Home",
+    path: "/home",
     icon: <FaHome size={25} />,
     onClick: ({ history, index, dispatch }) => {
       dispatch(setActive({ index }));
@@ -28,6 +29,7 @@ export const navTabs = [
   },
   {
     name: "Profile",
+    path: "/profile",
     icon: <FaUser size={25} />,
     onClick: ({
       history,
@@ -71,6 +73,7 @@ export const navTabs = [
   // },
   {
     name: "Message",
+    path: "/message",
     icon: <FaEnvelope size={25} />,
     onClick: ({ history, active, index, dispatch }) => {
       if (index === active) return;

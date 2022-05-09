@@ -35,6 +35,7 @@ const fetchPosts = (posts, dispatch) => {
       reject(false);
     } finally {
       dispatch(setLoading({ homepageLoading: false }));
+      dispatch(setLoading({ loading: false }));
     }
   });
 };
