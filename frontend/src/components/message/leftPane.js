@@ -68,7 +68,6 @@ const LeftPane = ({ showState, setShowState }) => {
   }, []);
 
   useEffect(() => {
-    console.log(`id chagned to ${selectedId}`);
     addData(["LastMessageChannelId", selectedId]);
   }, [selectedId]);
 
