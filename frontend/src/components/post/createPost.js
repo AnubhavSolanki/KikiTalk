@@ -4,12 +4,17 @@ import CreateModal from "../../utils/createModal";
 import { FaImage } from "react-icons/fa";
 import CropImage from "./cropImage";
 
-const CreatePost = () => {
+const CreatePost = ({ prevActiveNavIndex }) => {
   const onSubmit = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener("load", () =>
-        CreateModal(<CropImage imgSrc={reader.result.toString() || ""} />)
+        CreateModal(
+          <CropImage
+            prevActiveNavIndex={prevActiveNavIndex}
+            imgSrc={reader.result.toString() || ""}
+          />
+        )
       );
       if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
     }

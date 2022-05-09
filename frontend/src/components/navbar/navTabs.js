@@ -62,7 +62,7 @@ export const navTabs = [
     icon: <FaPlusSquare size={25} />,
     onClick: ({ index, dispatch, active }) => {
       dispatch(setActive({ index }));
-      CreateModal(<CreatePost />, () => {
+      CreateModal(<CreatePost prevActiveNavIndex={active} />, () => {
         dispatch(setActive({ index: active }));
       });
     },

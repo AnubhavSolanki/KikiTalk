@@ -46,7 +46,7 @@ export const SinglePostCard = ({ postData, index }) => {
 
   return (
     <div className={styles.wrapper}>
-      {postData.userId === userId && (
+      {postData?.userId === userId && (
         <span className={styles.deleteIcon}>
           <FaTrash onClick={handleDeletePost} />
         </span>

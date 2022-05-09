@@ -4,12 +4,16 @@ import ReactCrop, { centerCrop, makeAspectCrop } from "react-image-crop";
 import { canvasPreview } from "./canvasPreview";
 import "react-image-crop/dist/ReactCrop.css";
 import { post } from "../../utils/requests";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../features/postSlice";
 import { removeModal } from "../../utils/createModal";
 import { promiseToast } from "../../utils/toaster";
 import { addPostInAllPost } from "../../features/allPosts";
-import { increasePostCount } from "../../features/profileSlice";
+import {
+  getProfileState,
+  increasePostCount,
+} from "../../features/profileSlice";
+import { setActive } from "../../features/navSlice";
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
     makeAspectCrop(
@@ -26,7 +30,8 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   );
 }
 
-const CropImage = ({ imgSrc, options }) => {
+const CropImage = ({ imgSrc, options, prevActiveNavIndex }) => {
+  const profileState = useSelector(getProfileState);
   options = options ?? {
     api: `${process.env.REACT_APP_BASE_URL}/addContent`,
     want_caption: true,
@@ -36,11 +41,18 @@ const CropImage = ({ imgSrc, options }) => {
         addPost({
           post: response.data,
         }),
-      (response) =>
-        addPostInAllPost({
-          post: response.data,
-        }),
-      (response) => increasePostCount(),
+      (response) => {
+        if (response?.data?.userId === profileState.id)
+          return addPostInAllPost({
+            post: response.data,
+          });
+        return () => {};
+      },
+      (response) => {
+        if (response?.data?.userId === profileState.id)
+          return increasePostCount();
+        return () => {};
+      },
     ],
   };
   const [crop, setCrop] = useState();
@@ -107,7 +119,7 @@ const CropImage = ({ imgSrc, options }) => {
         console.log(err);
         reject();
       } finally {
-        removeModal();
+        removeModal(() => dispatch(setActive({ index: prevActiveNavIndex })));
       }
     });
     await promiseToast(contentSubmissionPromise, {
